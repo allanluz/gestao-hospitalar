@@ -1,0 +1,31 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="hospitalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main circle background -->
+  <circle cx="32" cy="32" r="30" fill="url(#hospitalGradient)" stroke="#1e40af" stroke-width="2"/>
+  
+  <!-- Medical cross with shadow effect -->
+  <g>
+    <!-- Shadow -->
+    <rect x="26.5" y="16.5" width="11" height="31" fill="#1e40af" opacity="0.3" rx="2"/>
+    <rect x="16.5" y="26.5" width="31" height="11" fill="#1e40af" opacity="0.3" rx="2"/>
+    
+    <!-- Main cross -->
+    <rect x="26" y="16" width="12" height="32" fill="white" rx="2"/>
+    <rect x="16" y="26" width="32" height="12" fill="white" rx="2"/>
+  </g>
+  
+  <!-- Small highlights for 3D effect -->
+  <rect x="28" y="18" width="8" height="2" fill="#f1f5f9" opacity="0.8" rx="1"/>
+  <rect x="18" y="28" width="2" height="8" fill="#f1f5f9" opacity="0.8" rx="1"/>
+  
+  <!-- Optional: small medical symbol detail -->
+  <circle cx="24" cy="24" r="2" fill="#3b82f6" opacity="0.6"/>
+  <circle cx="40" cy="40" r="2" fill="#3b82f6" opacity="0.6"/>
+</svg>
