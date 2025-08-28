@@ -30,6 +30,26 @@ const Funcionarios: React.FC = () => {
   });
 
   useEffect(() => {
+    document.title = 'Funcionários - Gestão Hospitalar';
+    return () => {
+      document.title = 'Gestão Hospitalar - Sistema de Administração';
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleOpenModal = () => {
+      setShowModal(true);
+      setEditingFuncionario(null);
+    };
+
+    window.addEventListener('openNewEmployeeModal', handleOpenModal);
+    
+    return () => {
+      window.removeEventListener('openNewEmployeeModal', handleOpenModal);
+    };
+  }, []);
+
+  useEffect(() => {
     fetchFuncionarios();
   }, []);
 
@@ -166,6 +186,7 @@ const Funcionarios: React.FC = () => {
         <h1 className="text-3xl font-bold text-gray-900">Gestão de Funcionários</h1>
         <button
           onClick={() => setShowModal(true)}
+          data-action="novo-funcionario"
           className="bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 flex items-center"
         >
           ➕ Novo Funcionário

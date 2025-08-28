@@ -13,6 +13,26 @@ const Pacientes: React.FC = () => {
   const [cepLoading, setCepLoading] = useState(false);
   const [cepError, setCepError] = useState<string | null>(null);
 
+  useEffect(() => {
+    document.title = 'Pacientes - Gestão Hospitalar';
+    return () => {
+      document.title = 'Gestão Hospitalar - Sistema de Administração';
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleOpenModal = () => {
+      setShowModal(true);
+      setEditingPaciente(null);
+    };
+
+    window.addEventListener('openNewPatientModal', handleOpenModal);
+    
+    return () => {
+      window.removeEventListener('openNewPatientModal', handleOpenModal);
+    };
+  }, []);
+
   const [formData, setFormData] = useState({
     nome: '',
     cpf: '',
@@ -156,6 +176,7 @@ const Pacientes: React.FC = () => {
         <h1 className="text-3xl font-bold text-gray-900">Gestão de Pacientes</h1>
         <button
           onClick={() => setShowModal(true)}
+          data-action="novo-paciente"
           className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 flex items-center"
         >
           <span className="mr-2">➕</span> Novo Paciente

@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import apiService from '../services/api';
 import { DashboardData } from '../types';
 
 const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    document.title = 'Dashboard - Gestão Hospitalar';
+    return () => {
+      document.title = 'Gestão Hospitalar - Sistema de Administração';
+    };
+  }, []);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -22,6 +31,29 @@ const Dashboard: React.FC = () => {
 
     fetchDashboardData();
   }, []);
+
+  // Funções para ações rápidas
+  const handleCadastrarPaciente = () => {
+    navigate('/pacientes');
+    // Trigger de abertura do modal após navegação
+    setTimeout(() => {
+      const event = new CustomEvent('openNewPatientModal');
+      window.dispatchEvent(event);
+    }, 100);
+  };
+
+  const handleMovimentarEstoque = () => {
+    navigate('/estoque');
+  };
+
+  const handleCadastrarFuncionario = () => {
+    navigate('/funcionarios');
+    // Trigger de abertura do modal após navegação
+    setTimeout(() => {
+      const event = new CustomEvent('openNewEmployeeModal');
+      window.dispatchEvent(event);
+    }, 100);
+  };
 
   if (loading) {
     return (
@@ -112,22 +144,31 @@ const Dashboard: React.FC = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Ações Rápidas</h3>
           <div className="space-y-3">
-            <button className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={handleCadastrarPaciente}
+              className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 transition-colors group"
+            >
               <div className="flex items-center">
-                <span className="text-blue-500 mr-3">👥</span>
-                <span>Cadastrar Novo Paciente</span>
+                <span className="text-blue-500 mr-3 group-hover:scale-110 transition-transform">👥</span>
+                <span className="group-hover:text-blue-700">Cadastrar Novo Paciente</span>
               </div>
             </button>
-            <button className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={handleMovimentarEstoque}
+              className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-purple-50 hover:border-purple-300 transition-colors group"
+            >
               <div className="flex items-center">
-                <span className="text-purple-500 mr-3">📦</span>
-                <span>Movimentar Estoque</span>
+                <span className="text-purple-500 mr-3 group-hover:scale-110 transition-transform">📦</span>
+                <span className="group-hover:text-purple-700">Movimentar Estoque</span>
               </div>
             </button>
-            <button className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={handleCadastrarFuncionario}
+              className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-green-50 hover:border-green-300 transition-colors group"
+            >
               <div className="flex items-center">
-                <span className="text-green-500 mr-3">👨‍⚕️</span>
-                <span>Cadastrar Funcionário</span>
+                <span className="text-green-500 mr-3 group-hover:scale-110 transition-transform">👨‍⚕️</span>
+                <span className="group-hover:text-green-700">Cadastrar Funcionário</span>
               </div>
             </button>
           </div>

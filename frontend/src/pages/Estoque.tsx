@@ -34,6 +34,13 @@ const Estoque: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    document.title = 'Estoque - Gestão Hospitalar';
+    return () => {
+      document.title = 'Gestão Hospitalar - Sistema de Administração';
+    };
+  }, []);
+
+  useEffect(() => {
     if (success) {
       const timer = setTimeout(() => setSuccess(null), 3000);
       return () => clearTimeout(timer);
