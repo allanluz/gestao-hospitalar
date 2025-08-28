@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "nome": "Maria Silva Santos",
+    "cpf": "123.456.789-00",
+    "dataNascimento": "1985-03-15",
+    "endereco": {
+      "rua": "Rua das Flores, 123",
+      "bairro": "Centro",
+      "cidade": "São Paulo",
+      "cep": "01234-567"
+    },
+    "telefone": "(11) 98765-4321",
+    "convenio": "Unimed",
+    "historicoMedico": "Hipertensão arterial controlada com medicação"
+  },
+  {
+    "id": 2,
+    "nome": "João Carlos Oliveira",
+    "cpf": "987.654.321-00",
+    "dataNascimento": "1978-07-22",
+    "endereco": {
+      "rua": "Av. Paulista, 1000",
+      "bairro": "Bela Vista",
+      "cidade": "São Paulo",
+      "cep": "01310-100"
+    },
+    "telefone": "(11) 91234-5678",
+    "convenio": "Bradesco Saúde",
+    "historicoMedico": "Diabetes tipo 2, última consulta em 15/01/2024"
+  },
+  {
+    "id": 3,
+    "nome": "Ana Paula Costa",
+    "cpf": "456.789.123-00",
+    "dataNascimento": "1990-12-08",
+    "endereco": {
+      "rua": "Rua Augusta, 500",
+      "bairro": "Consolação",
+      "cidade": "São Paulo",
+      "cep": "01305-000"
+    },
+    "telefone": "(11) 99876-5432",
+    "convenio": "SUS",
+    "historicoMedico": ""
+  },
+  {
+    "id": 4,
+    "nome": "Roberto Ferreira Lima",
+    "cpf": "321.654.987-00",
+    "dataNascimento": "1965-05-30",
+    "endereco": {
+      "rua": "Rua da Liberdade, 250",
+      "bairro": "Liberdade",
+      "cidade": "São Paulo",
+      "cep": "01503-001"
+    },
+    "telefone": "(11) 94567-8901",
+    "convenio": "Amil",
+    "historicoMedico": "Cirurgia cardíaca em 2020, acompanhamento cardiológico regular"
+  }
+]

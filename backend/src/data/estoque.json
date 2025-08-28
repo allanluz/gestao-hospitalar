@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "nome": "Dipirona 500mg",
+    "categoria": "Medicamento",
+    "setor": "Farmácia",
+    "quantidade": 150,
+    "estoqueMinimo": 50,
+    "unidade": "comprimidos",
+    "lote": "LOT123456",
+    "dataValidade": "2025-12-31",
+    "fornecedor": "Laboratório ABC"
+  },
+  {
+    "id": 2,
+    "nome": "Seringa 10ml",
+    "categoria": "Material Hospitalar",
+    "setor": "UTI",
+    "quantidade": 300,
+    "estoqueMinimo": 100,
+    "unidade": "unidades",
+    "lote": "SER789012",
+    "dataValidade": "2026-06-30",
+    "fornecedor": "MedSupplies"
+  },
+  {
+    "id": 3,
+    "nome": "Paracetamol 750mg",
+    "categoria": "Medicamento",
+    "setor": "Enfermaria",
+    "quantidade": 80,
+    "estoqueMinimo": 100,
+    "unidade": "comprimidos",
+    "lote": "PAR345678",
+    "dataValidade": "2025-08-15",
+    "fornecedor": "Laboratório XYZ"
+  },
+  {
+    "id": 4,
+    "nome": "Luvas Cirúrgicas",
+    "categoria": "Material Cirúrgico",
+    "setor": "Centro Cirúrgico",
+    "quantidade": 500,
+    "estoqueMinimo": 200,
+    "unidade": "pares",
+    "lote": "LUV901234",
+    "dataValidade": "2027-03-20",
+    "fornecedor": "Surgical Supplies"
+  },
+  {
+    "id": 5,
+    "nome": "Morfina 10mg",
+    "categoria": "Medicamento Controlado",
+    "setor": "UTI",
+    "quantidade": 25,
+    "estoqueMinimo": 30,
+    "unidade": "ampolas",
+    "lote": "MOR567890",
+    "dataValidade": "2025-10-12",
+    "fornecedor": "Laboratório DEF"
+  },
+  {
+    "id": 6,
+    "nome": "Cateter Central",
+    "categoria": "Material Hospitalar",
+    "setor": "UTI",
+    "quantidade": 45,
+    "estoqueMinimo": 20,
+    "unidade": "unidades",
+    "lote": "CAT123789",
+    "dataValidade": "2026-12-01",
+    "fornecedor": "MedTech Solutions"
+  },
+  {
+    "id": 7,
+    "nome": "Bisturi Descartável",
+    "categoria": "Material Cirúrgico",
+    "setor": "Centro Cirúrgico",
+    "quantidade": 15,
+    "estoqueMinimo": 25,
+    "unidade": "unidades",
+    "lote": "BIS456123",
+    "dataValidade": "2026-09-15",
+    "fornecedor": "Surgical Supplies"
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "itemId": 4,
+    "nomeItem": "Luvas Cirúrgicas",
+    "quantidade": 30,
+    "tipo": "saida",
+    "dataMovimentacao": "2024-08-20T09:00:00Z",
+    "responsavel": "Dr. Ana Rodriguez",
+    "observacoes": "Cirurgia de apendicectomia",
+    "cirurgia": "Apendicectomia"
+  },
+  {
+    "id": 2,
+    "itemId": 7,
+    "nomeItem": "Bisturi Descartável",
+    "quantidade": 5,
+    "tipo": "saida",
+    "dataMovimentacao": "2024-08-20T09:00:00Z",
+    "responsavel": "Dr. Ana Rodriguez",
+    "observacoes": "Cirurgia de apendicectomia",
+    "cirurgia": "Apendicectomia"
+  },
+  {
+    "id": 3,
+    "itemId": 4,
+    "nomeItem": "Luvas Cirúrgicas",
+    "quantidade": 25,
+    "tipo": "saida",
+    "dataMovimentacao": "2024-08-21T13:30:00Z",
+    "responsavel": "Dr. Ricardo Alves",
+    "observacoes": "Cirurgia cardíaca",
+    "cirurgia": "Revascularização do Miocárdio"
+  },
+  {
+    "id": 4,
+    "itemId": 7,
+    "nomeItem": "Bisturi Descartável",
+    "quantidade": 8,
+    "tipo": "saida",
+    "dataMovimentacao": "2024-08-21T13:30:00Z",
+    "responsavel": "Dr. Ricardo Alves",
+    "observacoes": "Cirurgia cardíaca",
+    "cirurgia": "Revascularização do Miocárdio"
+  }
+]

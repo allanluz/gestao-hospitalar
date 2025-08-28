@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "nome": "Dr. Carlos Medeiros",
+    "cpf": "111.222.333-44",
+    "cargo": "Médico",
+    "setor": "UTI",
+    "telefone": "(11) 99123-4567",
+    "email": "carlos.medeiros@hospital.com"
+  },
+  {
+    "id": 2,
+    "nome": "Enfermeira Lucia Santos",
+    "cpf": "222.333.444-55",
+    "cargo": "Enfermeira",
+    "setor": "Enfermaria",
+    "telefone": "(11) 98234-5678",
+    "email": "lucia.santos@hospital.com"
+  },
+  {
+    "id": 3,
+    "nome": "Dr. Ana Rodriguez",
+    "cpf": "333.444.555-66",
+    "cargo": "Cirurgiã",
+    "setor": "Centro Cirúrgico",
+    "telefone": "(11) 97345-6789",
+    "email": "ana.rodriguez@hospital.com"
+  },
+  {
+    "id": 4,
+    "nome": "Técnico Paulo Silva",
+    "cpf": "444.555.666-77",
+    "cargo": "Técnico em Enfermagem",
+    "setor": "UTI",
+    "telefone": "(11) 96456-7890",
+    "email": "paulo.silva@hospital.com"
+  },
+  {
+    "id": 5,
+    "nome": "Farmacêutica Marina Costa",
+    "cpf": "555.666.777-88",
+    "cargo": "Farmacêutica",
+    "setor": "Farmácia",
+    "telefone": "(11) 95567-8901",
+    "email": "marina.costa@hospital.com"
+  }
+]
