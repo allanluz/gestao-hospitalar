@@ -45,7 +45,9 @@ export interface AssistenciaIntraOperatoria {
     saturacaoO2: number;
   };
   equipe: {
+    cirurgiao?: string;
     primeiroAssistente: string;
+    segundoAssistente?: string;
     equipeCompleta: string[];
     anestesiologista: string;
     circulantesSala: string[];
@@ -60,6 +62,8 @@ export interface AssistenciaIntraOperatoria {
     cateterNasal: boolean;
     agulhaRaquianestesia: string;
     agulhaPeridural: string;
+    medicamentosAnestesicos?: any[];
+    observacoes?: string;
   };
   anestesicosAdministrados: {
     [key: string]: number;
@@ -68,24 +72,50 @@ export interface AssistenciaIntraOperatoria {
     [key: string]: string;
   };
   posicionamentoCirurgico: {
-    tipo: 'litotomia' | 'dld' | 'ddh' | 'dle' | 'dv' | 'ginecologica';
+    tipo: 'litotomia' | 'dld' | 'ddh' | 'dle' | 'dv' | 'ginecologica' | 'supina';
     usoCoxim: boolean;
     outros: string;
+    protecaoProeminencias?: boolean;
+    verificacaoSeguranca?: boolean;
   };
   garrotePneumatico: {
     utilizado: boolean;
     local: string;
+    pressao?: string;
     inicioHora: string;
     retiradaHora: string;
+    tempoTotal?: string;
   };
   mantaTermica: {
     utilizada: boolean;
     tempo: number;
+    temperatura?: string;
   };
   equipamentosSeguranca: {
     travesseiros: boolean;
     faixaSeguranca: boolean;
+    protecoesLaterais?: boolean;
+    verificacaoFinal?: boolean;
   };
+  procedimentoCirurgico?: {
+    incisao: string;
+    tecnicaCirurgica: string;
+    sutura: string;
+    drenos: boolean;
+    tiposDrenos: string;
+    curativos: string;
+    especimes: string;
+  };
+  complicacoes?: {
+    intraoperatorias: any[];
+    sangramento: {
+      estimado: string;
+      necessidadeTransfusao: boolean;
+      tipoSangue: string;
+    };
+  };
+  indicacaoCorporal?: any[];
+  monitoramento?: any;
 }
 
 // Tipos para Recuperação Anestésica
