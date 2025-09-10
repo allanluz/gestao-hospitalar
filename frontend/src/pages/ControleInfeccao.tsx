@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
 import { ControleInfeccaoHospitalar } from '../types/centro-cirurgico';
+import { AssistenciaIntraOperatoria } from '../types/centro-cirurgico';
+import { Paciente, Funcionario } from '../types';
+import PacienteBuscador from '../components/common/PacienteBuscador';
+import FuncionarioSeletor from '../components/common/FuncionarioSeletor';
+import DataIntegrationService from '../services/dataIntegration';
 
 const ControleInfeccaoPage: React.FC = () => {
   const [controles, setControles] = useState<ControleInfeccaoHospitalar[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [pacienteSelecionado, setPacienteSelecionado] = useState<Paciente | null>(null);
+  const [assistenciaIntraOperatoria, setAssistenciaIntraOperatoria] = useState<AssistenciaIntraOperatoria | null>(null);
+  const [cirurgiaoSelecionado, setCirurgiaoSelecionado] = useState<Funcionario | null>(null);
+  const [anestesiologistaSelecionado, setAnestesiologistaSelecionado] = useState<Funcionario | null>(null);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [loadingAssistencia, setLoadingAssistencia] = useState(false);
   
   const [formData, setFormData] = useState<Partial<ControleInfeccaoHospitalar>>({
     dataCirurgia: '',
@@ -86,6 +97,111 @@ const ControleInfeccaoPage: React.FC = () => {
     fetchControles();
   }, []);
 
+  // Função para carregar dados do paciente e buscar assistência intra-operatória
+  const handlePacienteSelecionado = async (paciente: Paciente) => {
+    setPacienteSelecionado(paciente);
+    setLoadingAssistencia(true);
+    
+    try {
+      // Buscar internação ativa do paciente
+      const internacaoAtiva = paciente.internacoes?.find(i => i.status === 'ativa');
+      
+      if (internacaoAtiva) {
+        // Buscar assistência intra-operatória relacionada
+        const assistencias = await api.getAssistenciasIntraOperatorias();
+        const assistenciaRelacionada = (assistencias as AssistenciaIntraOperatoria[]).find(
+          a => a.numeroInternacao === internacaoAtiva.numeroInternacao && 
+               a.horarios?.fim // Só considerar cirurgias finalizadas
+        );
+
+        if (assistenciaRelacionada) {
+          setAssistenciaIntraOperatoria(assistenciaRelacionada);
+          
+          // Calcular duração da cirurgia em minutos
+          const calcularDuracao = (inicio: string, fim: string): number => {
+            if (!inicio || !fim) return 0;
+            const [horaInicio, minutoInicio] = inicio.split(':').map(Number);
+            const [horaFim, minutoFim] = fim.split(':').map(Number);
+            const inicioMinutos = horaInicio * 60 + minutoInicio;
+            const fimMinutos = horaFim * 60 + minutoFim;
+            return fimMinutos - inicioMinutos;
+          };
+
+          const duracaoMinutos = calcularDuracao(
+            assistenciaRelacionada.horarios?.inicio || '',
+            assistenciaRelacionada.horarios?.fim || ''
+          );
+
+          // Preencher automaticamente os dados do controle com base na assistência
+          setFormData(prev => ({
+            ...prev,
+            nome: paciente.nome,
+            idade: paciente.idade || 0,
+            sexo: paciente.sexo === 'M' ? 'm' : 'f',
+            numeroInternacao: assistenciaRelacionada.numeroInternacao,
+            unidadeInternacao: internacaoAtiva.unidade,
+            dataCirurgia: new Date().toISOString().split('T')[0],
+            admissao: {
+              data: internacaoAtiva.dataInternacao,
+              horario: prev.admissao?.horario || ''
+            },
+            cirurgia: {
+              periodo: prev.cirurgia?.periodo || 'm',
+              reoperacao: prev.cirurgia?.reoperacao || false,
+              duracao: duracaoMinutos,
+              asa: prev.cirurgia?.asa || '',
+              cpc: prev.cirurgia?.cpc || '',
+              realizada: assistenciaRelacionada.cirurgiaProposta,
+              cirurgiao: assistenciaRelacionada.equipe?.primeiroAssistente || '',
+              auxiliar: assistenciaRelacionada.equipe?.instrumentador || '',
+              anestesia: assistenciaRelacionada.anestesia?.tipo || '',
+              anestesiologista: assistenciaRelacionada.equipe?.anestesiologista || '',
+              circulantes: prev.cirurgia?.circulantes || []
+            }
+          }));
+
+          // Validar integridade dos dados
+          const validation = await DataIntegrationService.validateDataIntegrity(internacaoAtiva.numeroInternacao);
+          setValidationErrors(validation.issues);
+        } else {
+          setValidationErrors(['Nenhuma assistência intra-operatória concluída encontrada para este paciente']);
+          setAssistenciaIntraOperatoria(null);
+        }
+      } else {
+        setValidationErrors(['Paciente não possui internação ativa']);
+        setAssistenciaIntraOperatoria(null);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar assistência intra-operatória:', error);
+      setValidationErrors(['Erro ao buscar dados da cirurgia']);
+      setAssistenciaIntraOperatoria(null);
+    } finally {
+      setLoadingAssistencia(false);
+    }
+  };
+
+  const handleCirurgiaoSelecionado = (funcionario: Funcionario) => {
+    setCirurgiaoSelecionado(funcionario);
+    setFormData(prev => ({
+      ...prev,
+      cirurgia: {
+        ...prev.cirurgia!,
+        cirurgiao: funcionario.nome
+      }
+    }));
+  };
+
+  const handleAnestesiologistaSelecionado = (funcionario: Funcionario) => {
+    setAnestesiologistaSelecionado(funcionario);
+    setFormData(prev => ({
+      ...prev,
+      cirurgia: {
+        ...prev.cirurgia!,
+        anestesiologista: funcionario.nome
+      }
+    }));
+  };
+
   const fetchControles = async () => {
     try {
       const data = await api.getControlesInfeccao();
@@ -100,11 +216,36 @@ const ControleInfeccaoPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validações antes de enviar
+    if (validationErrors.length > 0) {
+      alert('Corrija os erros de validação antes de continuar');
+      return;
+    }
+
+    if (!pacienteSelecionado) {
+      alert('Selecione um paciente');
+      return;
+    }
+
+    if (!assistenciaIntraOperatoria) {
+      alert('É necessário ter uma assistência intra-operatória concluída para este paciente');
+      return;
+    }
+
     try {
+      // Adicionar referência à assistência intra-operatória e paciente
+      const controleData = {
+        ...formData,
+        pacienteId: pacienteSelecionado.id,
+        assistenciaIntraOperatoriaId: assistenciaIntraOperatoria.id,
+        dataControle: new Date().toISOString()
+      };
+
       if (editingId) {
-        await api.updateControleInfeccao(editingId, formData);
+        await api.updateControleInfeccao(editingId, controleData);
       } else {
-        await api.createControleInfeccao(formData);
+        await api.createControleInfeccao(controleData);
       }
       resetForm();
       fetchControles();
@@ -130,6 +271,11 @@ const ControleInfeccaoPage: React.FC = () => {
   };
 
   const resetForm = () => {
+    setPacienteSelecionado(null);
+    setAssistenciaIntraOperatoria(null);
+    setCirurgiaoSelecionado(null);
+    setAnestesiologistaSelecionado(null);
+    setValidationErrors([]);
     setFormData({
       dataCirurgia: '',
       nome: '',
@@ -227,6 +373,75 @@ const ControleInfeccaoPage: React.FC = () => {
       {/* Formulário */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Alertas de Validação */}
+          {validationErrors.length > 0 && (
+            <div className="bg-red-50 border border-red-200 rounded-md p-4">
+              <h4 className="text-red-800 font-medium mb-2">Problemas de Validação:</h4>
+              <ul className="list-disc list-inside text-red-700 text-sm">
+                {validationErrors.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Busca de Paciente */}
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800">Buscar Paciente</h3>
+            <PacienteBuscador
+              onPacienteSelecionado={handlePacienteSelecionado}
+            />
+            {loadingAssistencia && (
+              <div className="mt-3 p-3 bg-white rounded border border-blue-200">
+                <p className="text-sm text-gray-600">Buscando dados da cirurgia...</p>
+              </div>
+            )}
+            {pacienteSelecionado && (
+              <div className="mt-3 p-3 bg-white rounded border border-blue-200">
+                <p className="text-sm"><strong>Paciente:</strong> {pacienteSelecionado.nome}</p>
+                <p className="text-sm text-gray-600">Status: {pacienteSelecionado.statusAtual}</p>
+                {pacienteSelecionado.alergias && pacienteSelecionado.alergias.possui && (
+                  <p className="text-sm text-red-600">
+                    <strong>Alergias:</strong> {pacienteSelecionado.alergias.descricao}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Dados da Assistência Intra-Operatória */}
+          {assistenciaIntraOperatoria && (
+            <div className="bg-green-50 p-4 rounded-lg">
+              <h3 className="text-lg font-semibold mb-4 text-gray-800">Dados da Cirurgia</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-3 bg-white rounded border border-green-200">
+                  <p className="text-sm"><strong>Cirurgia:</strong> {assistenciaIntraOperatoria.cirurgiaProposta}</p>
+                  <p className="text-sm text-gray-600">SO: {assistenciaIntraOperatoria.so}</p>
+                </div>
+                <div className="p-3 bg-white rounded border border-green-200">
+                  <p className="text-sm"><strong>Anestesiologista:</strong> {assistenciaIntraOperatoria.equipe?.anestesiologista}</p>
+                  <p className="text-sm text-gray-600">Tipo: {assistenciaIntraOperatoria.anestesia?.tipo}</p>
+                </div>
+                <div className="p-3 bg-white rounded border border-green-200">
+                  <p className="text-sm"><strong>Horário:</strong></p>
+                  <p className="text-sm text-gray-600">
+                    Início: {assistenciaIntraOperatoria.horarios?.inicio} - 
+                    Fim: {assistenciaIntraOperatoria.horarios?.fim}
+                  </p>
+                </div>
+                <div className="p-3 bg-white rounded border border-green-200">
+                  <p className="text-sm"><strong>Equipe:</strong></p>
+                  <p className="text-sm text-gray-600">
+                    Cirurgião: {assistenciaIntraOperatoria.equipe?.primeiroAssistente}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Instrumentador: {assistenciaIntraOperatoria.equipe?.instrumentador}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Informações do Paciente */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-700">Informações do Paciente</h3>
@@ -455,42 +670,43 @@ const ControleInfeccaoPage: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-700">Informações da Cirurgia</h3>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cirurgião
-                </label>
-                <input
-                  type="text"
-                  value={formData.cirurgia?.cirurgiao || ''}
-                  onChange={(e) => setFormData({ 
-                    ...formData, 
-                    cirurgia: { 
-                      ...formData.cirurgia!, 
-                      cirurgiao: e.target.value 
-                    } 
-                  })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+            {/* Seleção de Cirurgião */}
+            <div className="bg-purple-50 p-4 rounded-lg">
+              <h4 className="text-md font-semibold mb-3 text-gray-700">Cirurgião Principal</h4>
+              <FuncionarioSeletor
+                onFuncionarioSelecionado={handleCirurgiaoSelecionado}
+                cargo="Médico"
+                setor="CIRURGIA"
+                multiplo={false}
+              />
+              {cirurgiaoSelecionado && (
+                <div className="mt-3 p-3 bg-white rounded border border-purple-200">
+                  <p className="text-sm"><strong>Selecionado:</strong> {cirurgiaoSelecionado.nome}</p>
+                  <p className="text-sm text-gray-600">CRM: {cirurgiaoSelecionado.crm}</p>
+                  <p className="text-sm text-gray-600">Especialidade: {cirurgiaoSelecionado.especialidade}</p>
+                </div>
+              )}
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Anestesiologista
-                </label>
-                <input
-                  type="text"
-                  value={formData.cirurgia?.anestesiologista || ''}
-                  onChange={(e) => setFormData({ 
-                    ...formData, 
-                    cirurgia: { 
-                      ...formData.cirurgia!, 
-                      anestesiologista: e.target.value 
-                    } 
-                  })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+            {/* Seleção de Anestesiologista */}
+            <div className="bg-teal-50 p-4 rounded-lg">
+              <h4 className="text-md font-semibold mb-3 text-gray-700">Anestesiologista</h4>
+              <FuncionarioSeletor
+                onFuncionarioSelecionado={handleAnestesiologistaSelecionado}
+                cargo="Médico"
+                setor="ANESTESIA"
+                multiplo={false}
+              />
+              {anestesiologistaSelecionado && (
+                <div className="mt-3 p-3 bg-white rounded border border-teal-200">
+                  <p className="text-sm"><strong>Selecionado:</strong> {anestesiologistaSelecionado.nome}</p>
+                  <p className="text-sm text-gray-600">CRM: {anestesiologistaSelecionado.crm}</p>
+                </div>
+              )}
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Campos de cirurgião e anestesiologista removidos - agora usam seletores acima */}
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">

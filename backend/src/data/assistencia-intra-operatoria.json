@@ -3,8 +3,11 @@
     {
       "id": "660e8400-e29b-41d4-a716-446655440001",
       "numeroInternacao": "2025001",
+      "pacienteId": 1,
       "cirurgiaProposta": "Colecistectomia videolaparoscópica",
       "so": "SO-01",
+      "dataAssistencia": "2025-01-15T09:00:00.000Z",
+      "statusCirurgia": "concluida",
       "horarios": {
         "entrada": "08:30",
         "inicio": "09:00",
@@ -17,14 +20,20 @@
       },
       "equipe": {
         "primeiroAssistente": "Dr. Carlos Eduardo Silva",
-        "equipeCompleta": ["Dr. Ana Lucia Santos", "Dr. Roberto Martins"],
+        "equipeCompleta": [
+          "Dr. Ana Lucia Santos",
+          "Dr. Roberto Martins"
+        ],
         "anestesiologista": "Dr. Paulo Henrique Costa",
-        "circulantesSala": ["Tec. Maria José", "Tec. Pedro Santos"],
+        "circulantesSala": [
+          "Tec. Maria José",
+          "Tec. Pedro Santos"
+        ],
         "instrumentador": "Tec. Lucia Fernandes",
         "enfermeiro": "Enf. Ana Costa"
       },
       "anestesia": {
-        "tipo": "Geral balanceada",
+        "tipo": "geral",
         "canulaNasofaringea": true,
         "manobraValsalva": false,
         "sondaEndotraqueal": "7.5",
@@ -70,14 +79,142 @@
       "equipamentosSeguranca": {
         "travesseiros": true,
         "faixaSeguranca": true
-      },
-      "controleEsterilizacao": ["Teste químico OK", "Indicador biológico - Negativo"],
-      "saidaHorario": "11:45",
-      "setorDestino": "Recuperação Anestésica",
-      "responsavelSaida": {
-        "assinatura": "Enf. Ana Costa",
-        "carimbo": "COREN 123456-SP"
       }
+    },
+    {
+      "id": "660e8400-e29b-41d4-a716-446655440002",
+      "numeroInternacao": "2025002",
+      "pacienteId": 2,
+      "cirurgiaProposta": "Hernioplastia inguinal",
+      "so": "SO-02",
+      "dataAssistencia": "2025-01-16T14:00:00.000Z",
+      "statusCirurgia": "concluida",
+      "horarios": {
+        "entrada": "13:30",
+        "inicio": "14:00",
+        "fim": "15:30"
+      },
+      "sinaisVitais": {
+        "pressaoArterial": "130x85 mmHg",
+        "frequenciaCardiaca": 82,
+        "saturacaoO2": 96
+      },
+      "equipe": {
+        "primeiroAssistente": "Dr. Roberto Martins",
+        "equipeCompleta": [
+          "Dr. Carlos Eduardo Silva"
+        ],
+        "anestesiologista": "Dr. Paulo Henrique Costa",
+        "circulantesSala": [
+          "Tec. Maria José"
+        ],
+        "instrumentador": "Tec. Lucia Fernandes",
+        "enfermeiro": "Enf. Ana Costa"
+      },
+      "anestesia": {
+        "tipo": "raquianestesia",
+        "canulaNasofaringea": false,
+        "manobraValsalva": true,
+        "sondaEndotraqueal": "",
+        "cateterNasal": true,
+        "agulhaRaquianestesia": "27G",
+        "agulhaPeridural": ""
+      },
+      "anestesicosAdministrados": {
+        "xylocaina2SV": 0,
+        "xylocaina2CV": 0,
+        "levobupivacaina": 0,
+        "ropivacaina75": 0,
+        "ropivacaina2": 0,
+        "neocainaPesada": 15,
+        "neocainaIsobarica": 0,
+        "neotutocaina": 0,
+        "isoflurano": 0,
+        "sevoflurano": 0,
+        "etomidato": 0
+      },
+      "medicamentosAdministrados": {
+        "midazolam": "2mg",
+        "fentanil": "50mcg",
+        "dexametasona": "4mg"
+      },
+      "posicionamentoCirurgico": {
+        "tipo": "ddh",
+        "usoCoxim": false,
+        "outros": ""
+      },
+      "garrotePneumatico": {
+        "utilizado": false,
+        "local": "",
+        "inicioHora": "",
+        "retiradaHora": ""
+      },
+      "mantaTermica": {
+        "utilizada": false,
+        "tempo": 0
+      },
+      "equipamentosSeguranca": {
+        "travesseiros": true,
+        "faixaSeguranca": true
+      }
+    },
+    {
+      "id": "d4235cfa-6b67-4f2e-842e-9c411b0339dd",
+      "numeroInternacao": "2024001",
+      "cirurgiaProposta": "Cirurgia de vesícula biliar",
+      "so": "1",
+      "horarios": {
+        "entrada": "08:00",
+        "inicio": "12:00",
+        "fim": "18:00"
+      },
+      "sinaisVitais": {
+        "pressaoArterial": "",
+        "frequenciaCardiaca": 0,
+        "saturacaoO2": 0
+      },
+      "equipe": {
+        "primeiroAssistente": "",
+        "equipeCompleta": [],
+        "anestesiologista": "",
+        "circulantesSala": [],
+        "instrumentador": "",
+        "enfermeiro": ""
+      },
+      "anestesia": {
+        "tipo": "",
+        "canulaNasofaringea": false,
+        "manobraValsalva": false,
+        "sondaEndotraqueal": "",
+        "cateterNasal": false,
+        "agulhaRaquianestesia": "",
+        "agulhaPeridural": ""
+      },
+      "anestesicosAdministrados": {},
+      "medicamentosAdministrados": {},
+      "posicionamentoCirurgico": {
+        "tipo": "ddh",
+        "usoCoxim": false,
+        "outros": ""
+      },
+      "garrotePneumatico": {
+        "utilizado": false,
+        "local": "",
+        "inicioHora": "",
+        "retiradaHora": ""
+      },
+      "mantaTermica": {
+        "utilizada": false,
+        "tempo": 0
+      },
+      "equipamentosSeguranca": {
+        "travesseiros": false,
+        "faixaSeguranca": false
+      },
+      "pacienteId": 1,
+      "dataAssistencia": "2025-09-10T22:56:47.088Z",
+      "statusCirurgia": "concluida",
+      "dataHora": "2025-09-10T22:56:47.099Z"
     }
   ]
 }

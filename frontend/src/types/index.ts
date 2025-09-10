@@ -3,6 +3,8 @@ export interface Paciente {
   nome: string;
   cpf: string;
   dataNascimento: string;
+  idade?: number;
+  sexo: 'M' | 'F';
   endereco: {
     rua: string;
     bairro: string;
@@ -12,7 +14,40 @@ export interface Paciente {
   };
   telefone: string;
   convenio: string;
+  tipoSanguineo?: string;
+  alergias?: {
+    possui: boolean;
+    descricao: string;
+  };
   historicoMedico?: string;
+  internacoes?: Internacao[];
+  statusAtual?: 'ambulatorial' | 'internado' | 'centro_cirurgico' | 'uti' | 'recuperacao' | 'alta';
+}
+
+export interface Internacao {
+  id: number;
+  pacienteId: number;
+  numeroInternacao: string;
+  dataInternacao: string;
+  dataAlta?: string;
+  motivoInternacao: string;
+  medicoResponsavel: string;
+  unidade: string;
+  quarto?: string;
+  leito?: string;
+  status: 'ativa' | 'alta' | 'transferida' | 'obito';
+  observacoes?: string;
+  cirurgias?: CirurgiaRealizada[];
+}
+
+export interface CirurgiaRealizada {
+  id: number;
+  internacaoId: number;
+  tipo: string;
+  data: string;
+  cirurgiao: string;
+  status: 'agendada' | 'em_andamento' | 'concluida' | 'cancelada';
+  observacoes?: string;
 }
 
 export interface Funcionario {
@@ -23,6 +58,10 @@ export interface Funcionario {
   setor: string;
   telefone: string;
   email: string;
+  coren?: string;
+  crm?: string;
+  especialidade?: string;
+  ativo: boolean;
   endereco?: {
     rua: string;
     bairro: string;

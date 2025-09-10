@@ -4,59 +4,199 @@
     "nome": "Maria Silva Santos",
     "cpf": "123.456.789-00",
     "dataNascimento": "1985-03-15",
+    "idade": 39,
+    "sexo": "F",
     "endereco": {
       "rua": "Rua das Flores, 123",
       "bairro": "Centro",
       "cidade": "São Paulo",
-      "cep": "01234-567"
+      "cep": "01234-567",
+      "uf": "SP"
     },
     "telefone": "(11) 98765-4321",
     "convenio": "Unimed",
-    "historicoMedico": "Hipertensão arterial controlada com medicação"
+    "tipoSanguineo": "A+",
+    "alergias": {
+      "possui": true,
+      "descricao": "Penicilina"
+    },
+    "historicoMedico": "Hipertensão arterial controlada com medicação",
+    "statusAtual": "internado",
+    "internacoes": [
+      {
+        "id": 1,
+        "pacienteId": 1,
+        "numeroInternacao": "2024001",
+        "dataInternacao": "2024-09-08",
+        "motivoInternacao": "Cirurgia de vesícula biliar",
+        "medicoResponsavel": "Dr. João Silva",
+        "unidade": "Centro Cirúrgico",
+        "quarto": "301",
+        "leito": "A",
+        "status": "ativa",
+        "observacoes": "Paciente preparada para cirurgia laparoscópica",
+        "cirurgias": [
+          {
+            "id": 1,
+            "internacaoId": 1,
+            "tipo": "Colecistectomia Laparoscópica",
+            "data": "2024-09-10",
+            "cirurgiao": "Dr. João Silva",
+            "status": "agendada",
+            "observacoes": "Cirurgia programada para 14:00h"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": 2,
     "nome": "João Carlos Oliveira",
     "cpf": "987.654.321-00",
     "dataNascimento": "1978-07-22",
+    "idade": 46,
+    "sexo": "M",
     "endereco": {
       "rua": "Av. Paulista, 1000",
       "bairro": "Bela Vista",
       "cidade": "São Paulo",
-      "cep": "01310-100"
+      "cep": "01310-100",
+      "uf": "SP"
     },
     "telefone": "(11) 91234-5678",
     "convenio": "Bradesco Saúde",
-    "historicoMedico": "Diabetes tipo 2, última consulta em 15/01/2024"
+    "tipoSanguineo": "O+",
+    "alergias": {
+      "possui": false,
+      "descricao": ""
+    },
+    "historicoMedico": "Diabetes tipo 2, última consulta em 15/01/2024",
+    "statusAtual": "centro_cirurgico",
+    "internacoes": [
+      {
+        "id": 2,
+        "pacienteId": 2,
+        "numeroInternacao": "2024002",
+        "dataInternacao": "2024-09-09",
+        "motivoInternacao": "Apendicectomia de urgência",
+        "medicoResponsavel": "Dr. Maria Santos",
+        "unidade": "Emergência",
+        "quarto": "205",
+        "leito": "B",
+        "status": "ativa",
+        "observacoes": "Paciente com quadro de apendicite aguda",
+        "cirurgias": [
+          {
+            "id": 2,
+            "internacaoId": 2,
+            "tipo": "Apendicectomia",
+            "data": "2024-09-09",
+            "cirurgiao": "Dr. Maria Santos",
+            "status": "em_andamento",
+            "observacoes": "Cirurgia iniciada às 15:30h"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": 3,
     "nome": "Ana Paula Costa",
     "cpf": "456.789.123-00",
     "dataNascimento": "1990-12-08",
+    "idade": 33,
+    "sexo": "F",
     "endereco": {
       "rua": "Rua Augusta, 500",
       "bairro": "Consolação",
       "cidade": "São Paulo",
-      "cep": "01305-000"
+      "cep": "01305-000",
+      "uf": "SP"
     },
     "telefone": "(11) 99876-5432",
     "convenio": "SUS",
-    "historicoMedico": ""
+    "tipoSanguineo": "B-",
+    "alergias": {
+      "possui": false,
+      "descricao": ""
+    },
+    "historicoMedico": "",
+    "statusAtual": "recuperacao",
+    "internacoes": [
+      {
+        "id": 3,
+        "pacienteId": 3,
+        "numeroInternacao": "2024003",
+        "dataInternacao": "2024-09-07",
+        "motivoInternacao": "Cesariana eletiva",
+        "medicoResponsavel": "Dr. Carlos Lima",
+        "unidade": "Maternidade",
+        "quarto": "401",
+        "leito": "A",
+        "status": "ativa",
+        "observacoes": "Paciente em pós-operatório de cesárea",
+        "cirurgias": [
+          {
+            "id": 3,
+            "internacaoId": 3,
+            "tipo": "Cesariana",
+            "data": "2024-09-07",
+            "cirurgiao": "Dr. Carlos Lima",
+            "status": "concluida",
+            "observacoes": "Cirurgia realizada sem intercorrências"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": 4,
     "nome": "Roberto Ferreira Lima",
     "cpf": "321.654.987-00",
     "dataNascimento": "1965-05-30",
+    "idade": 59,
+    "sexo": "M",
     "endereco": {
       "rua": "Rua da Liberdade, 250",
       "bairro": "Liberdade",
       "cidade": "São Paulo",
-      "cep": "01503-001"
+      "cep": "01503-001",
+      "uf": "SP"
     },
     "telefone": "(11) 94567-8901",
     "convenio": "Amil",
-    "historicoMedico": "Cirurgia cardíaca em 2020, acompanhamento cardiológico regular"
+    "tipoSanguineo": "AB+",
+    "alergias": {
+      "possui": true,
+      "descricao": "Dipirona, Aspirina"
+    },
+    "historicoMedico": "Cirurgia cardíaca em 2020, acompanhamento cardiológico regular",
+    "statusAtual": "uti",
+    "internacoes": [
+      {
+        "id": 4,
+        "pacienteId": 4,
+        "numeroInternacao": "2024004",
+        "dataInternacao": "2024-09-05",
+        "motivoInternacao": "Complicações pós-operatórias",
+        "medicoResponsavel": "Dr. Ana Rodrigues",
+        "unidade": "UTI",
+        "quarto": "UTI-02",
+        "leito": "02",
+        "status": "ativa",
+        "observacoes": "Paciente em monitorização intensiva",
+        "cirurgias": [
+          {
+            "id": 4,
+            "internacaoId": 4,
+            "tipo": "Revisão de anastomose",
+            "data": "2024-09-06",
+            "cirurgiao": "Dr. Ana Rodrigues",
+            "status": "concluida",
+            "observacoes": "Reoperação por sangramento"
+          }
+        ]
+      }
+    ]
   }
 ]

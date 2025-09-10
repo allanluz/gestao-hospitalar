@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../services/api';
-import { DashboardData } from '../types';
+import { DashboardData, Paciente, Internacao } from '../types';
+import DataIntegrationService from '../services/dataIntegration';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [pacientesInternados, setPacientesInternados] = useState<Paciente[]>([]);
+  const [internacoesAtivas, setInternacoesAtivas] = useState<Internacao[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,8 +22,15 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const data = await apiService.getDashboard() as DashboardData;
+        const [data, pacientes, internacoes] = await Promise.all([
+          apiService.getDashboard() as Promise<DashboardData>,
+          DataIntegrationService.getPacientes(),
+          DataIntegrationService.getInternacoesAtivas()
+        ]);
+        
         setDashboardData(data);
+        setPacientesInternados(pacientes.filter(p => p.statusAtual !== 'ambulatorial' && p.statusAtual !== 'alta'));
+        setInternacoesAtivas(internacoes);
       } catch (err) {
         setError('Erro ao carregar dados do dashboard');
         console.error(err);

@@ -6,7 +6,17 @@
     "cargo": "Médico",
     "setor": "UTI",
     "telefone": "(11) 99123-4567",
-    "email": "carlos.medeiros@hospital.com"
+    "email": "carlos.medeiros@hospital.com",
+    "crm": "123456",
+    "especialidade": "Medicina Intensiva",
+    "ativo": true,
+    "endereco": {
+      "rua": "Av. Médica, 100",
+      "bairro": "Vila Madalena",
+      "cidade": "São Paulo",
+      "cep": "05435-000",
+      "uf": "SP"
+    }
   },
   {
     "id": 2,
@@ -15,7 +25,16 @@
     "cargo": "Enfermeira",
     "setor": "Enfermaria",
     "telefone": "(11) 98234-5678",
-    "email": "lucia.santos@hospital.com"
+    "email": "lucia.santos@hospital.com",
+    "coren": "654321",
+    "ativo": true,
+    "endereco": {
+      "rua": "Rua dos Enfermeiros, 200",
+      "bairro": "Perdizes",
+      "cidade": "São Paulo",
+      "cep": "05015-000",
+      "uf": "SP"
+    }
   },
   {
     "id": 3,
@@ -24,7 +43,17 @@
     "cargo": "Cirurgiã",
     "setor": "Centro Cirúrgico",
     "telefone": "(11) 97345-6789",
-    "email": "ana.rodriguez@hospital.com"
+    "email": "ana.rodriguez@hospital.com",
+    "crm": "789012",
+    "especialidade": "Cirurgia Geral",
+    "ativo": true,
+    "endereco": {
+      "rua": "Rua da Cirurgia, 300",
+      "bairro": "Pinheiros",
+      "cidade": "São Paulo",
+      "cep": "05422-000",
+      "uf": "SP"
+    }
   },
   {
     "id": 4,
@@ -33,7 +62,15 @@
     "cargo": "Técnico em Enfermagem",
     "setor": "UTI",
     "telefone": "(11) 96456-7890",
-    "email": "paulo.silva@hospital.com"
+    "email": "paulo.silva@hospital.com",
+    "ativo": true,
+    "endereco": {
+      "rua": "Av. Saúde, 400",
+      "bairro": "Vila Olímpia",
+      "cidade": "São Paulo",
+      "cep": "04544-000",
+      "uf": "SP"
+    }
   },
   {
     "id": 5,
@@ -42,6 +79,108 @@
     "cargo": "Farmacêutica",
     "setor": "Farmácia",
     "telefone": "(11) 95567-8901",
-    "email": "marina.costa@hospital.com"
+    "email": "marina.costa@hospital.com",
+    "ativo": true,
+    "endereco": {
+      "rua": "Rua da Farmácia, 500",
+      "bairro": "Itaim Bibi",
+      "cidade": "São Paulo",
+      "cep": "04533-000",
+      "uf": "SP"
+    }
+  },
+  {
+    "id": 6,
+    "nome": "Dr. João Silva",
+    "cpf": "666.777.888-99",
+    "cargo": "Médico Cirurgião",
+    "setor": "Centro Cirúrgico",
+    "telefone": "(11) 99999-1111",
+    "email": "joao.silva@hospital.com",
+    "crm": "345678",
+    "especialidade": "Cirurgia Geral",
+    "ativo": true,
+    "endereco": {
+      "rua": "Av. Cirúrgica, 600",
+      "bairro": "Moema",
+      "cidade": "São Paulo",
+      "cep": "04077-000",
+      "uf": "SP"
+    }
+  },
+  {
+    "id": 7,
+    "nome": "Dr. Maria Santos",
+    "cpf": "777.888.999-00",
+    "cargo": "Médico Cirurgião",
+    "setor": "Emergência",
+    "telefone": "(11) 99999-2222",
+    "email": "maria.santos@hospital.com",
+    "crm": "456789",
+    "especialidade": "Cirurgia de Emergência",
+    "ativo": true,
+    "endereco": {
+      "rua": "Rua da Emergência, 700",
+      "bairro": "Jardins",
+      "cidade": "São Paulo",
+      "cep": "01401-000",
+      "uf": "SP"
+    }
+  },
+  {
+    "id": 8,
+    "nome": "Dr. Carlos Lima",
+    "cpf": "888.999.000-11",
+    "cargo": "Médico Obstetra",
+    "setor": "Maternidade",
+    "telefone": "(11) 99999-3333",
+    "email": "carlos.lima@hospital.com",
+    "crm": "567890",
+    "especialidade": "Ginecologia e Obstetrícia",
+    "ativo": true,
+    "endereco": {
+      "rua": "Av. Maternidade, 800",
+      "bairro": "Brooklin",
+      "cidade": "São Paulo",
+      "cep": "04707-000",
+      "uf": "SP"
+    }
+  },
+  {
+    "id": 9,
+    "nome": "Dr. Ana Rodrigues",
+    "cpf": "999.000.111-22",
+    "cargo": "Médico Intensivista",
+    "setor": "UTI",
+    "telefone": "(11) 99999-4444",
+    "email": "ana.rodrigues@hospital.com",
+    "crm": "678901",
+    "especialidade": "Medicina Intensiva",
+    "ativo": true,
+    "endereco": {
+      "rua": "Rua da UTI, 900",
+      "bairro": "Vila Nova Conceição",
+      "cidade": "São Paulo",
+      "cep": "04551-000",
+      "uf": "SP"
+    }
+  },
+  {
+    "id": 10,
+    "nome": "Enfª. Sandra Costa",
+    "cpf": "000.111.222-33",
+    "cargo": "Enfermeira",
+    "setor": "Recuperação",
+    "telefone": "(11) 99999-5555",
+    "email": "sandra.costa@hospital.com",
+    "coren": "111222",
+    "ativo": true,
+    "endereco": {
+      "rua": "Av. Recuperação, 1000",
+      "bairro": "Campo Belo",
+      "cidade": "São Paulo",
+      "cep": "04606-000",
+      "uf": "SP"
+    }
   }
 ]

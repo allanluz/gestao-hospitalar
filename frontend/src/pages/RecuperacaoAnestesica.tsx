@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
 import { RecuperacaoAnestesica, SinaisVitais, MedicamentoMinistrado } from '../types/centro-cirurgico';
+import { AssistenciaIntraOperatoria } from '../types/centro-cirurgico';
+import { Paciente, Funcionario } from '../types';
+import PacienteBuscador from '../components/common/PacienteBuscador';
+import FuncionarioSeletor from '../components/common/FuncionarioSeletor';
+import DataIntegrationService from '../services/dataIntegration';
 // import { IndiceAldreteKroulik } from '../components/IndiceAldreteKroulik';
 // import { SinaisVitaisMonitor } from '../components/SinaisVitaisMonitor';
 // import { EscalaSedacaoRamsay } from '../components/EscalaSedacaoRamsay';
@@ -10,6 +15,10 @@ const RecuperacaoAnestesicaPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [pacienteSelecionado, setPacienteSelecionado] = useState<Paciente | null>(null);
+  const [assistenciaIntraOperatoria, setAssistenciaIntraOperatoria] = useState<AssistenciaIntraOperatoria | null>(null);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [loadingAssistencia, setLoadingAssistencia] = useState(false);
   
   const [formData, setFormData] = useState<Partial<RecuperacaoAnestesica>>({
     numeroInternacao: '',
@@ -69,6 +78,69 @@ const RecuperacaoAnestesicaPage: React.FC = () => {
     fetchRecuperacoes();
   }, []);
 
+  // Função para carregar dados do paciente e buscar assistência intra-operatória
+  const handlePacienteSelecionado = async (paciente: Paciente) => {
+    setPacienteSelecionado(paciente);
+    setLoadingAssistencia(true);
+    
+    try {
+      // Buscar internação ativa do paciente
+      const internacaoAtiva = paciente.internacoes?.find(i => i.status === 'ativa');
+      
+      if (internacaoAtiva) {
+        // Buscar assistência intra-operatória relacionada
+        const assistencias = await api.getAssistenciasIntraOperatorias();
+        const assistenciaRelacionada = (assistencias as AssistenciaIntraOperatoria[]).find(
+          a => a.numeroInternacao === internacaoAtiva.numeroInternacao && 
+               a.horarios?.fim // Só considerar cirurgias finalizadas
+        );
+
+        if (assistenciaRelacionada) {
+          setAssistenciaIntraOperatoria(assistenciaRelacionada);
+          
+          // Preencher automaticamente os dados da recuperação com base na assistência
+          setFormData(prev => ({
+            ...prev,
+            numeroInternacao: assistenciaRelacionada.numeroInternacao,
+            nome: paciente.nome,
+            idade: paciente.idade || 0,
+            quartoLeito: internacaoAtiva.quarto && internacaoAtiva.leito ? 
+              `${internacaoAtiva.quarto}/${internacaoAtiva.leito}` : '',
+            cirurgiaRealizada: assistenciaRelacionada.cirurgiaProposta,
+            anestesiologista: assistenciaRelacionada.equipe?.anestesiologista || '',
+            alergias: paciente.alergias || { possui: false, descricao: '' },
+            tipoAnestesia: {
+              geralVenosa: assistenciaRelacionada.anestesia?.tipo === 'geral',
+              geralInalatoria: false,
+              geralCombinada: false,
+              peridural: assistenciaRelacionada.anestesia?.tipo === 'peridural',
+              periduralCateter: false,
+              raqui: assistenciaRelacionada.anestesia?.tipo === 'raquianestesia',
+              bloqueio: assistenciaRelacionada.anestesia?.tipo === 'local',
+              sedacao: assistenciaRelacionada.anestesia?.tipo === 'sedacao',
+            }
+          }));
+
+          // Validar integridade dos dados
+          const validation = await DataIntegrationService.validateDataIntegrity(internacaoAtiva.numeroInternacao);
+          setValidationErrors(validation.issues);
+        } else {
+          setValidationErrors(['Nenhuma assistência intra-operatória concluída encontrada para este paciente']);
+          setAssistenciaIntraOperatoria(null);
+        }
+      } else {
+        setValidationErrors(['Paciente não possui internação ativa']);
+        setAssistenciaIntraOperatoria(null);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar assistência intra-operatória:', error);
+      setValidationErrors(['Erro ao buscar dados da cirurgia']);
+      setAssistenciaIntraOperatoria(null);
+    } finally {
+      setLoadingAssistencia(false);
+    }
+  };
+
   const fetchRecuperacoes = async () => {
     try {
       const data = await api.getRecuperacoesAnestesicas();
@@ -83,11 +155,36 @@ const RecuperacaoAnestesicaPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validações antes de enviar
+    if (validationErrors.length > 0) {
+      alert('Corrija os erros de validação antes de continuar');
+      return;
+    }
+
+    if (!pacienteSelecionado) {
+      alert('Selecione um paciente');
+      return;
+    }
+
+    if (!assistenciaIntraOperatoria) {
+      alert('É necessário ter uma assistência intra-operatória concluída para este paciente');
+      return;
+    }
+
     try {
+      // Adicionar referência à assistência intra-operatória
+      const recuperacaoData = {
+        ...formData,
+        pacienteId: pacienteSelecionado.id,
+        assistenciaIntraOperatoriaId: assistenciaIntraOperatoria.id,
+        dataRecuperacao: new Date().toISOString()
+      };
+
       if (editingId) {
-        await api.updateRecuperacaoAnestesica(editingId, formData);
+        await api.updateRecuperacaoAnestesica(editingId, recuperacaoData);
       } else {
-        await api.createRecuperacaoAnestesica(formData);
+        await api.createRecuperacaoAnestesica(recuperacaoData);
       }
       resetForm();
       fetchRecuperacoes();
@@ -113,6 +210,9 @@ const RecuperacaoAnestesicaPage: React.FC = () => {
   };
 
   const resetForm = () => {
+    setPacienteSelecionado(null);
+    setAssistenciaIntraOperatoria(null);
+    setValidationErrors([]);
     setFormData({
       numeroInternacao: '',
       nome: '',
@@ -243,6 +343,72 @@ const RecuperacaoAnestesicaPage: React.FC = () => {
       {/* Formulário */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Alertas de Validação */}
+          {validationErrors.length > 0 && (
+            <div className="bg-red-50 border border-red-200 rounded-md p-4">
+              <h4 className="text-red-800 font-medium mb-2">Problemas de Validação:</h4>
+              <ul className="list-disc list-inside text-red-700 text-sm">
+                {validationErrors.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Busca de Paciente */}
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800">Buscar Paciente</h3>
+            <PacienteBuscador
+              onPacienteSelecionado={handlePacienteSelecionado}
+            />
+            {loadingAssistencia && (
+              <div className="mt-3 p-3 bg-white rounded border border-blue-200">
+                <p className="text-sm text-gray-600">Buscando dados da cirurgia...</p>
+              </div>
+            )}
+            {pacienteSelecionado && (
+              <div className="mt-3 p-3 bg-white rounded border border-blue-200">
+                <p className="text-sm"><strong>Paciente:</strong> {pacienteSelecionado.nome}</p>
+                <p className="text-sm text-gray-600">Status: {pacienteSelecionado.statusAtual}</p>
+                {pacienteSelecionado.alergias && pacienteSelecionado.alergias.possui && (
+                  <p className="text-sm text-red-600">
+                    <strong>Alergias:</strong> {pacienteSelecionado.alergias.descricao}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Dados da Assistência Intra-Operatória */}
+          {assistenciaIntraOperatoria && (
+            <div className="bg-green-50 p-4 rounded-lg">
+              <h3 className="text-lg font-semibold mb-4 text-gray-800">Dados da Cirurgia</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-3 bg-white rounded border border-green-200">
+                  <p className="text-sm"><strong>Cirurgia:</strong> {assistenciaIntraOperatoria.cirurgiaProposta}</p>
+                  <p className="text-sm text-gray-600">SO: {assistenciaIntraOperatoria.so}</p>
+                </div>
+                <div className="p-3 bg-white rounded border border-green-200">
+                  <p className="text-sm"><strong>Anestesiologista:</strong> {assistenciaIntraOperatoria.equipe?.anestesiologista}</p>
+                  <p className="text-sm text-gray-600">Tipo: {assistenciaIntraOperatoria.anestesia?.tipo}</p>
+                </div>
+                <div className="p-3 bg-white rounded border border-green-200">
+                  <p className="text-sm"><strong>Horário:</strong></p>
+                  <p className="text-sm text-gray-600">
+                    Início: {assistenciaIntraOperatoria.horarios?.inicio} - 
+                    Fim: {assistenciaIntraOperatoria.horarios?.fim}
+                  </p>
+                </div>
+                <div className="p-3 bg-white rounded border border-green-200">
+                  <p className="text-sm"><strong>Equipe:</strong></p>
+                  <p className="text-sm text-gray-600">
+                    Instrumentador: {assistenciaIntraOperatoria.equipe?.instrumentador}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Informações Básicas */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>

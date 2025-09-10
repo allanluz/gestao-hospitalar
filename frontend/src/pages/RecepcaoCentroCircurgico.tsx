@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
 import { RecepcaoCentroCircurgico as RecepcaoType } from '../types/centro-cirurgico';
+import { Paciente, Funcionario } from '../types';
+import PacienteBuscador from '../components/common/PacienteBuscador';
+import FuncionarioSeletor from '../components/common/FuncionarioSeletor';
+import DataIntegrationService from '../services/dataIntegration';
 
 const RecepcaoCentroCircurgico: React.FC = () => {
   const [recepcoes, setRecepcoes] = useState<RecepcaoType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingRecepcao, setEditingRecepcao] = useState<RecepcaoType | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [pacienteSelecionado, setPacienteSelecionado] = useState<Paciente | null>(null);
+  const [medicoSelecionado, setMedicoSelecionado] = useState<Funcionario | null>(null);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [formData, setFormData] = useState<Partial<RecepcaoType>>({
     numeroInternacao: '',
     nomePaciente: '',
@@ -34,6 +41,38 @@ const RecepcaoCentroCircurgico: React.FC = () => {
     carregarRecepcoes();
   }, []);
 
+  // Função para carregar dados do paciente automaticamente
+  const handlePacienteSelecionado = async (paciente: Paciente) => {
+    setPacienteSelecionado(paciente);
+    
+    // Buscar internação ativa do paciente
+    const internacaoAtiva = paciente.internacoes?.find(i => i.status === 'ativa');
+    
+    if (internacaoAtiva) {
+      setFormData(prev => ({
+        ...prev,
+        numeroInternacao: internacaoAtiva.numeroInternacao,
+        nomePaciente: paciente.nome,
+        dataNascimento: paciente.dataNascimento,
+        sexo: paciente.sexo || 'M'
+      }));
+
+      // Validar integridade dos dados
+      const validation = await DataIntegrationService.validateDataIntegrity(internacaoAtiva.numeroInternacao);
+      setValidationErrors(validation.issues);
+    } else {
+      setValidationErrors(['Paciente não possui internação ativa']);
+    }
+  };
+
+  const handleMedicoSelecionado = (medico: Funcionario) => {
+    setMedicoSelecionado(medico);
+    setFormData(prev => ({
+      ...prev,
+      medico: medico.nome
+    }));
+  };
+
   const carregarRecepcoes = async () => {
     try {
       const data = await api.getRecepcoesCentroCircurgico();
@@ -44,33 +83,10 @@ const RecepcaoCentroCircurgico: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      if (editingRecepcao) {
-        await api.updateRecepcaoCentroCircurgico(editingRecepcao.id!, formData);
-      } else {
-        await api.createRecepcaoCentroCircurgico(formData);
-      }
-      await carregarRecepcoes();
-      resetForm();
-    } catch (error) {
-      console.error('Erro ao salvar recepção:', error);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    if (window.confirm('Tem certeza que deseja excluir esta recepção?')) {
-      try {
-        await api.updateRecepcaoCentroCircurgico(id, { ...recepcoes.find(r => r.id === id), deleted: true });
-        await carregarRecepcoes();
-      } catch (error) {
-        console.error('Erro ao excluir recepção:', error);
-      }
-    }
-  };
-
   const resetForm = () => {
+    setPacienteSelecionado(null);
+    setMedicoSelecionado(null);
+    setValidationErrors([]);
     setFormData({
       numeroInternacao: '',
       nomePaciente: '',
@@ -95,6 +111,52 @@ const RecepcaoCentroCircurgico: React.FC = () => {
     });
     setEditingRecepcao(null);
     setIsModalOpen(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validações antes de enviar
+    if (validationErrors.length > 0) {
+      alert('Corrija os erros de validação antes de continuar');
+      return;
+    }
+
+    if (!pacienteSelecionado) {
+      alert('Selecione um paciente');
+      return;
+    }
+
+    if (!medicoSelecionado) {
+      alert('Selecione um médico responsável');
+      return;
+    }
+
+    try {
+      if (editingRecepcao) {
+        await api.updateRecepcaoCentroCircurgico(editingRecepcao.id!, formData);
+      } else {
+        await api.createRecepcaoCentroCircurgico(formData);
+      }
+      
+      await carregarRecepcoes();
+      setIsModalOpen(false);
+      setEditingRecepcao(null);
+      resetForm();
+    } catch (error) {
+      console.error('Erro ao salvar recepção:', error);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (window.confirm('Tem certeza que deseja excluir esta recepção?')) {
+      try {
+        await api.updateRecepcaoCentroCircurgico(id, { ...recepcoes.find(r => r.id === id), deleted: true });
+        await carregarRecepcoes();
+      } catch (error) {
+        console.error('Erro ao excluir recepção:', error);
+      }
+    }
   };
 
   const handleEdit = (recepcao: RecepcaoType) => {
@@ -222,6 +284,58 @@ const RecepcaoCentroCircurgico: React.FC = () => {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Alertas de Validação */}
+                {validationErrors.length > 0 && (
+                  <div className="bg-red-50 border border-red-200 rounded-md p-4">
+                    <h4 className="text-red-800 font-medium mb-2">Problemas de Validação:</h4>
+                    <ul className="list-disc list-inside text-red-700 text-sm">
+                      {validationErrors.map((error, index) => (
+                        <li key={index}>{error}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Busca de Paciente */}
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-800">Buscar Paciente</h3>
+                  <PacienteBuscador
+                    onPacienteSelecionado={handlePacienteSelecionado}
+                  />
+                  {pacienteSelecionado && (
+                    <div className="mt-3 p-3 bg-white rounded border border-blue-200">
+                      <p className="text-sm"><strong>Selecionado:</strong> {pacienteSelecionado.nome}</p>
+                      <p className="text-sm text-gray-600">Status: {pacienteSelecionado.statusAtual}</p>
+                      {pacienteSelecionado.alergias && pacienteSelecionado.alergias.possui && (
+                        <p className="text-sm text-red-600">
+                          <strong>Alergias:</strong> {pacienteSelecionado.alergias.descricao}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Seleção de Médico */}
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-800">Médico Responsável</h3>
+                  <FuncionarioSeletor
+                    onFuncionarioSelecionado={handleMedicoSelecionado}
+                    setor="CIRURGIA"
+                    multiplo={false}
+                  />
+                  {medicoSelecionado && (
+                    <div className="mt-3 p-3 bg-white rounded border border-green-200">
+                      <p className="text-sm"><strong>Selecionado:</strong> {medicoSelecionado.nome}</p>
+                      <p className="text-sm text-gray-600">Cargo: {medicoSelecionado.cargo}</p>
+                      {medicoSelecionado.especialidade && (
+                        <p className="text-sm text-gray-600">
+                          Especialidade: {medicoSelecionado.especialidade}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
                 {/* Dados do Paciente */}
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="text-lg font-semibold mb-4 text-gray-800">Dados do Paciente</h3>

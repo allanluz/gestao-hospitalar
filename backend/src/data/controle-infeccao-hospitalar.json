@@ -2,15 +2,18 @@
   "controles": [
     {
       "id": "880e8400-e29b-41d4-a716-446655440001",
-      "dataCirurgia": "2025-09-09",
-      "nome": "Maria Silva Santos",
+      "pacienteId": 1,
+      "assistenciaIntraOperatoriaId": "660e8400-e29b-41d4-a716-446655440001",
+      "dataControle": "2025-01-15T12:00:00.000Z",
+      "dataCirurgia": "2025-01-15",
+      "nome": "João Silva",
       "idade": 45,
       "classificacao": "sus",
-      "sexo": "f",
+      "sexo": "m",
       "unidadeInternacao": "Clínica Cirúrgica",
       "numeroInternacao": "2025001",
       "admissao": {
-        "data": "2025-09-08",
+        "data": "2025-01-14",
         "horario": "14:30"
       },
       "antecedentes": {
@@ -53,13 +56,13 @@
       "cirurgia": {
         "periodo": "m",
         "reoperacao": false,
-        "duracao": 150,
+        "duracao": 180,
         "asa": "ASA II",
         "cpc": "Limpa",
         "realizada": "Colecistectomia videolaparoscópica",
         "cirurgiao": "Dr. Carlos Eduardo Silva",
-        "auxiliar": "Dr. Ana Lucia Santos",
-        "anestesia": "Geral balanceada",
+        "auxiliar": "Tec. Lucia Fernandes",
+        "anestesia": "geral",
         "anestesiologista": "Dr. Paulo Henrique Costa",
         "circulantes": ["Tec. Maria José", "Tec. Pedro Santos"]
       },
@@ -71,6 +74,83 @@
         "kheer": false,
         "outros": "",
         "local": "Fossa vesicular"
+      },
+      "intercorrencias": "Sem intercorrências"
+    },
+    {
+      "id": "880e8400-e29b-41d4-a716-446655440002",
+      "pacienteId": 2,
+      "assistenciaIntraOperatoriaId": "660e8400-e29b-41d4-a716-446655440002",
+      "dataControle": "2025-01-16T15:30:00.000Z",
+      "dataCirurgia": "2025-01-16",
+      "nome": "Carlos Santos",
+      "idade": 38,
+      "classificacao": "particular",
+      "sexo": "m",
+      "unidadeInternacao": "Clínica Cirúrgica",
+      "numeroInternacao": "2025002",
+      "admissao": {
+        "data": "2025-01-15",
+        "horario": "10:00"
+      },
+      "antecedentes": {
+        "tabagista": true,
+        "diabetico": false,
+        "renalCronico": false,
+        "obeso": false,
+        "hipertenso": false
+      },
+      "tempoInternacao": {
+        "unidade": 24,
+        "uti": 0,
+        "infeccaoPrevia": false
+      },
+      "preOperatorio": {
+        "tricotomiaHoras": 1,
+        "local": "Região inguinal",
+        "preparoSala": true,
+        "antissepticos": {
+          "clorexidinaDegermante": true,
+          "pvpiDegermante": false,
+          "clorexidinaAlcoolica": true,
+          "pvpiTintura": false,
+          "clorexidinaAquosa": false,
+          "pvpiTopico": false
+        }
+      },
+      "sondagens": {
+        "vesicalDemora": false,
+        "nasogastrica": false,
+        "vesicalAlivio": false,
+        "responsavel": ""
+      },
+      "antibioticoProfilatico": "Cefazolina 1g EV",
+      "transfusoes": {
+        "sangue": false,
+        "plasma": false,
+        "quantidade": "0"
+      },
+      "cirurgia": {
+        "periodo": "t",
+        "reoperacao": false,
+        "duracao": 90,
+        "asa": "ASA I",
+        "cpc": "Limpa",
+        "realizada": "Hernioplastia inguinal",
+        "cirurgiao": "Dr. Roberto Martins",
+        "auxiliar": "Tec. Lucia Fernandes",
+        "anestesia": "raquianestesia",
+        "anestesiologista": "Dr. Paulo Henrique Costa",
+        "circulantes": ["Tec. Maria José"]
+      },
+      "proteses": false,
+      "drenos": {
+        "succao": false,
+        "penrose": false,
+        "torax": false,
+        "kheer": false,
+        "outros": "",
+        "local": ""
       },
       "intercorrencias": "Sem intercorrências"
     }
