@@ -141,7 +141,7 @@ class ApiService {
     return this.request(`/uti/relatorio?${params.toString()}`);
   }
 
-  // Centro Cirúrgico
+  // Centro Cirúrgico (original)
   async getMovimentacoesCentroCircurgico() {
     return this.request('/centro-cirurgico/movimentacoes');
   }
@@ -160,6 +160,223 @@ class ApiService {
     
     return this.request(`/centro-cirurgico/relatorio?${params.toString()}`);
   }
+
+  // ========== NOVOS SERVIÇOS DO FLUXO HOSPITALAR ==========
+
+  // Recepção Centro Cirúrgico
+  async getRecepcoesCentroCircurgico() {
+    return this.request('/centro-cirurgico-recepcao');
+  }
+
+  async getRecepcaoCentroCircurgico(id: string) {
+    return this.request(`/centro-cirurgico-recepcao/${id}`);
+  }
+
+  async createRecepcaoCentroCircurgico(recepcao: any) {
+    return this.request('/centro-cirurgico-recepcao', {
+      method: 'POST',
+      body: JSON.stringify(recepcao),
+    });
+  }
+
+  async updateRecepcaoCentroCircurgico(id: string, recepcao: any) {
+    return this.request(`/centro-cirurgico-recepcao/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(recepcao),
+    });
+  }
+
+  async buscarRecepcaoPorInternacao(numeroInternacao: string) {
+    return this.request(`/centro-cirurgico-recepcao/buscar/${numeroInternacao}`);
+  }
+
+  // Assistência Intra-Operatória
+  async getAssistenciasIntraOperatorias() {
+    return this.request('/assistencia-intra-operatoria');
+  }
+
+  async getAssistenciaIntraOperatoria(id: string) {
+    return this.request(`/assistencia-intra-operatoria/${id}`);
+  }
+
+  async createAssistenciaIntraOperatoria(assistencia: any) {
+    return this.request('/assistencia-intra-operatoria', {
+      method: 'POST',
+      body: JSON.stringify(assistencia),
+    });
+  }
+
+  async updateAssistenciaIntraOperatoria(id: string, assistencia: any) {
+    return this.request(`/assistencia-intra-operatoria/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(assistencia),
+    });
+  }
+
+  async getRelatorioAssistenciaPorPeriodo(dataInicio: string, dataFim: string) {
+    return this.request(`/assistencia-intra-operatoria/relatorio/periodo?dataInicio=${dataInicio}&dataFim=${dataFim}`);
+  }
+
+  // Recuperação Anestésica
+  async getRecuperacoesAnestesicas() {
+    return this.request('/recuperacao-anestesica');
+  }
+
+  async getRecuperacaoAnestesica(id: string) {
+    return this.request(`/recuperacao-anestesica/${id}`);
+  }
+
+  async createRecuperacaoAnestesica(recuperacao: any) {
+    return this.request('/recuperacao-anestesica', {
+      method: 'POST',
+      body: JSON.stringify(recuperacao),
+    });
+  }
+
+  async updateRecuperacaoAnestesica(id: string, recuperacao: any) {
+    return this.request(`/recuperacao-anestesica/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(recuperacao),
+    });
+  }
+
+  async deleteRecuperacaoAnestesica(id: string) {
+    return this.request(`/recuperacao-anestesica/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async adicionarSinaisVitais(id: string, sinaisVitais: any) {
+    return this.request(`/recuperacao-anestesica/${id}/sinais-vitais`, {
+      method: 'POST',
+      body: JSON.stringify({ sinaisVitais }),
+    });
+  }
+
+  async calcularAldreteKroulik(id: string, criterios: any) {
+    return this.request(`/recuperacao-anestesica/${id}/aldrete-kroulik`, {
+      method: 'POST',
+      body: JSON.stringify({ criterios }),
+    });
+  }
+
+  async getPacientesEmRecuperacao() {
+    return this.request('/recuperacao-anestesica/pacientes/em-recuperacao');
+  }
+
+  // Controle de Infecção Hospitalar (CCIH)
+  async getControlesInfeccao() {
+    return this.request('/controle-infeccao');
+  }
+
+  async getControleInfeccao(id: string) {
+    return this.request(`/controle-infeccao/${id}`);
+  }
+
+  async createControleInfeccao(controle: any) {
+    return this.request('/controle-infeccao', {
+      method: 'POST',
+      body: JSON.stringify(controle),
+    });
+  }
+
+  async updateControleInfeccao(id: string, controle: any) {
+    return this.request(`/controle-infeccao/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(controle),
+    });
+  }
+
+  async calcularRiscoInfeccao(id: string) {
+    return this.request(`/controle-infeccao/${id}/risco-infeccao`);
+  }
+
+  async getRelatorioMensalCCIH(mes: number, ano: number) {
+    return this.request(`/controle-infeccao/relatorio/mensal?mes=${mes}&ano=${ano}`);
+  }
+
+  // Custeio Cirúrgico
+  async getCusteios() {
+    return this.request('/custeio');
+  }
+
+  async getCusteio(id: string) {
+    return this.request(`/custeio/${id}`);
+  }
+
+  async createCusteio(custeio: any) {
+    return this.request('/custeio', {
+      method: 'POST',
+      body: JSON.stringify(custeio),
+    });
+  }
+
+  async updateCusteio(id: string, custeio: any) {
+    return this.request(`/custeio/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(custeio),
+    });
+  }
+
+  async adicionarMaterialCusteio(id: string, material: any) {
+    return this.request(`/custeio/${id}/material`, {
+      method: 'POST',
+      body: JSON.stringify({ material }),
+    });
+  }
+
+  async getRelatorioFinanceiro(dataInicio?: string, dataFim?: string, tipoCirurgia?: string) {
+    const params = new URLSearchParams();
+    if (dataInicio) params.append('dataInicio', dataInicio);
+    if (dataFim) params.append('dataFim', dataFim);
+    if (tipoCirurgia) params.append('tipoCirurgia', tipoCirurgia);
+    
+    return this.request(`/custeio/relatorio/financeiro?${params.toString()}`);
+  }
+
+  async getMateriaisDisponiveis() {
+    return this.request('/custeio/materiais/disponiveis');
+  }
+
+  // Delete methods for Centro Cirúrgico
+  async deleteAssistenciaIntraOperatoria(id: string) {
+    return this.request(`/assistencia-intraoperatoria/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteControleInfeccao(id: string) {
+    return this.request(`/controle-infeccao/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteCusteioCircurgico(id: string) {
+    return this.request(`/custeio/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteRecepcaoCentroCircurgico(id: string) {
+    return this.request(`/recepcao-centro-cirurgico/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // Alternative method names for compatibility
+  async getCusteioCircurgico() {
+    return this.getCusteios();
+  }
+
+  async createCusteioCircurgico(custeio: any) {
+    return this.createCusteio(custeio);
+  }
+
+  async updateCusteioCircurgico(id: string, custeio: any) {
+    return this.updateCusteio(id, custeio);
+  }
 }
 
-export default new ApiService();
+const api = new ApiService();
+export default api;
+export { api };

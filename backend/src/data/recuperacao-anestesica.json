@@ -1,0 +1,122 @@
+{
+  "recuperacoes": [
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440001",
+      "numeroInternacao": "2025001",
+      "nome": "Maria Silva Santos",
+      "idade": 45,
+      "quartoLeito": "201-A",
+      "cirurgiaRealizada": "Colecistectomia videolaparoscópica",
+      "diagnosticoBase": "Colelitíase com colecistite crônica",
+      "tipoAnestesia": {
+        "geralVenosa": false,
+        "geralInalatoria": false,
+        "geralCombinada": true,
+        "peridural": false,
+        "periduralCateter": false,
+        "raqui": false,
+        "bloqueio": false,
+        "sedacao": false
+      },
+      "alergias": {
+        "possui": false,
+        "descricao": ""
+      },
+      "anestesiologista": "Dr. Paulo Henrique Costa",
+      "nebulizacao": false,
+      "monitorizacao": {
+        "multiparametrico": true,
+        "ecg": true,
+        "oximetroPulso": true,
+        "pa": true,
+        "pvc": false,
+        "paInvasiva": false,
+        "localPaInvasiva": ""
+      },
+      "sinaisVitaisHorarios": [
+        {
+          "hora": "11:45",
+          "pa": "110x70",
+          "fc": 82,
+          "fr": 16,
+          "so2": 98,
+          "temperatura": 36.2
+        },
+        {
+          "hora": "12:00",
+          "pa": "115x75",
+          "fc": 78,
+          "fr": 14,
+          "so2": 99,
+          "temperatura": 36.4
+        },
+        {
+          "hora": "12:15",
+          "pa": "120x80",
+          "fc": 75,
+          "fr": 14,
+          "so2": 98,
+          "temperatura": 36.5
+        }
+      ],
+      "escalaSedacaoRamsay": [
+        {
+          "horario": "11:45",
+          "valor": 4
+        },
+        {
+          "horario": "12:00",
+          "valor": 3
+        },
+        {
+          "horario": "12:15",
+          "valor": 2
+        }
+      ],
+      "escalaPupilas": {
+        "tamanho": "3",
+        "tipo": "normal",
+        "simetria": "isocoricas",
+        "fotorreacao": "fotorreagente"
+      },
+      "escalaDor": 2,
+      "medicamentosMinistrados": [
+        {
+          "medicamento": "Soro Fisiológico 0,9%",
+          "hora": "11:45",
+          "quantidade": "500ml"
+        },
+        {
+          "medicamento": "Tramadol 50mg",
+          "hora": "12:30",
+          "quantidade": "1 ampola"
+        }
+      ],
+      "liquidosEliminados": [
+        {
+          "tipo": "urina",
+          "hora": "13:00",
+          "quantidade": 150
+        }
+      ],
+      "indiceAldreteKroulik": {
+        "movimentacao": 2,
+        "respiracao": 2,
+        "pressaoArterial": 2,
+        "consciencia": 2,
+        "saturacaoO2": 2,
+        "total": 10
+      },
+      "prescricaoMedica": {
+        "altaHorario": "13:30",
+        "medico": "Dr. Paulo Henrique Costa",
+        "crm": "123456-SP"
+      },
+      "transferencia": {
+        "destino": "Quarto 201",
+        "tecnicoEnfermagem": "Tec. Maria José Santos",
+        "enfermeiro": "Enf. Ana Costa Silva"
+      }
+    }
+  ]
+}

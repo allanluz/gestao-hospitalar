@@ -1,0 +1,97 @@
+{
+  "custeios": [
+    {
+      "id": "990e8400-e29b-41d4-a716-446655440001",
+      "numeroInternacao": "2025001",
+      "nomePaciente": "Maria Silva Santos",
+      "idade": 45,
+      "quarto": "201",
+      "tipoCirurgia": "Colecistectomia videolaparoscópica",
+      "horarios": {
+        "inicio": "09:00",
+        "fim": "11:30",
+        "total": 150
+      },
+      "equipe": {
+        "cirurgiao": "Dr. Carlos Eduardo Silva",
+        "assistentes": ["Dr. Ana Lucia Santos", "Dr. Roberto Martins"],
+        "instrumentadoras": ["Tec. Lucia Fernandes"],
+        "anestesista": "Dr. Paulo Henrique Costa",
+        "circulante": "Tec. Maria José"
+      },
+      "porte": "2",
+      "classificacao": "SUS",
+      "data": "2025-09-09",
+      "materiaisUtilizados": [
+        {
+          "quantidade": 1,
+          "material": "Kit Laparoscopia",
+          "valorCusto": 280.50,
+          "valorVenda": 420.75
+        },
+        {
+          "quantidade": 2,
+          "material": "Fio Vicryl 2-0",
+          "valorCusto": 35.80,
+          "valorVenda": 53.70
+        },
+        {
+          "quantidade": 1,
+          "material": "Clipe Metálico",
+          "valorCusto": 45.20,
+          "valorVenda": 67.80
+        },
+        {
+          "quantidade": 3,
+          "material": "Compressa Cirúrgica",
+          "valorCusto": 8.50,
+          "valorVenda": 12.75
+        },
+        {
+          "quantidade": 1,
+          "material": "Lâmina Bisturi Nº 15",
+          "valorCusto": 2.30,
+          "valorVenda": 3.45
+        },
+        {
+          "quantidade": 500,
+          "material": "Soro Fisiológico 0,9% (ml)",
+          "valorCusto": 0.02,
+          "valorVenda": 0.03
+        },
+        {
+          "quantidade": 1,
+          "material": "Dreno Penrose",
+          "valorCusto": 12.80,
+          "valorVenda": 19.20
+        },
+        {
+          "quantidade": 1,
+          "material": "Propofol 200mg",
+          "valorCusto": 18.70,
+          "valorVenda": 28.05
+        },
+        {
+          "quantidade": 1,
+          "material": "Fentanil 0,5mg",
+          "valorCusto": 8.90,
+          "valorVenda": 13.35
+        },
+        {
+          "quantidade": 1,
+          "material": "Tracrium 25mg",
+          "valorCusto": 22.40,
+          "valorVenda": 33.60
+        }
+      ],
+      "somaTotal": {
+        "custo": 434.92,
+        "venda": 652.38
+      },
+      "assinaturas": {
+        "cirurgiao": "Dr. Carlos Eduardo Silva - CRM 123456",
+        "responsavel": "Adm. João Santos - Setor Faturamento"
+      }
+    }
+  ]
+}

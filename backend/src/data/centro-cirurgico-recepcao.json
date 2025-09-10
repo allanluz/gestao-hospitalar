@@ -1,0 +1,60 @@
+{
+  "recepcoes": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440001",
+      "numeroInternacao": "2025001",
+      "nome": "Maria Silva Santos",
+      "reservaUti": true,
+      "reservaHemoderivados": {
+        "necessita": true,
+        "tipo": ["concentrado_hemacias"]
+      },
+      "tipoSanguineo": "O+",
+      "medicacaoPreAnestesica": {
+        "administrada": true,
+        "medicamento": "Midazolam 7,5mg"
+      },
+      "alergias": {
+        "possui": false,
+        "descricao": ""
+      },
+      "patologiasBase": "Diabetes Mellitus tipo 2, Hipertensão Arterial",
+      "medicacoesUso": "Metformina 850mg, Losartana 50mg",
+      "anotacoesEnfermagem": "Paciente orientada sobre o procedimento. Sinais vitais estáveis. Jejum de 8h respeitado.",
+      "responsavel": {
+        "assinatura": "Enf. Ana Costa",
+        "coren": "123456-SP"
+      },
+      "dataHora": "2025-09-09T08:30:00.000Z",
+      "status": "ativo"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440002",
+      "numeroInternacao": "2025002",
+      "nome": "João Pereira Lima",
+      "reservaUti": false,
+      "reservaHemoderivados": {
+        "necessita": false,
+        "tipo": []
+      },
+      "tipoSanguineo": "A-",
+      "medicacaoPreAnestesica": {
+        "administrada": false,
+        "medicamento": ""
+      },
+      "alergias": {
+        "possui": true,
+        "descricao": "Dipirona - erupção cutânea"
+      },
+      "patologiasBase": "Colelitíase",
+      "medicacoesUso": "Omeprazol 20mg",
+      "anotacoesEnfermagem": "Paciente ansioso. Orientado sobre alergia. Acompanhante presente.",
+      "responsavel": {
+        "assinatura": "Enf. Carlos Mendes",
+        "coren": "654321-SP"
+      },
+      "dataHora": "2025-09-09T10:15:00.000Z",
+      "status": "concluido"
+    }
+  ]
+}

@@ -7,6 +7,11 @@ import Funcionarios from './pages/Funcionarios';
 import Estoque from './pages/Estoque';
 import UTI from './pages/UTI';
 import CentroCircurgico from './pages/CentroCircurgico';
+import RecepcaoCentroCircurgico from './pages/RecepcaoCentroCircurgico';
+import AssistenciaIntraOperatoria from './pages/AssistenciaIntraOperatoria';
+import RecuperacaoAnestesica from './pages/RecuperacaoAnestesica';
+import ControleInfeccao from './pages/ControleInfeccao';
+import CusteioCirurgico from './pages/CusteioCirurgico';
 
 function App() {
   return (
@@ -21,6 +26,11 @@ function App() {
             <Route path="/estoque" element={<Estoque />} />
             <Route path="/uti" element={<UTI />} />
             <Route path="/centro-cirurgico" element={<CentroCircurgico />} />
+            <Route path="/centro-cirurgico-recepcao" element={<RecepcaoCentroCircurgico />} />
+            <Route path="/assistencia-intra-operatoria" element={<AssistenciaIntraOperatoria />} />
+            <Route path="/recuperacao-anestesica" element={<RecuperacaoAnestesica />} />
+            <Route path="/controle-infeccao" element={<ControleInfeccao />} />
+            <Route path="/custeio-cirurgico" element={<CusteioCirurgico />} />
           </Routes>
         </main>
       </div>

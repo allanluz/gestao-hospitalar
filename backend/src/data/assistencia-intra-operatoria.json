@@ -1,0 +1,83 @@
+{
+  "assistencias": [
+    {
+      "id": "660e8400-e29b-41d4-a716-446655440001",
+      "numeroInternacao": "2025001",
+      "cirurgiaProposta": "Colecistectomia videolaparoscópica",
+      "so": "SO-01",
+      "horarios": {
+        "entrada": "08:30",
+        "inicio": "09:00",
+        "fim": "11:30"
+      },
+      "sinaisVitais": {
+        "pressaoArterial": "120x80 mmHg",
+        "frequenciaCardiaca": 78,
+        "saturacaoO2": 98
+      },
+      "equipe": {
+        "primeiroAssistente": "Dr. Carlos Eduardo Silva",
+        "equipeCompleta": ["Dr. Ana Lucia Santos", "Dr. Roberto Martins"],
+        "anestesiologista": "Dr. Paulo Henrique Costa",
+        "circulantesSala": ["Tec. Maria José", "Tec. Pedro Santos"],
+        "instrumentador": "Tec. Lucia Fernandes",
+        "enfermeiro": "Enf. Ana Costa"
+      },
+      "anestesia": {
+        "tipo": "Geral balanceada",
+        "canulaNasofaringea": true,
+        "manobraValsalva": false,
+        "sondaEndotraqueal": "7.5",
+        "cateterNasal": false,
+        "agulhaRaquianestesia": "",
+        "agulhaPeridural": ""
+      },
+      "anestesicosAdministrados": {
+        "xylocaina2SV": 0,
+        "xylocaina2CV": 0,
+        "levobupivacaina": 0,
+        "ropivacaina75": 0,
+        "ropivacaina2": 0,
+        "neocainaPesada": 0,
+        "neocainaIsobarica": 0,
+        "neotutocaina": 0,
+        "isoflurano": 150,
+        "sevoflurano": 0,
+        "etomidato": 20
+      },
+      "medicamentosAdministrados": {
+        "fentanil": "250mcg",
+        "propofol": "120mg",
+        "tracrium": "25mg",
+        "dexametasona": "8mg",
+        "ondansetrona": "4mg"
+      },
+      "posicionamentoCirurgico": {
+        "tipo": "ddh",
+        "usoCoxim": true,
+        "outros": "Apoio para membros superiores"
+      },
+      "garrotePneumatico": {
+        "utilizado": false,
+        "local": "",
+        "inicioHora": "",
+        "retiradaHora": ""
+      },
+      "mantaTermica": {
+        "utilizada": true,
+        "tempo": 150
+      },
+      "equipamentosSeguranca": {
+        "travesseiros": true,
+        "faixaSeguranca": true
+      },
+      "controleEsterilizacao": ["Teste químico OK", "Indicador biológico - Negativo"],
+      "saidaHorario": "11:45",
+      "setorDestino": "Recuperação Anestésica",
+      "responsavelSaida": {
+        "assinatura": "Enf. Ana Costa",
+        "carimbo": "COREN 123456-SP"
+      }
+    }
+  ]
+}

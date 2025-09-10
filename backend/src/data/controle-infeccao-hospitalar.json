@@ -1,0 +1,78 @@
+{
+  "controles": [
+    {
+      "id": "880e8400-e29b-41d4-a716-446655440001",
+      "dataCirurgia": "2025-09-09",
+      "nome": "Maria Silva Santos",
+      "idade": 45,
+      "classificacao": "sus",
+      "sexo": "f",
+      "unidadeInternacao": "Clínica Cirúrgica",
+      "numeroInternacao": "2025001",
+      "admissao": {
+        "data": "2025-09-08",
+        "horario": "14:30"
+      },
+      "antecedentes": {
+        "tabagista": false,
+        "diabetico": true,
+        "renalCronico": false,
+        "obeso": false,
+        "hipertenso": true
+      },
+      "tempoInternacao": {
+        "unidade": 18,
+        "uti": 0,
+        "infeccaoPrevia": false
+      },
+      "preOperatorio": {
+        "tricotomiaHoras": 2,
+        "local": "Região abdominal",
+        "preparoSala": true,
+        "antissepticos": {
+          "clorexidinaDegermante": true,
+          "pvpiDegermante": false,
+          "clorexidinaAlcoolica": true,
+          "pvpiTintura": false,
+          "clorexidinaAquosa": false,
+          "pvpiTopico": false
+        }
+      },
+      "sondagens": {
+        "vesicalDemora": false,
+        "nasogastrica": false,
+        "vesicalAlivio": true,
+        "responsavel": "Enf. Ana Costa"
+      },
+      "antibioticoProfilatico": "Cefazolina 2g EV",
+      "transfusoes": {
+        "sangue": false,
+        "plasma": false,
+        "quantidade": "0"
+      },
+      "cirurgia": {
+        "periodo": "m",
+        "reoperacao": false,
+        "duracao": 150,
+        "asa": "ASA II",
+        "cpc": "Limpa",
+        "realizada": "Colecistectomia videolaparoscópica",
+        "cirurgiao": "Dr. Carlos Eduardo Silva",
+        "auxiliar": "Dr. Ana Lucia Santos",
+        "anestesia": "Geral balanceada",
+        "anestesiologista": "Dr. Paulo Henrique Costa",
+        "circulantes": ["Tec. Maria José", "Tec. Pedro Santos"]
+      },
+      "proteses": false,
+      "drenos": {
+        "succao": false,
+        "penrose": true,
+        "torax": false,
+        "kheer": false,
+        "outros": "",
+        "local": "Fossa vesicular"
+      },
+      "intercorrencias": "Sem intercorrências"
+    }
+  ]
+}
