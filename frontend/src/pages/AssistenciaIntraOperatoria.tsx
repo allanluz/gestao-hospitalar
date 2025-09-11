@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import HumanBodyDiagram from '../components/common/HumanBodyDiagram';
 
 interface SinaisVitais {
   pressaoArterial: string;
@@ -98,7 +99,7 @@ const AssistenciaIntraOperatoria: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedAssistencia, setSelectedAssistencia] = useState<string>('');
   const [activeTab, setActiveTab] = useState<string>('geral');
-  const [bodyMarkers, setBodyMarkers] = useState<Array<{x: number, y: number, note: string}>>([]);
+  const [bodyMarkers, setBodyMarkers] = useState<Array<{x: number, y: number, note: string, id: string}>>([]);
 
   useEffect(() => {
     fetchAssistencias();
@@ -121,15 +122,16 @@ const AssistenciaIntraOperatoria: React.FC = () => {
     }
   };
 
-  const handleBodyClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
-    
-    const note = prompt('Digite uma observação para este ponto:');
-    if (note) {
-      setBodyMarkers([...bodyMarkers, { x, y, note }]);
-    }
+  const handleAddBodyMarker = (marker: {x: number, y: number, note: string}) => {
+    const newMarker = {
+      ...marker,
+      id: `marker-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+    };
+    setBodyMarkers([...bodyMarkers, newMarker]);
+  };
+
+  const handleRemoveBodyMarker = (id: string) => {
+    setBodyMarkers(bodyMarkers.filter(marker => marker.id !== id));
   };
 
   const getStatusColor = (status: string) => {
@@ -636,73 +638,11 @@ const AssistenciaIntraOperatoria: React.FC = () => {
                   <div className="space-y-6">
                     <div>
                       <h3 className="text-lg font-medium text-gray-900 mb-3">Indicação Corporal</h3>
-                      <p className="text-sm text-gray-600 mb-4">
-                        Clique na imagem para marcar pontos de intervenção cirúrgica
-                      </p>
-                      
-                      <div className="relative border-2 border-gray-300 rounded-lg p-4 bg-gray-50">
-                        <div 
-                          className="relative w-full h-96 mx-auto cursor-crosshair"
-                          onClick={handleBodyClick}
-                          style={{
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 400'%3E%3C!-- Figura humana simples --%3E%3Cpath d='M100 20 C110 20 120 30 120 40 C120 50 110 60 100 60 C90 60 80 50 80 40 C80 30 90 20 100 20' fill='%23ddd' stroke='%23666'/%3E%3Cpath d='M100 60 L100 200 M100 80 L80 120 M100 80 L120 120 M100 200 L80 280 M100 200 L120 280' stroke='%23666' stroke-width='3' fill='none'/%3E%3C/svg%3E")`,
-                            backgroundRepeat: 'no-repeat',
-                            backgroundPosition: 'center',
-                            backgroundSize: 'contain'
-                          }}
-                        >
-                          {/* SVG Body Diagram */}
-                          <svg viewBox="0 0 200 400" className="w-full h-full">
-                            {/* Head */}
-                            <circle cx="100" cy="40" r="25" fill="#f3f4f6" stroke="#374151" strokeWidth="2"/>
-                            
-                            {/* Body */}
-                            <rect x="80" y="60" width="40" height="100" fill="#f3f4f6" stroke="#374151" strokeWidth="2"/>
-                            
-                            {/* Arms */}
-                            <rect x="50" y="80" width="30" height="15" fill="#f3f4f6" stroke="#374151" strokeWidth="2"/>
-                            <rect x="120" y="80" width="30" height="15" fill="#f3f4f6" stroke="#374151" strokeWidth="2"/>
-                            
-                            {/* Legs */}
-                            <rect x="85" y="160" width="15" height="80" fill="#f3f4f6" stroke="#374151" strokeWidth="2"/>
-                            <rect x="100" y="160" width="15" height="80" fill="#f3f4f6" stroke="#374151" strokeWidth="2"/>
-                          </svg>
-                          
-                          {/* Markers */}
-                          {bodyMarkers.map((marker, index) => (
-                            <div
-                              key={index}
-                              className="absolute w-4 h-4 bg-red-500 rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-x-2 -translate-y-2"
-                              style={{ left: `${marker.x}%`, top: `${marker.y}%` }}
-                              title={marker.note}
-                            >
-                              <span className="absolute top-6 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-                                {marker.note}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      
-                      {/* Lista de marcações */}
-                      {bodyMarkers.length > 0 && (
-                        <div className="mt-4">
-                          <h4 className="font-medium text-gray-900 mb-2">Marcações Registradas:</h4>
-                          <ul className="space-y-2">
-                            {bodyMarkers.map((marker, index) => (
-                              <li key={index} className="flex items-center justify-between bg-gray-100 p-2 rounded">
-                                <span className="text-sm">{marker.note}</span>
-                                <button
-                                  onClick={() => setBodyMarkers(bodyMarkers.filter((_, i) => i !== index))}
-                                  className="text-red-600 hover:text-red-800 text-sm"
-                                >
-                                  Remover
-                                </button>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                      <HumanBodyDiagram
+                        markers={bodyMarkers}
+                        onAddMarker={handleAddBodyMarker}
+                        onRemoveMarker={handleRemoveBodyMarker}
+                      />
                     </div>
                   </div>
                 )}
