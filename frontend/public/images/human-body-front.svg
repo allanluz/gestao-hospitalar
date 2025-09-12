@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 200 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Silhueta humana masculina vista frontal - Template de moda -->
+  <path fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" d="
+    M 100 20
+    C 85 20, 75 30, 75 45
+    C 75 60, 85 70, 100 70
+    C 115 70, 125 60, 125 45
+    C 125 30, 115 20, 100 20
+    Z
+    
+    M 90 70
+    L 90 85
+    L 110 85
+    L 110 70
+    
+    M 70 85
+    L 50 105
+    L 50 185
+    L 70 205
+    L 130 205
+    L 150 185
+    L 150 105
+    L 130 85
+    L 110 85
+    
+    M 50 115
+    L 25 125
+    L 25 200
+    L 30 235
+    L 35 275
+    L 40 310
+    
+    M 150 115
+    L 175 125
+    L 175 200
+    L 170 235
+    L 165 275
+    L 160 310
+    
+    M 40 310
+    L 45 345
+    L 50 380
+    
+    M 160 310
+    L 155 345
+    L 150 380
+    
+    M 70 205
+    L 65 240
+    L 65 300
+    L 75 320
+    L 125 320
+    L 135 300
+    L 135 240
+    L 130 205
+    
+    M 75 320
+    L 75 480
+    L 80 520
+    L 85 560
+    L 85 580
+    
+    M 125 320
+    L 125 480
+    L 120 520
+    L 115 560
+    L 115 580
+    
+    M 80 580
+    L 75 590
+    L 85 590
+    L 90 580
+    
+    M 120 580
+    L 125 590
+    L 115 590
+    L 110 580
+  "/>
+  
+  <!-- Características faciais minimalistas -->
+  <circle cx="90" cy="40" r="1.5" fill="#000000"/>
+  <circle cx="110" cy="40" r="1.5" fill="#000000"/>
+  <path fill="none" stroke="#000000" stroke-width="1" d="M 95 50 Q 100 53 105 50"/>
+  
+  <!-- Detalhes corporais básicos -->
+  <circle cx="88" cy="130" r="1" fill="#000000"/>
+  <circle cx="112" cy="130" r="1" fill="#000000"/>
+  <circle cx="100" cy="165" r="1.5" fill="#000000"/>
+  
+  <!-- Linha genital simples -->
+  <path fill="none" stroke="#000000" stroke-width="1" d="M 97 270 Q 100 275 103 270"/>
+  
+  <!-- Joelhos -->
+  <circle cx="85" cy="480" r="3" fill="none" stroke="#000000" stroke-width="1"/>
+  <circle cx="115" cy="480" r="3" fill="none" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Dedos das mãos simplificados -->
+  <g stroke="#000000" stroke-width="0.8" fill="none">
+    <line x1="42" y1="370" x2="42" y2="380"/>
+    <line x1="45" y1="372" x2="45" y2="383"/>
+    <line x1="48" y1="371" x2="48" y2="382"/>
+    <line x1="51" y1="369" x2="51" y2="379"/>
+    
+    <line x1="158" y1="370" x2="158" y2="380"/>
+    <line x1="155" y1="372" x2="155" y2="383"/>
+    <line x1="152" y1="371" x2="152" y2="382"/>
+    <line x1="149" y1="369" x2="149" y2="379"/>
+  </g>
+</svg>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 200 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Silhueta humana vista traseira - Formato exato da imagem fornecida -->
+  <path fill="none" stroke="#000000" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" d="
+    M 100 25
+    C 85 25, 75 35, 75 50
+    C 75 65, 85 75, 100 75
+    C 115 75, 125 65, 125 50
+    C 125 35, 115 25, 100 25
+    Z
+    
+    M 90 75
+    L 90 90
+    L 110 90
+    L 110 75
+    
+    M 70 90
+    C 50 90, 40 100, 40 115
+    L 40 190
+    Q 40 200 45 205
+    L 45 220
+    Q 45 225 50 230
+    L 150 230
+    Q 155 225 155 220
+    L 155 205
+    Q 160 200 160 190
+    L 160 115
+    C 160 100, 150 90, 130 90
+    L 110 90
+    
+    M 40 125
+    Q 20 130 20 140
+    L 20 200
+    Q 20 210 25 215
+    L 25 250
+    Q 25 260 30 265
+    L 30 300
+    Q 30 310 35 315
+    L 35 350
+    Q 35 360 40 365
+    C 40 370, 45 375, 50 375
+    L 55 375
+    
+    M 160 125
+    Q 180 130 180 140
+    L 180 200
+    Q 180 210 175 215
+    L 175 250
+    Q 175 260 170 265
+    L 170 300
+    Q 170 310 165 315
+    L 165 350
+    Q 165 360 160 365
+    C 160 370, 155 375, 150 375
+    L 145 375
+    
+    M 50 230
+    Q 45 240 45 250
+    L 45 300
+    Q 45 315 55 320
+    L 145 320
+    Q 155 315 155 300
+    L 155 250
+    Q 155 240 150 230
+    
+    M 55 320
+    L 55 480
+    Q 55 490 60 495
+    L 60 525
+    Q 60 535 65 540
+    L 65 570
+    Q 65 580 70 585
+    
+    M 145 320
+    L 145 480
+    Q 145 490 140 495
+    L 140 525
+    Q 140 535 135 540
+    L 135 570
+    Q 135 580 130 585
+    
+    M 65 570
+    Q 60 575 60 580
+    L 75 580
+    Q 80 580 85 575
+    L 85 570
+    
+    M 135 570
+    Q 140 575 140 580
+    L 125 580
+    Q 120 580 115 575
+    L 115 570
+  "/>
+  
+  <!-- Coluna vertebral -->
+  <line x1="100" y1="90" x2="100" y2="320" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Omoplatas -->
+  <ellipse cx="78" cy="130" rx="15" ry="8" fill="none" stroke="#000000" stroke-width="1" transform="rotate(-20 78 130)"/>
+  <ellipse cx="122" cy="130" rx="15" ry="8" fill="none" stroke="#000000" stroke-width="1" transform="rotate(20 122 130)"/>
+  
+  <!-- Nádegas -->
+  <ellipse cx="82" cy="280" rx="18" ry="22" fill="none" stroke="#000000" stroke-width="1"/>
+  <ellipse cx="118" cy="280" rx="18" ry="22" fill="none" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Linha divisória entre nádegas -->
+  <path fill="none" stroke="#000000" stroke-width="1" d="M 100 260 L 100 300"/>
+  
+  <!-- Linha divisória entre pernas -->
+  <path fill="none" stroke="#000000" stroke-width="1" d="M 100 320 L 100 460"/>
+  
+  <!-- Joelhos vista traseira -->
+  <circle cx="70" cy="470" r="6" fill="none" stroke="#000000" stroke-width="1"/>
+  <circle cx="130" cy="470" r="6" fill="none" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Panturrilhas -->
+  <ellipse cx="70" cy="525" rx="8" ry="12" fill="none" stroke="#000000" stroke-width="1"/>
+  <ellipse cx="130" cy="525" rx="8" ry="12" fill="none" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Tendão de Aquiles -->
+  <line x1="70" y1="555" x2="70" y2="570" stroke="#000000" stroke-width="1.5"/>
+  <line x1="130" y1="555" x2="130" y2="570" stroke="#000000" stroke-width="1.5"/>
+  
+  <!-- Calcanhares -->
+  <ellipse cx="70" cy="575" rx="5" ry="8" fill="none" stroke="#000000" stroke-width="1"/>
+  <ellipse cx="130" cy="575" rx="5" ry="8" fill="none" stroke="#000000" stroke-width="1"/>
+</svg>
