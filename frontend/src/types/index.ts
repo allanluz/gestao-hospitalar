@@ -1,25 +1,69 @@
 export interface Paciente {
   id: number;
   nome: string;
+  nomeCompleto?: string;
   cpf: string;
+  rg?: string;
   dataNascimento: string;
   idade?: number;
   sexo: 'M' | 'F';
+  estadoCivil?: 'solteiro' | 'casado' | 'divorciado' | 'viuvo' | 'uniao_estavel';
+  profissao?: string;
   endereco: {
     rua: string;
+    numero?: string;
+    complemento?: string;
     bairro: string;
     cidade: string;
     cep: string;
     uf: string;
   };
   telefone: string;
+  celular?: string;
+  email?: string;
   convenio: string;
+  numeroConvenio?: string;
   tipoSanguineo?: string;
+  fatorRh?: '+' | '-';
+  peso?: number;
+  altura?: number;
+  nomeContato?: string;
+  telefoneContato?: string;
+  parentescoContato?: string;
   alergias?: {
     possui: boolean;
     descricao: string;
   };
+  medicamentosUso?: string;
   historicoMedico?: string;
+  observacoes?: string;
+  // Campos para acessibilidade e inclusão
+  deficiencias?: {
+    auditiva?: boolean;
+    visual?: boolean;
+    fisica?: boolean;
+    intelectual?: boolean;
+    multipla?: boolean;
+    descricao?: string;
+  };
+  neurodivergencias?: {
+    autismo?: boolean;
+    tdah?: boolean;
+    dislexia?: boolean;
+    sindrome_down?: boolean;
+    outras?: boolean;
+    descricao?: string;
+  };
+  necessidadesEspeciais?: {
+    cadeirante?: boolean;
+    acompanhante?: boolean;
+    interprete_libras?: boolean;
+    material_braille?: boolean;
+    outras?: string;
+  };
+  // Campos para identificação
+  qrCode?: string;
+  codigoBarras?: string;
   internacoes?: Internacao[];
   statusAtual?: 'ambulatorial' | 'internado' | 'centro_cirurgico' | 'uti' | 'recuperacao' | 'alta';
 }

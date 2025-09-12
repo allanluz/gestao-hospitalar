@@ -4,6 +4,7 @@ import { RecepcaoCentroCircurgico as RecepcaoType } from '../types/centro-cirurg
 import { Paciente, Funcionario } from '../types';
 import PacienteBuscador from '../components/common/PacienteBuscador';
 import FuncionarioSeletor from '../components/common/FuncionarioSeletor';
+import CodeScanner from '../components/common/CodeScanner';
 import DataIntegrationService from '../services/dataIntegration';
 
 const RecepcaoCentroCircurgico: React.FC = () => {
@@ -14,6 +15,7 @@ const RecepcaoCentroCircurgico: React.FC = () => {
   const [pacienteSelecionado, setPacienteSelecionado] = useState<Paciente | null>(null);
   const [medicoSelecionado, setMedicoSelecionado] = useState<Funcionario | null>(null);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [showScanner, setShowScanner] = useState(false);
   const [formData, setFormData] = useState<Partial<RecepcaoType>>({
     numeroInternacao: '',
     nomePaciente: '',
@@ -40,6 +42,14 @@ const RecepcaoCentroCircurgico: React.FC = () => {
   useEffect(() => {
     carregarRecepcoes();
   }, []);
+
+  useEffect(() => {
+    // Carregar dados dos pacientes para as recepções existentes
+    recepcoes.forEach(async (recepcao) => {
+      await buscarDadosPaciente(recepcao.nomePaciente);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recepcoes]);
 
   // Função para carregar dados do paciente automaticamente
   const handlePacienteSelecionado = async (paciente: Paciente) => {
@@ -71,6 +81,29 @@ const RecepcaoCentroCircurgico: React.FC = () => {
       ...prev,
       medico: medico.nome
     }));
+  };
+
+  // Função para buscar dados do paciente pelo nome
+  const [pacientesData, setPacientesData] = useState<{ [nome: string]: Paciente }>({});
+
+  const buscarDadosPaciente = async (nomePaciente: string) => {
+    if (pacientesData[nomePaciente]) {
+      return pacientesData[nomePaciente];
+    }
+
+    try {
+      // Simular busca de paciente - na implementação real, isso seria uma chamada API
+      const pacientes = await api.getPacientes() as Paciente[];
+      const paciente = pacientes.find((p: Paciente) => p.nome === nomePaciente);
+      
+      if (paciente) {
+        setPacientesData(prev => ({ ...prev, [nomePaciente]: paciente }));
+        return paciente;
+      }
+    } catch (error) {
+      console.error('Erro ao buscar dados do paciente:', error);
+    }
+    return null;
   };
 
   const carregarRecepcoes = async () => {
@@ -165,6 +198,13 @@ const RecepcaoCentroCircurgico: React.FC = () => {
     setIsModalOpen(true);
   };
 
+  // Função para lidar com paciente encontrado pelo scanner
+  const handlePatientFoundByCode = (paciente: Paciente) => {
+    handlePacienteSelecionado(paciente);
+    setShowScanner(false);
+    setIsModalOpen(true); // Abre o modal para nova recepção com dados do paciente
+  };
+
   const filteredRecepcoes = Array.isArray(recepcoes) ? recepcoes.filter(recepcao =>
     recepcao.nomePaciente?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     recepcao.numeroInternacao?.includes(searchTerm) ||
@@ -187,15 +227,60 @@ const RecepcaoCentroCircurgico: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto">
+        {/* Alerta de Acessibilidade Global */}
+        {(() => {
+          const pacientesComNecessidades = filteredRecepcoes.filter(recepcao => {
+            const pacienteInfo = pacientesData[recepcao.nomePaciente];
+            if (pacienteInfo) {
+              const hasDeficiencias = Object.values(pacienteInfo.deficiencias || {}).some(val => val === true);
+              const hasNeurodivergencias = Object.values(pacienteInfo.neurodivergencias || {}).some(val => val === true);
+              const hasNecessidades = Object.values(pacienteInfo.necessidadesEspeciais || {}).some(val => val === true || val);
+              return hasDeficiencias || hasNeurodivergencias || hasNecessidades;
+            }
+            return false;
+          });
+
+          if (pacientesComNecessidades.length > 0) {
+            return (
+              <div className="bg-red-600 text-white p-4 rounded-lg mb-6 shadow-lg">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">🚨</span>
+                  <div>
+                    <h3 className="text-lg font-bold">ALERTA: Pacientes com Necessidades Especiais</h3>
+                    <p className="text-sm">
+                      {pacientesComNecessidades.length} paciente(s) no centro cirúrgico requer(em) atenção especial para acessibilidade
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+          return null;
+        })()}
+
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold text-gray-800">Recepção do Centro Cirúrgico</h1>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-            >
-              Nova Recepção
-            </button>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-800">Recepção do Centro Cirúrgico</h1>
+              <p className="text-sm text-gray-600 mt-1">
+                Sistema integrado com alertas de acessibilidade e inclusão para atendimento especializado
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowScanner(true)}
+                className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors flex items-center gap-2"
+                title="Escanear QR Code ou Código de Barras do Paciente"
+              >
+                📱 Escanear Código
+              </button>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Nova Recepção
+              </button>
+            </div>
           </div>
 
           {/* Barra de Pesquisa */}
@@ -241,6 +326,59 @@ const RecepcaoCentroCircurgico: React.FC = () => {
                     <p><strong>Médico:</strong> {recepcao.medico}</p>
                     <p><strong>Anestesia:</strong> {recepcao.tipoAnestesia}</p>
                     <p><strong>Jejum:</strong> {recepcao.tempoJejum}h</p>
+                    
+                    {/* Indicadores de Acessibilidade na Listagem */}
+                    {(() => {
+                      const pacienteInfo = pacientesData[recepcao.nomePaciente];
+                      if (pacienteInfo && (pacienteInfo.deficiencias || pacienteInfo.neurodivergencias || pacienteInfo.necessidadesEspeciais)) {
+                        const hasDeficiencias = Object.values(pacienteInfo.deficiencias || {}).some(val => val === true);
+                        const hasNeurodivergencias = Object.values(pacienteInfo.neurodivergencias || {}).some(val => val === true);
+                        const hasNecessidades = Object.values(pacienteInfo.necessidadesEspeciais || {}).some(val => val === true || val);
+                        
+                        if (hasDeficiencias || hasNeurodivergencias || hasNecessidades) {
+                          return (
+                            <div className="bg-red-100 border-2 border-red-400 rounded p-2 mt-2">
+                              <div className="flex items-center gap-1 mb-1">
+                                <span className="text-red-800 font-bold text-xs">🚨 ATENÇÃO ESPECIAL REQUERIDA</span>
+                              </div>
+                              <div className="flex flex-wrap gap-1">
+                                {pacienteInfo.deficiencias?.auditiva && (
+                                  <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">🔇 AUDITIVA</span>
+                                )}
+                                {pacienteInfo.deficiencias?.visual && (
+                                  <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">👁️ VISUAL</span>
+                                )}
+                                {pacienteInfo.deficiencias?.fisica && (
+                                  <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">♿ FÍSICA</span>
+                                )}
+                                {pacienteInfo.deficiencias?.intelectual && (
+                                  <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">🧠 INTELECTUAL</span>
+                                )}
+                                {pacienteInfo.neurodivergencias?.autismo && (
+                                  <span className="inline-block bg-purple-600 text-white text-xs px-2 py-1 rounded font-bold">🧩 AUTISMO</span>
+                                )}
+                                {pacienteInfo.neurodivergencias?.tdah && (
+                                  <span className="inline-block bg-purple-600 text-white text-xs px-2 py-1 rounded font-bold">⚡ TDAH</span>
+                                )}
+                                {pacienteInfo.neurodivergencias?.sindrome_down && (
+                                  <span className="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded font-bold">💙 DOWN</span>
+                                )}
+                                {pacienteInfo.necessidadesEspeciais?.cadeirante && (
+                                  <span className="inline-block bg-green-600 text-white text-xs px-2 py-1 rounded font-bold">♿ CADEIRANTE</span>
+                                )}
+                                {pacienteInfo.necessidadesEspeciais?.interprete_libras && (
+                                  <span className="inline-block bg-orange-600 text-white text-xs px-2 py-1 rounded font-bold">🤟 LIBRAS</span>
+                                )}
+                                {pacienteInfo.necessidadesEspeciais?.acompanhante && (
+                                  <span className="inline-block bg-indigo-600 text-white text-xs px-2 py-1 rounded font-bold">👥 ACOMPANHANTE</span>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        }
+                      }
+                      return null;
+                    })()}
                     
                     <div className="flex justify-between items-center">
                       <span><strong>Checklist:</strong></span>
@@ -303,14 +441,161 @@ const RecepcaoCentroCircurgico: React.FC = () => {
                     onPacienteSelecionado={handlePacienteSelecionado}
                   />
                   {pacienteSelecionado && (
-                    <div className="mt-3 p-3 bg-white rounded border border-blue-200">
-                      <p className="text-sm"><strong>Selecionado:</strong> {pacienteSelecionado.nome}</p>
-                      <p className="text-sm text-gray-600">Status: {pacienteSelecionado.statusAtual}</p>
-                      {pacienteSelecionado.alergias && pacienteSelecionado.alergias.possui && (
-                        <p className="text-sm text-red-600">
-                          <strong>Alergias:</strong> {pacienteSelecionado.alergias.descricao}
-                        </p>
-                      )}
+                    <div className="mt-3 p-4 bg-white rounded border border-blue-200">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-sm"><strong>Selecionado:</strong> {pacienteSelecionado.nome}</p>
+                          <p className="text-sm text-gray-600">Status: {pacienteSelecionado.statusAtual}</p>
+                          {pacienteSelecionado.alergias && pacienteSelecionado.alergias.possui && (
+                            <p className="text-sm text-red-600">
+                              <strong>⚠️ Alergias:</strong> {pacienteSelecionado.alergias.descricao}
+                            </p>
+                          )}
+                        </div>
+                        
+                        {/* Indicadores de Acessibilidade */}
+                        {(pacienteSelecionado.deficiencias || pacienteSelecionado.neurodivergencias || pacienteSelecionado.necessidadesEspeciais) && (
+                          <div className="bg-red-50 border-2 border-red-200 p-4 rounded-lg">
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="text-xl">🚨</span>
+                              <h4 className="text-lg font-bold text-red-800">ATENÇÃO ESPECIAL REQUERIDA</h4>
+                            </div>
+                            
+                            {/* Deficiências */}
+                            {(pacienteSelecionado.deficiencias?.auditiva || 
+                              pacienteSelecionado.deficiencias?.visual || 
+                              pacienteSelecionado.deficiencias?.fisica || 
+                              pacienteSelecionado.deficiencias?.intelectual ||
+                              pacienteSelecionado.deficiencias?.multipla) && (
+                              <div className="mb-3">
+                                <h5 className="font-semibold text-red-700 mb-2">⚠️ DEFICIÊNCIAS:</h5>
+                                <div className="flex flex-wrap gap-2">
+                                  {pacienteSelecionado.deficiencias?.auditiva && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-800 border border-red-300">
+                                      🔇 AUDITIVA - Necessita comunicação visual/escrita
+                                    </span>
+                                  )}
+                                  {pacienteSelecionado.deficiencias?.visual && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-800 border border-red-300">
+                                      👁️ VISUAL - Necessita comunicação verbal clara
+                                    </span>
+                                  )}
+                                  {pacienteSelecionado.deficiencias?.fisica && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-800 border border-red-300">
+                                      ♿ FÍSICA - Atenção para mobilidade/transferência
+                                    </span>
+                                  )}
+                                  {pacienteSelecionado.deficiencias?.intelectual && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-800 border border-red-300">
+                                      🧠 INTELECTUAL - Comunicação simplificada
+                                    </span>
+                                  )}
+                                  {pacienteSelecionado.deficiencias?.multipla && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-800 border border-red-300">
+                                      🔄 MÚLTIPLA - Cuidados especiais integrados
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                            
+                            {/* Neurodivergências */}
+                            {(pacienteSelecionado.neurodivergencias?.autismo || 
+                              pacienteSelecionado.neurodivergencias?.tdah || 
+                              pacienteSelecionado.neurodivergencias?.dislexia || 
+                              pacienteSelecionado.neurodivergencias?.sindrome_down ||
+                              pacienteSelecionado.neurodivergencias?.outras) && (
+                              <div className="mb-3">
+                                <h5 className="font-semibold text-purple-700 mb-2">🧠 NEURODIVERGÊNCIAS:</h5>
+                                <div className="flex flex-wrap gap-2">
+                                  {pacienteSelecionado.neurodivergencias?.autismo && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-purple-100 text-purple-800 border border-purple-300">
+                                      🧩 AUTISMO - Ambiente calmo, rotina clara
+                                    </span>
+                                  )}
+                                  {pacienteSelecionado.neurodivergencias?.tdah && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-purple-100 text-purple-800 border border-purple-300">
+                                      ⚡ TDAH - Atenção para concentração
+                                    </span>
+                                  )}
+                                  {pacienteSelecionado.neurodivergencias?.dislexia && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-purple-100 text-purple-800 border border-purple-300">
+                                      📚 DISLEXIA - Comunicação verbal preferível
+                                    </span>
+                                  )}
+                                  {pacienteSelecionado.neurodivergencias?.sindrome_down && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-purple-100 text-purple-800 border border-purple-300">
+                                      💙 SÍNDROME DE DOWN - Paciência e clareza
+                                    </span>
+                                  )}
+                                  {pacienteSelecionado.neurodivergencias?.outras && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-purple-100 text-purple-800 border border-purple-300">
+                                      ➕ OUTRAS NEURODIVERGÊNCIAS
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                            
+                            {/* Necessidades Especiais */}
+                            {(pacienteSelecionado.necessidadesEspeciais?.cadeirante || 
+                              pacienteSelecionado.necessidadesEspeciais?.acompanhante || 
+                              pacienteSelecionado.necessidadesEspeciais?.interprete_libras || 
+                              pacienteSelecionado.necessidadesEspeciais?.material_braille ||
+                              pacienteSelecionado.necessidadesEspeciais?.outras) && (
+                              <div className="mb-3">
+                                <h5 className="font-semibold text-blue-700 mb-2">🛠️ RECURSOS NECESSÁRIOS:</h5>
+                                <div className="flex flex-wrap gap-2">
+                                  {pacienteSelecionado.necessidadesEspeciais?.cadeirante && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-blue-100 text-blue-800 border border-blue-300">
+                                      ♿ CADEIRANTE - Acesso facilitado
+                                    </span>
+                                  )}
+                                  {pacienteSelecionado.necessidadesEspeciais?.acompanhante && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-blue-100 text-blue-800 border border-blue-300">
+                                      👥 NECESSITA ACOMPANHANTE
+                                    </span>
+                                  )}
+                                  {pacienteSelecionado.necessidadesEspeciais?.interprete_libras && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-blue-100 text-blue-800 border border-blue-300">
+                                      🤟 INTÉRPRETE LIBRAS OBRIGATÓRIO
+                                    </span>
+                                  )}
+                                  {pacienteSelecionado.necessidadesEspeciais?.material_braille && (
+                                    <span className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-blue-100 text-blue-800 border border-blue-300">
+                                      ⠃ MATERIAL EM BRAILLE
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                            
+                            {/* Observações Adicionais */}
+                            {(pacienteSelecionado.deficiencias?.descricao || 
+                              pacienteSelecionado.neurodivergencias?.descricao || 
+                              pacienteSelecionado.necessidadesEspeciais?.outras) && (
+                              <div className="bg-yellow-50 border border-yellow-300 p-3 rounded">
+                                <h5 className="font-semibold text-yellow-800 mb-2">📝 OBSERVAÇÕES IMPORTANTES:</h5>
+                                {pacienteSelecionado.deficiencias?.descricao && (
+                                  <p className="text-sm text-yellow-700 mb-1">
+                                    <strong>Deficiências:</strong> {pacienteSelecionado.deficiencias.descricao}
+                                  </p>
+                                )}
+                                {pacienteSelecionado.neurodivergencias?.descricao && (
+                                  <p className="text-sm text-yellow-700 mb-1">
+                                    <strong>Neurodivergências:</strong> {pacienteSelecionado.neurodivergencias.descricao}
+                                  </p>
+                                )}
+                                {pacienteSelecionado.necessidadesEspeciais?.outras && (
+                                  <p className="text-sm text-yellow-700">
+                                    <strong>Outras necessidades:</strong> {pacienteSelecionado.necessidadesEspeciais.outras}
+                                  </p>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -533,6 +818,14 @@ const RecepcaoCentroCircurgico: React.FC = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Scanner de Código */}
+      {showScanner && (
+        <CodeScanner
+          onPatientFound={handlePatientFoundByCode}
+          onClose={() => setShowScanner(false)}
+        />
       )}
     </div>
   );
