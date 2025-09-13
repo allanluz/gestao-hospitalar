@@ -9,6 +9,10 @@ export interface Paciente {
   sexo: 'M' | 'F';
   estadoCivil?: 'solteiro' | 'casado' | 'divorciado' | 'viuvo' | 'uniao_estavel';
   profissao?: string;
+  naturalidade?: string;
+  nacionalidade?: string;
+  nomePai?: string;
+  nomeMae?: string;
   endereco: {
     rua: string;
     numero?: string;
@@ -23,10 +27,12 @@ export interface Paciente {
   email?: string;
   convenio: string;
   numeroConvenio?: string;
+  validadeConvenio?: string;
   tipoSanguineo?: string;
   fatorRh?: '+' | '-';
   peso?: number;
   altura?: number;
+  imc?: number;
   nomeContato?: string;
   telefoneContato?: string;
   parentescoContato?: string;
