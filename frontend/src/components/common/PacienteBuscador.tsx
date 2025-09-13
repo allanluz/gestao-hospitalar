@@ -21,6 +21,7 @@ const PacienteBuscador: React.FC<PacienteBuscadorProps> = ({
   const [pacientes, setPacientes] = useState<Paciente[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [pacienteSelecionado, setPacienteSelecionado] = useState<Paciente | null>(null);
 
   useEffect(() => {
     const buscarPacientes = async () => {
@@ -58,6 +59,8 @@ const PacienteBuscador: React.FC<PacienteBuscadorProps> = ({
   const handleSelectPaciente = (paciente: Paciente) => {
     setQuery(`${paciente.nome} - ${paciente.cpf}`);
     setShowDropdown(false);
+    setPacientes([]); // Limpar a lista para evitar mostrar "Nenhum paciente encontrado"
+    setPacienteSelecionado(paciente); // Marcar paciente como selecionado
     onPacienteSelecionado(paciente);
   };
 
@@ -99,7 +102,12 @@ const PacienteBuscador: React.FC<PacienteBuscadorProps> = ({
         <input
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            if (pacienteSelecionado && e.target.value !== `${pacienteSelecionado.nome} - ${pacienteSelecionado.cpf}`) {
+              setPacienteSelecionado(null); // Reset se usuário começar a digitar algo diferente
+            }
+          }}
           placeholder={placeholder}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           onFocus={() => query.length >= 2 && setShowDropdown(true)}
@@ -160,7 +168,7 @@ const PacienteBuscador: React.FC<PacienteBuscadorProps> = ({
         </div>
       )}
 
-      {showDropdown && query.length >= 2 && pacientes.length === 0 && !isLoading && (
+      {showDropdown && query.length >= 2 && pacientes.length === 0 && !isLoading && !pacienteSelecionado && (
         <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg">
           <div className="px-4 py-3 text-gray-500 text-center">
             Nenhum paciente encontrado

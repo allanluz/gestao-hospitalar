@@ -171,7 +171,11 @@ export class DataIntegrationService {
 
   static async getFuncionariosByCargo(cargo: string): Promise<Funcionario[]> {
     const funcionarios = await this.getFuncionarios();
-    return funcionarios.filter(f => f.cargo === cargo && f.ativo);
+    return funcionarios.filter(f => 
+      f.cargo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(
+        cargo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      ) && f.ativo
+    );
   }
 
   static async getMedicos(): Promise<Funcionario[]> {

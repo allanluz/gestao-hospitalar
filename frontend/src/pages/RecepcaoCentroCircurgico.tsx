@@ -702,13 +702,21 @@ const RecepcaoCentroCircurgico: React.FC = () => {
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Médico Responsável
                       </label>
-                      <input
-                        type="text"
-                        value={formData.medico}
-                        onChange={(e) => setFormData({ ...formData, medico: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        required
+                      <FuncionarioSeletor
+                        onFuncionarioSelecionado={handleMedicoSelecionado}
+                        cargo="medico"
+                        placeholder="Selecionar médico responsável"
+                        className="w-full"
+                        showCrmCoren={true}
                       />
+                      {medicoSelecionado && (
+                        <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded text-sm">
+                          <strong>Selecionado:</strong> {medicoSelecionado.nome}
+                          {medicoSelecionado.crm && (
+                            <span className="ml-2 text-gray-600">CRM: {medicoSelecionado.crm}</span>
+                          )}
+                        </div>
+                      )}
                     </div>
 
                     <div>
