@@ -14,6 +14,7 @@ const assistenciaIntraOperatoriaRoutes = require('./src/routes/assistenciaIntraO
 const recuperacaoAnestesicaRoutes = require('./src/routes/recuperacaoAnestesica');
 const controleInfeccaoRoutes = require('./src/routes/controleInfeccao');
 const custeioRoutes = require('./src/routes/custeio');
+const materiaisRoutes = require('./src/routes/materiais');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -35,6 +36,7 @@ app.use('/api/assistencia-intra-operatoria', assistenciaIntraOperatoriaRoutes);
 app.use('/api/recuperacao-anestesica', recuperacaoAnestesicaRoutes);
 app.use('/api/controle-infeccao', controleInfeccaoRoutes);
 app.use('/api/custeio', custeioRoutes);
+app.use('/api/materiais', materiaisRoutes);
 
 // Rota de status
 app.get('/api/status', (req, res) => {
@@ -62,7 +64,7 @@ app.get('/api/dashboard', (req, res) => {
     const totalItensEstoque = estoque.reduce((total, item) => total + item.quantidade, 0);
     const itensEstoqueBaixo = estoque.filter(item => item.quantidade < item.estoqueMinimo).length;
     
-    // Estatísticas do Centro Cirúrgico
+    // Estatï¿½sticas do Centro Cirï¿½rgico
     const recepcoesPendentes = recepcoes.recepcoes.filter(r => r.status === 'ativo').length;
     const pacientesEmRecuperacao = recuperacoes.recuperacoes.filter(r => 
       !r.prescricaoMedica || !r.prescricaoMedica.altaHorario
@@ -72,7 +74,7 @@ app.get('/api/dashboard', (req, res) => {
       return c.dataCirurgia === hoje;
     }).length;
     
-    // Análise financeira do mês atual
+    // Anï¿½lise financeira do mï¿½s atual
     const mesAtual = new Date().getMonth() + 1;
     const anoAtual = new Date().getFullYear();
     const custeiosMesAtual = custeios.custeios.filter(c => {
@@ -90,7 +92,7 @@ app.get('/api/dashboard', (req, res) => {
       totalItensEstoque,
       itensEstoqueBaixo,
       
-      // Novos dados do Centro Cirúrgico
+      // Novos dados do Centro Cirï¿½rgico
       centroCircurgico: {
         recepcoesPendentes,
         pacientesEmRecuperacao,

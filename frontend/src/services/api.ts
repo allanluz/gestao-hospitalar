@@ -363,6 +363,63 @@ class ApiService {
     });
   }
 
+  // ========== SERVIÇOS DE MATERIAIS ==========
+
+  // Materiais
+  async getMateriais(filters?: {
+    categoria?: string;
+    subcategoria?: string;
+    ativo?: boolean;
+    esteril?: boolean;
+    descartavel?: boolean;
+    implantavel?: boolean;
+    search?: string;
+  }) {
+    const params = new URLSearchParams();
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+          params.append(key, value.toString());
+        }
+      });
+    }
+    
+    const queryString = params.toString();
+    return this.request(`/materiais${queryString ? `?${queryString}` : ''}`);
+  }
+
+  async getMaterial(id: string) {
+    return this.request(`/materiais/${id}`);
+  }
+
+  async createMaterial(material: any) {
+    return this.request('/materiais', {
+      method: 'POST',
+      body: JSON.stringify(material),
+    });
+  }
+
+  async updateMaterial(id: string, material: any) {
+    return this.request(`/materiais/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(material),
+    });
+  }
+
+  async deleteMaterial(id: string) {
+    return this.request(`/materiais/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async getCategoriasMateriais() {
+    return this.request('/materiais/categorias');
+  }
+
+  async getEstatisticasMateriais() {
+    return this.request('/materiais/estatisticas');
+  }
+
   // Alternative method names for compatibility
   async getCusteioCircurgico() {
     return this.getCusteios();

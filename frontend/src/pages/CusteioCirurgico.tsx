@@ -47,81 +47,72 @@ const CusteioCirurgicoPage: React.FC = () => {
     valorVenda: 0
   });
 
-  useEffect(() => {
-    fetchCusteios();
-  }, []);
+  // Lista de materiais carregada do sistema
+  const [materiaisDisponiveis, setMateriaisDisponiveis] = useState<any[]>([]);
+
+  const [materialSelecionado, setMaterialSelecionado] = useState('');
+  const [quantidadeMaterial, setQuantidadeMaterial] = useState(0);
+  const [mostrarListaMateriais, setMostrarListaMateriais] = useState(false);
+  const [buscaMaterial, setBuscaMaterial] = useState('');
 
   useEffect(() => {
-    calcularTotais();
-  }, [formData.materiaisUtilizados]);
+    fetchCusteios();
+    fetchMateriais();
+  }, []);
+
+  const fetchMateriais = async () => {
+    try {
+      const data = await api.getMateriais({ ativo: true });
+      setMateriaisDisponiveis(data as any[]);
+    } catch (error) {
+      console.error('Erro ao carregar materiais:', error);
+      setMateriaisDisponiveis([]);
+    }
+  };
 
   const fetchCusteios = async () => {
     try {
       const data = await api.getCusteios();
-      setCusteios(Array.isArray(data) ? data as CusteioCircurgico[] : []);
+      setCusteios(data as CusteioCircurgico[]);
     } catch (error) {
-      console.error('Erro ao buscar custeios:', error);
-      setCusteios([]);
+      console.error('Erro ao carregar custeios:', error);
     } finally {
       setLoading(false);
     }
   };
 
   const calcularTotais = () => {
-    const totalCusto = formData.materiaisUtilizados?.reduce((acc, material) => 
-      acc + (material.quantidade * material.valorCusto), 0) || 0;
-    const totalVenda = formData.materiaisUtilizados?.reduce((acc, material) => 
-      acc + (material.quantidade * material.valorVenda), 0) || 0;
+    const custo = (formData.materiaisUtilizados || []).reduce(
+      (total, material) => total + (material.quantidade * material.valorCusto), 0
+    );
+    const venda = (formData.materiaisUtilizados || []).reduce(
+      (total, material) => total + (material.quantidade * material.valorVenda), 0
+    );
 
-    setFormData(prev => ({
-      ...prev,
-      somaTotal: {
-        custo: totalCusto,
-        venda: totalVenda
-      }
-    }));
+    setFormData({
+      ...formData,
+      somaTotal: { custo, venda }
+    });
   };
 
-  const calcularDuracaoTotal = (inicio: string, fim: string): number => {
-    if (!inicio || !fim) return 0;
-    
-    const [horaInicio, minutoInicio] = inicio.split(':').map(Number);
-    const [horaFim, minutoFim] = fim.split(':').map(Number);
-    
-    const minutosInicio = horaInicio * 60 + minutoInicio;
-    const minutosFim = horaFim * 60 + minutoFim;
-    
-    return Math.max(0, minutosFim - minutosInicio);
-  };
+  useEffect(() => {
+    calcularTotais();
+  }, [formData.materiaisUtilizados]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     try {
       if (editingId) {
-        await api.updateCusteioCircurgico(editingId, formData);
+        await api.updateCusteio(editingId, formData as CusteioCircurgico);
       } else {
-        await api.createCusteioCircurgico(formData);
+        await api.createCusteio(formData as Omit<CusteioCircurgico, 'id'>);
       }
+      
+      await fetchCusteios();
       resetForm();
-      fetchCusteios();
     } catch (error) {
       console.error('Erro ao salvar custeio:', error);
-    }
-  };
-
-  const handleEdit = (custeio: CusteioCircurgico) => {
-    setFormData(custeio);
-    setEditingId(custeio.id || null);
-  };
-
-  const handleDelete = async (id: string) => {
-    if (window.confirm('Tem certeza que deseja excluir este registro?')) {
-      try {
-        await api.deleteCusteioCircurgico(id);
-        fetchCusteios();
-      } catch (error) {
-        console.error('Erro ao excluir custeio:', error);
-      }
     }
   };
 
@@ -160,11 +151,28 @@ const CusteioCirurgicoPage: React.FC = () => {
     setEditingId(null);
   };
 
+  const handleEdit = (custeio: CusteioCircurgico) => {
+    setFormData(custeio);
+    setEditingId(custeio.id || null);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (window.confirm('Tem certeza que deseja excluir este custeio?')) {
+      try {
+        // await api.deleteCusteio(id); // Implementar quando disponível
+        console.log('Deletando custeio:', id);
+        await fetchCusteios();
+      } catch (error) {
+        console.error('Erro ao excluir custeio:', error);
+      }
+    }
+  };
+
   const adicionarMaterial = () => {
-    if (novoMaterial.material && novoMaterial.quantidade && novoMaterial.valorCusto && novoMaterial.valorVenda) {
+    if (novoMaterial.material && novoMaterial.quantidade && novoMaterial.quantidade > 0) {
       const material: MaterialUtilizado = {
-        quantidade: novoMaterial.quantidade || 0,
-        material: novoMaterial.material || '',
+        quantidade: novoMaterial.quantidade,
+        material: novoMaterial.material,
         valorCusto: novoMaterial.valorCusto || 0,
         valorVenda: novoMaterial.valorVenda || 0
       };
@@ -180,6 +188,29 @@ const CusteioCirurgicoPage: React.FC = () => {
         valorCusto: 0,
         valorVenda: 0
       });
+    }
+  };
+
+  const adicionarMaterialPredefinido = () => {
+    if (materialSelecionado && quantidadeMaterial > 0) {
+      const materialInfo = materiaisDisponiveis.find((m: any) => m.nome === materialSelecionado);
+      if (materialInfo) {
+        const material: MaterialUtilizado = {
+          quantidade: quantidadeMaterial,
+          material: materialInfo.nome,
+          valorCusto: materialInfo.valorCusto,
+          valorVenda: materialInfo.valorVenda
+        };
+
+        setFormData({
+          ...formData,
+          materiaisUtilizados: [...(formData.materiaisUtilizados || []), material]
+        });
+
+        setMaterialSelecionado('');
+        setQuantidadeMaterial(0);
+        setBuscaMaterial('');
+      }
     }
   };
 
@@ -200,41 +231,6 @@ const CusteioCirurgicoPage: React.FC = () => {
     });
   };
 
-  const adicionarInstrumentadora = () => {
-    const instrumentadoras = [...(formData.equipe?.instrumentadoras || []), ''];
-    setFormData({
-      ...formData,
-      equipe: {
-        ...formData.equipe!,
-        instrumentadoras
-      }
-    });
-  };
-
-  const atualizarAssistente = (index: number, valor: string) => {
-    const assistentes = [...(formData.equipe?.assistentes || [])];
-    assistentes[index] = valor;
-    setFormData({
-      ...formData,
-      equipe: {
-        ...formData.equipe!,
-        assistentes
-      }
-    });
-  };
-
-  const atualizarInstrumentadora = (index: number, valor: string) => {
-    const instrumentadoras = [...(formData.equipe?.instrumentadoras || [])];
-    instrumentadoras[index] = valor;
-    setFormData({
-      ...formData,
-      equipe: {
-        ...formData.equipe!,
-        instrumentadoras
-      }
-    });
-  };
-
   const removerAssistente = (index: number) => {
     const assistentes = [...(formData.equipe?.assistentes || [])];
     assistentes.splice(index, 1);
@@ -243,6 +239,17 @@ const CusteioCirurgicoPage: React.FC = () => {
       equipe: {
         ...formData.equipe!,
         assistentes
+      }
+    });
+  };
+
+  const adicionarInstrumentadora = () => {
+    const instrumentadoras = [...(formData.equipe?.instrumentadoras || []), ''];
+    setFormData({
+      ...formData,
+      equipe: {
+        ...formData.equipe!,
+        instrumentadoras
       }
     });
   };
@@ -259,11 +266,11 @@ const CusteioCirurgicoPage: React.FC = () => {
     });
   };
 
-  const filteredCusteios = Array.isArray(custeios) ? custeios.filter(custeio =>
-    custeio.nomePaciente?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    custeio.numeroInternacao?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    custeio.equipe?.cirurgiao?.toLowerCase().includes(searchTerm.toLowerCase())
-  ) : [];
+  const filteredCusteios = custeios.filter(custeio =>
+    custeio.nomePaciente.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    custeio.numeroInternacao.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    custeio.tipoCirurgia.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) {
     return (
@@ -277,6 +284,40 @@ const CusteioCirurgicoPage: React.FC = () => {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Custeio Cirúrgico</h1>
 
+      {/* Informações dos Materiais */}
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 mb-6 border border-blue-200">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-blue-800 mb-1">📦 Central de Materiais</h2>
+            <p className="text-sm text-blue-600">
+              Temos <span className="font-bold">{materiaisDisponiveis.length} materiais</span> cadastrados para facilitar o seu trabalho
+            </p>
+          </div>
+          <div className="text-right">
+            <div className="text-2xl font-bold text-blue-700">{materiaisDisponiveis.length}</div>
+            <div className="text-xs text-blue-500">materiais disponíveis</div>
+          </div>
+        </div>
+        <div className="mt-3 grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+          <div className="bg-white/70 p-2 rounded border border-blue-100">
+            <div className="font-medium text-blue-700">Materiais Básicos</div>
+            <div className="text-blue-600">Lâminas, agulhas, seringas</div>
+          </div>
+          <div className="bg-white/70 p-2 rounded border border-blue-100">
+            <div className="font-medium text-blue-700">Fios Cirúrgicos</div>
+            <div className="text-blue-600">Vicryl, Nylon, Prolene, Seda</div>
+          </div>
+          <div className="bg-white/70 p-2 rounded border border-blue-100">
+            <div className="font-medium text-blue-700">Kits Especializados</div>
+            <div className="text-blue-600">Laparoscopia, Artroscopia</div>
+          </div>
+          <div className="bg-white/70 p-2 rounded border border-blue-100">
+            <div className="font-medium text-blue-700">Medicamentos</div>
+            <div className="text-blue-600">Anestésicos e soluções</div>
+          </div>
+        </div>
+      </div>
+
       {/* Formulário */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -284,10 +325,10 @@ const CusteioCirurgicoPage: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-700">Informações Básicas</h3>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Número de Internação *
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Número de Internação
                 </label>
                 <input
                   type="text"
@@ -299,8 +340,8 @@ const CusteioCirurgicoPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Nome do Paciente *
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Nome do Paciente
                 </label>
                 <input
                   type="text"
@@ -312,8 +353,8 @@ const CusteioCirurgicoPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Idade *
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Idade
                 </label>
                 <input
                   type="number"
@@ -325,21 +366,22 @@ const CusteioCirurgicoPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Quarto *
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Quarto
                 </label>
                 <input
                   type="text"
                   value={formData.quarto || ''}
                   onChange={(e) => setFormData({ ...formData, quarto: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                  required
                 />
               </div>
+            </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Tipo de Cirurgia *
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Tipo de Cirurgia
                 </label>
                 <input
                   type="text"
@@ -351,8 +393,8 @@ const CusteioCirurgicoPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Data da Cirurgia *
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Data
                 </label>
                 <input
                   type="date"
@@ -364,89 +406,89 @@ const CusteioCirurgicoPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Porte Cirúrgico *
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Porte
                 </label>
                 <select
                   value={formData.porte || '0'}
-                  onChange={(e) => setFormData({ ...formData, porte: e.target.value as '0' | '1' | '2' | '3' })}
+                  onChange={(e) => setFormData({ ...formData, porte: e.target.value as "0" | "1" | "2" | "3" })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                  required
                 >
                   <option value="0">Porte 0</option>
                   <option value="1">Porte 1</option>
                   <option value="2">Porte 2</option>
                   <option value="3">Porte 3</option>
+                  <option value="4">Porte 4</option>
                 </select>
               </div>
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Classificação
-                </label>
-                <input
-                  type="text"
-                  value={formData.classificacao || ''}
-                  onChange={(e) => setFormData({ ...formData, classificacao: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                  placeholder="Ex: Eletiva, Urgência, etc."
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Classificação
+              </label>
+              <select
+                value={formData.classificacao || ''}
+                onChange={(e) => setFormData({ ...formData, classificacao: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Selecione a classificação</option>
+                <option value="limpa">Limpa</option>
+                <option value="potencialmente-contaminada">Potencialmente Contaminada</option>
+                <option value="contaminada">Contaminada</option>
+                <option value="infectada">Infectada</option>
+              </select>
             </div>
           </div>
 
           {/* Horários */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-700">Horários da Cirurgia</h3>
+            <h3 className="text-lg font-semibold text-gray-700">Horários</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Início
                 </label>
                 <input
                   type="time"
                   value={formData.horarios?.inicio || ''}
-                  onChange={(e) => {
-                    const novoHorario = { 
-                      ...formData.horarios!, 
-                      inicio: e.target.value,
-                      total: calcularDuracaoTotal(e.target.value, formData.horarios?.fim || '')
-                    };
-                    setFormData({ ...formData, horarios: novoHorario });
-                  }}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    horarios: { ...formData.horarios!, inicio: e.target.value }
+                  })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Fim
                 </label>
                 <input
                   type="time"
                   value={formData.horarios?.fim || ''}
-                  onChange={(e) => {
-                    const novoHorario = { 
-                      ...formData.horarios!, 
-                      fim: e.target.value,
-                      total: calcularDuracaoTotal(formData.horarios?.inicio || '', e.target.value)
-                    };
-                    setFormData({ ...formData, horarios: novoHorario });
-                  }}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    horarios: { ...formData.horarios!, fim: e.target.value }
+                  })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Total (minutos)
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Total (horas)
                 </label>
                 <input
                   type="number"
+                  step="0.1"
                   value={formData.horarios?.total || ''}
-                  readOnly
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100"
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    horarios: { ...formData.horarios!, total: parseFloat(e.target.value) || 0 }
+                  })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -456,57 +498,47 @@ const CusteioCirurgicoPage: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-700">Equipe Cirúrgica</h3>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cirurgião *
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Cirurgião
                 </label>
                 <input
                   type="text"
                   value={formData.equipe?.cirurgiao || ''}
-                  onChange={(e) => setFormData({ 
-                    ...formData, 
-                    equipe: { 
-                      ...formData.equipe!, 
-                      cirurgiao: e.target.value 
-                    } 
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    equipe: { ...formData.equipe!, cirurgiao: e.target.value }
                   })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                  required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Anestesista
                 </label>
                 <input
                   type="text"
                   value={formData.equipe?.anestesista || ''}
-                  onChange={(e) => setFormData({ 
-                    ...formData, 
-                    equipe: { 
-                      ...formData.equipe!, 
-                      anestesista: e.target.value 
-                    } 
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    equipe: { ...formData.equipe!, anestesista: e.target.value }
                   })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Circulante
                 </label>
                 <input
                   type="text"
                   value={formData.equipe?.circulante || ''}
-                  onChange={(e) => setFormData({ 
-                    ...formData, 
-                    equipe: { 
-                      ...formData.equipe!, 
-                      circulante: e.target.value 
-                    } 
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    equipe: { ...formData.equipe!, circulante: e.target.value }
                   })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 />
@@ -522,27 +554,33 @@ const CusteioCirurgicoPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={adicionarAssistente}
-                  className="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
+                  className="px-3 py-1 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600"
                 >
-                  + Adicionar Assistente
+                  + Adicionar
                 </button>
               </div>
-              
-              {formData.equipe?.assistentes?.map((assistente, index) => (
+              {(formData.equipe?.assistentes || []).map((assistente, index) => (
                 <div key={index} className="flex gap-2 mb-2">
                   <input
                     type="text"
                     value={assistente}
-                    onChange={(e) => atualizarAssistente(index, e.target.value)}
+                    onChange={(e) => {
+                      const assistentes = [...(formData.equipe?.assistentes || [])];
+                      assistentes[index] = e.target.value;
+                      setFormData({
+                        ...formData,
+                        equipe: { ...formData.equipe!, assistentes }
+                      });
+                    }}
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                     placeholder={`Assistente ${index + 1}`}
                   />
                   <button
                     type="button"
                     onClick={() => removerAssistente(index)}
-                    className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"
+                    className="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
                   >
-                    Remover
+                    ×
                   </button>
                 </div>
               ))}
@@ -557,27 +595,33 @@ const CusteioCirurgicoPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={adicionarInstrumentadora}
-                  className="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
+                  className="px-3 py-1 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600"
                 >
-                  + Adicionar Instrumentadora
+                  + Adicionar
                 </button>
               </div>
-              
-              {formData.equipe?.instrumentadoras?.map((instrumentadora, index) => (
+              {(formData.equipe?.instrumentadoras || []).map((instrumentadora, index) => (
                 <div key={index} className="flex gap-2 mb-2">
                   <input
                     type="text"
                     value={instrumentadora}
-                    onChange={(e) => atualizarInstrumentadora(index, e.target.value)}
+                    onChange={(e) => {
+                      const instrumentadoras = [...(formData.equipe?.instrumentadoras || [])];
+                      instrumentadoras[index] = e.target.value;
+                      setFormData({
+                        ...formData,
+                        equipe: { ...formData.equipe!, instrumentadoras }
+                      });
+                    }}
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                     placeholder={`Instrumentadora ${index + 1}`}
                   />
                   <button
                     type="button"
                     onClick={() => removerInstrumentadora(index)}
-                    className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"
+                    className="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
                   >
-                    Remover
+                    ×
                   </button>
                 </div>
               ))}
@@ -588,161 +632,237 @@ const CusteioCirurgicoPage: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-700">Materiais Utilizados</h3>
             
-            {/* Adicionar Novo Material */}
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h4 className="text-md font-medium text-gray-600 mb-3">Adicionar Material</h4>
-              
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Material
+            {/* Adicionar Material da Central */}
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h4 className="text-md font-medium text-blue-800 mb-3">📦 Selecionar da Central de Materiais</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-blue-700 mb-1">
+                    Material *
                   </label>
-                  <input
-                    type="text"
-                    value={novoMaterial.material || ''}
-                    onChange={(e) => setNovoMaterial({ ...novoMaterial, material: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                    placeholder="Nome do material"
-                  />
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      placeholder="Digite para buscar material..."
+                      value={buscaMaterial}
+                      onChange={(e) => setBuscaMaterial(e.target.value)}
+                      className="w-full px-3 py-2 border border-blue-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
+                    />
+                    <select
+                      value={materialSelecionado}
+                      onChange={(e) => setMaterialSelecionado(e.target.value)}
+                      className="w-full px-3 py-2 border border-blue-300 rounded-md focus:ring-2 focus:ring-blue-500 bg-white"
+                      size={buscaMaterial ? Math.min(5, materiaisDisponiveis.filter((m: any) => 
+                        m.nome.toLowerCase().includes(buscaMaterial.toLowerCase())
+                      ).length) : 1}
+                    >
+                      <option value="">Selecione um material...</option>
+                      {materiaisDisponiveis
+                        .filter((material: any) => 
+                          buscaMaterial === '' || 
+                          material.nome.toLowerCase().includes(buscaMaterial.toLowerCase())
+                        )
+                        .map((material: any, index: number) => (
+                          <option key={index} value={material.nome}>
+                            {material.nome} - Custo: R$ {material.valorCusto.toFixed(2)} | Venda: R$ {material.valorVenda.toFixed(2)}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Quantidade
+                  <label className="block text-sm font-medium text-blue-700 mb-1">
+                    Quantidade *
                   </label>
                   <input
                     type="number"
-                    value={novoMaterial.quantidade || ''}
-                    onChange={(e) => setNovoMaterial({ ...novoMaterial, quantidade: parseFloat(e.target.value) || 0 })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Valor Custo (R$)
-                  </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={novoMaterial.valorCusto || ''}
-                    onChange={(e) => setNovoMaterial({ ...novoMaterial, valorCusto: parseFloat(e.target.value) || 0 })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Valor Venda (R$)
-                  </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={novoMaterial.valorVenda || ''}
-                    onChange={(e) => setNovoMaterial({ ...novoMaterial, valorVenda: parseFloat(e.target.value) || 0 })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                    min="0"
+                    step="0.1"
+                    value={quantidadeMaterial || ''}
+                    onChange={(e) => setQuantidadeMaterial(parseFloat(e.target.value) || 0)}
+                    className="w-full px-3 py-2 border border-blue-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                    placeholder="Ex: 1, 2.5, 10"
                   />
                 </div>
 
                 <div className="flex items-end">
                   <button
                     type="button"
-                    onClick={adicionarMaterial}
-                    className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                    onClick={adicionarMaterialPredefinido}
+                    disabled={!materialSelecionado || quantidadeMaterial <= 0}
+                    className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
                   >
-                    Adicionar
+                    ✓ Adicionar
                   </button>
                 </div>
               </div>
+
+              {materialSelecionado && (
+                <div className="mt-3 p-2 bg-blue-100 rounded border border-blue-200">
+                  <p className="text-sm text-blue-800">
+                    <strong>Material selecionado:</strong> {materialSelecionado}
+                    <br />
+                    <strong>Valor de custo:</strong> R$ {materiaisDisponiveis.find((m: any) => m.nome === materialSelecionado)?.valorCusto.toFixed(2)}
+                    <br />
+                    <strong>Valor de venda:</strong> R$ {materiaisDisponiveis.find((m: any) => m.nome === materialSelecionado)?.valorVenda.toFixed(2)}
+                  </p>
+                </div>
+              )}
             </div>
 
-            {/* Lista de Materiais */}
-            {formData.materiaisUtilizados && formData.materiaisUtilizados.length > 0 && (
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Material
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Quantidade
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Custo Unit.
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Custo Total
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Venda Unit.
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Venda Total
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Ações
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {formData.materiaisUtilizados.map((material, index) => (
-                      <tr key={index}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {material.material}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {material.quantidade}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          R$ {material.valorCusto.toFixed(2)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          R$ {(material.quantidade * material.valorCusto).toFixed(2)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          R$ {material.valorVenda.toFixed(2)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          R$ {(material.quantidade * material.valorVenda).toFixed(2)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <button
-                            type="button"
-                            onClick={() => removerMaterial(index)}
-                            className="text-red-600 hover:text-red-900"
-                          >
-                            Remover
-                          </button>
-                        </td>
+            {/* Adicionar Material Personalizado */}
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-md font-medium text-gray-600">🔧 Adicionar Material Personalizado</h4>
+                <button
+                  type="button"
+                  onClick={() => setMostrarListaMateriais(!mostrarListaMateriais)}
+                  className="text-sm text-gray-500 hover:text-gray-700"
+                >
+                  {mostrarListaMateriais ? 'Ocultar' : 'Expandir'}
+                </button>
+              </div>
+              
+              {mostrarListaMateriais && (
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Material
+                    </label>
+                    <input
+                      type="text"
+                      value={novoMaterial.material || ''}
+                      onChange={(e) => setNovoMaterial({ ...novoMaterial, material: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                      placeholder="Nome do material"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Quantidade
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      value={novoMaterial.quantidade || ''}
+                      onChange={(e) => setNovoMaterial({ ...novoMaterial, quantidade: parseFloat(e.target.value) || 0 })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                      placeholder="Ex: 1, 2.5, 10"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Valor Custo (R$)
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={novoMaterial.valorCusto || ''}
+                      onChange={(e) => setNovoMaterial({ ...novoMaterial, valorCusto: parseFloat(e.target.value) || 0 })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                      placeholder="0.00"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Valor Venda (R$)
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={novoMaterial.valorVenda || ''}
+                      onChange={(e) => setNovoMaterial({ ...novoMaterial, valorVenda: parseFloat(e.target.value) || 0 })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                      placeholder="0.00"
+                    />
+                  </div>
+
+                  <div className="flex items-end">
+                    <button
+                      type="button"
+                      onClick={adicionarMaterial}
+                      className="w-full bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700"
+                    >
+                      + Adicionar
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Lista de Materiais Adicionados */}
+            {(formData.materiaisUtilizados || []).length > 0 && (
+              <div className="bg-white border rounded-lg p-4">
+                <h4 className="text-md font-medium text-gray-700 mb-3">Materiais Selecionados</h4>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-2">Material</th>
+                        <th className="text-center py-2">Qtd</th>
+                        <th className="text-right py-2">Custo Unit.</th>
+                        <th className="text-right py-2">Venda Unit.</th>
+                        <th className="text-right py-2">Custo Total</th>
+                        <th className="text-right py-2">Venda Total</th>
+                        <th className="text-center py-2">Ações</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {(formData.materiaisUtilizados || []).map((material, index) => (
+                        <tr key={index} className="border-b hover:bg-gray-50">
+                          <td className="py-2">{material.material}</td>
+                          <td className="text-center py-2">{material.quantidade}</td>
+                          <td className="text-right py-2">R$ {material.valorCusto.toFixed(2)}</td>
+                          <td className="text-right py-2">R$ {material.valorVenda.toFixed(2)}</td>
+                          <td className="text-right py-2">R$ {(material.quantidade * material.valorCusto).toFixed(2)}</td>
+                          <td className="text-right py-2">R$ {(material.quantidade * material.valorVenda).toFixed(2)}</td>
+                          <td className="text-center py-2">
+                            <button
+                              type="button"
+                              onClick={() => removerMaterial(index)}
+                              className="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600"
+                            >
+                              Remover
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Totais */}
+                <div className="mt-4 pt-4 border-t bg-gray-50 -m-4 p-4 rounded-b-lg">
+                  <div className="flex justify-end space-x-8">
+                    <div className="text-right">
+                      <div className="text-sm text-gray-600">Total Custo:</div>
+                      <div className="text-lg font-bold text-red-600">
+                        R$ {formData.somaTotal?.custo.toFixed(2) || '0.00'}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm text-gray-600">Total Venda:</div>
+                      <div className="text-lg font-bold text-green-600">
+                        R$ {formData.somaTotal?.venda.toFixed(2) || '0.00'}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm text-gray-600">Margem:</div>
+                      <div className="text-lg font-bold text-blue-600">
+                        R$ {((formData.somaTotal?.venda || 0) - (formData.somaTotal?.custo || 0)).toFixed(2)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
-
-            {/* Totais */}
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Total Custo
-                  </label>
-                  <div className="text-lg font-semibold text-blue-600">
-                    R$ {formData.somaTotal?.custo?.toFixed(2) || '0.00'}
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Total Venda
-                  </label>
-                  <div className="text-lg font-semibold text-green-600">
-                    R$ {formData.somaTotal?.venda?.toFixed(2) || '0.00'}
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Assinaturas */}
@@ -751,36 +871,30 @@ const CusteioCirurgicoPage: React.FC = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Cirurgião Responsável
                 </label>
                 <input
                   type="text"
                   value={formData.assinaturas?.cirurgiao || ''}
-                  onChange={(e) => setFormData({ 
-                    ...formData, 
-                    assinaturas: { 
-                      ...formData.assinaturas!, 
-                      cirurgiao: e.target.value 
-                    } 
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    assinaturas: { ...formData.assinaturas!, cirurgiao: e.target.value }
                   })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Responsável pelo Custeio
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Responsável pelo Preenchimento
                 </label>
                 <input
                   type="text"
                   value={formData.assinaturas?.responsavel || ''}
-                  onChange={(e) => setFormData({ 
-                    ...formData, 
-                    assinaturas: { 
-                      ...formData.assinaturas!, 
-                      responsavel: e.target.value 
-                    } 
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    assinaturas: { ...formData.assinaturas!, responsavel: e.target.value }
                   })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 />
@@ -789,111 +903,86 @@ const CusteioCirurgicoPage: React.FC = () => {
           </div>
 
           {/* Botões */}
-          <div className="flex space-x-4">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
-            >
-              {editingId ? 'Atualizar' : 'Salvar'}
-            </button>
+          <div className="flex justify-end space-x-4">
             <button
               type="button"
               onClick={resetForm}
-              className="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600"
+              className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
             >
               Cancelar
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            >
+              {editingId ? 'Atualizar' : 'Salvar'} Custeio
             </button>
           </div>
         </form>
       </div>
 
       {/* Lista de Custeios */}
-      <div className="bg-white rounded-lg shadow-md">
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-            <h2 className="text-xl font-semibold text-gray-800">Registros de Custeio</h2>
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-semibold text-gray-800">Custeios Cadastrados</h2>
+          
+          <div className="flex gap-4">
             <input
               type="text"
-              placeholder="Buscar por paciente, internação ou cirurgião..."
+              placeholder="Buscar por paciente, internação ou cirurgia..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 w-full sm:w-64"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Paciente
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Internação
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Cirurgia
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Data
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Cirurgião
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Total
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Ações
-                </th>
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b bg-gray-50">
+                <th className="text-left py-3 px-4">Internação</th>
+                <th className="text-left py-3 px-4">Paciente</th>
+                <th className="text-left py-3 px-4">Cirurgia</th>
+                <th className="text-center py-3 px-4">Data</th>
+                <th className="text-right py-3 px-4">Total Custo</th>
+                <th className="text-right py-3 px-4">Total Venda</th>
+                <th className="text-center py-3 px-4">Ações</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody>
               {filteredCusteios.map((custeio) => (
-                <tr key={custeio.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{custeio.nomePaciente}</div>
-                    <div className="text-sm text-gray-500">{custeio.idade} anos - Quarto {custeio.quarto}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {custeio.numeroInternacao}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{custeio.tipoCirurgia}</div>
-                    <div className="text-sm text-gray-500">Porte {custeio.porte} - {custeio.horarios?.total}min</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {custeio.data}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {custeio.equipe?.cirurgiao}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">C: R$ {custeio.somaTotal?.custo?.toFixed(2) || '0.00'}</div>
-                    <div className="text-sm text-gray-500">V: R$ {custeio.somaTotal?.venda?.toFixed(2) || '0.00'}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button
-                      onClick={() => handleEdit(custeio)}
-                      className="text-indigo-600 hover:text-indigo-900 mr-4"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => handleDelete(custeio.id!)}
-                      className="text-red-600 hover:text-red-900"
-                    >
-                      Excluir
-                    </button>
+                <tr key={custeio.id} className="border-b hover:bg-gray-50">
+                  <td className="py-3 px-4">{custeio.numeroInternacao}</td>
+                  <td className="py-3 px-4">{custeio.nomePaciente}</td>
+                  <td className="py-3 px-4">{custeio.tipoCirurgia}</td>
+                  <td className="text-center py-3 px-4">{custeio.data}</td>
+                  <td className="text-right py-3 px-4">R$ {custeio.somaTotal.custo.toFixed(2)}</td>
+                  <td className="text-right py-3 px-4">R$ {custeio.somaTotal.venda.toFixed(2)}</td>
+                  <td className="text-center py-3 px-4">
+                    <div className="flex gap-2 justify-center">
+                      <button
+                        onClick={() => handleEdit(custeio)}
+                        className="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => custeio.id && handleDelete(custeio.id)}
+                        className="px-3 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600"
+                      >
+                        Excluir
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
           {filteredCusteios.length === 0 && (
             <div className="text-center py-8 text-gray-500">
-              Nenhum registro encontrado
+              Nenhum custeio encontrado.
             </div>
           )}
         </div>
