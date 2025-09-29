@@ -79,7 +79,9 @@
       "equipamentosSeguranca": {
         "travesseiros": true,
         "faixaSeguranca": true
-      }
+      },
+      "intercorrencias": "Paciente sem intercorrências",
+      "dataAtualizacao": "2025-09-29T23:05:09.673Z"
     },
     {
       "id": "660e8400-e29b-41d4-a716-446655440002",
@@ -156,7 +158,8 @@
       "equipamentosSeguranca": {
         "travesseiros": true,
         "faixaSeguranca": true
-      }
+      },
+      "intercorrencias": "Pequena dificuldade técnica durante a inserção do trocarte. Resolvida sem maiores complicações."
     },
     {
       "id": "d4235cfa-6b67-4f2e-842e-9c411b0339dd",
@@ -211,6 +214,7 @@
         "travesseiros": false,
         "faixaSeguranca": false
       },
+      "intercorrencias": "",
       "pacienteId": 1,
       "dataAssistencia": "2025-09-10T22:56:47.088Z",
       "statusCirurgia": "concluida",

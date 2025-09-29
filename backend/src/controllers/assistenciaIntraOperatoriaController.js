@@ -14,7 +14,7 @@ const assistenciaController = {
         total: data.assistencias.length
       });
     } catch (error) {
-      console.error('Erro ao listar assistências:', error);
+      console.error('Erro ao listar assistï¿½ncias:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Erro interno do servidor' 
@@ -31,7 +31,7 @@ const assistenciaController = {
       if (!assistencia) {
         return res.status(404).json({ 
           success: false, 
-          error: 'Assistência não encontrada' 
+          error: 'Assistï¿½ncia nï¿½o encontrada' 
         });
       }
       
@@ -40,7 +40,7 @@ const assistenciaController = {
         data: assistencia
       });
     } catch (error) {
-      console.error('Erro ao obter assistência:', error);
+      console.error('Erro ao obter assistï¿½ncia:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Erro interno do servidor' 
@@ -58,11 +58,11 @@ const assistenciaController = {
         dataHora: new Date().toISOString()
       };
 
-      // Validações
+      // Validaï¿½ï¿½es
       if (!novaAssistencia.numeroInternacao || !novaAssistencia.cirurgiaProposta) {
         return res.status(400).json({
           success: false,
-          error: 'Dados obrigatórios não informados'
+          error: 'Dados obrigatï¿½rios nï¿½o informados'
         });
       }
       
@@ -72,10 +72,10 @@ const assistenciaController = {
       res.status(201).json({
         success: true,
         data: novaAssistencia,
-        message: 'Assistência intra-operatória registrada com sucesso'
+        message: 'Assistï¿½ncia intra-operatï¿½ria registrada com sucesso'
       });
     } catch (error) {
-      console.error('Erro ao criar assistência:', error);
+      console.error('Erro ao criar assistï¿½ncia:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Erro interno do servidor' 
@@ -86,13 +86,17 @@ const assistenciaController = {
   atualizar: (req, res) => {
     try {
       const { id } = req.params;
+      console.log('Atualizando assistÃªncia ID:', id);
+      console.log('Dados recebidos:', req.body);
+      
       const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
       const index = data.assistencias.findIndex(a => a.id === id);
       
       if (index === -1) {
+        console.log('AssistÃªncia nÃ£o encontrada:', id);
         return res.status(404).json({ 
           success: false, 
-          error: 'Assistência não encontrada' 
+          error: 'AssistÃªncia nÃ£o encontrada' 
         });
       }
       
@@ -104,17 +108,18 @@ const assistenciaController = {
       };
       
       fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+      console.log('AssistÃªncia atualizada com sucesso');
       
       res.json({
         success: true,
         data: data.assistencias[index],
-        message: 'Assistência atualizada com sucesso'
+        message: 'AssistÃªncia atualizada com sucesso'
       });
     } catch (error) {
-      console.error('Erro ao atualizar assistência:', error);
+      console.error('Erro ao atualizar assistÃªncia:', error);
       res.status(500).json({ 
         success: false, 
-        error: 'Erro interno do servidor' 
+        error: 'Erro interno do servidor: ' + error.message
       });
     }
   },
@@ -128,7 +133,7 @@ const assistenciaController = {
       if (index === -1) {
         return res.status(404).json({ 
           success: false, 
-          error: 'Assistência não encontrada' 
+          error: 'Assistï¿½ncia nï¿½o encontrada' 
         });
       }
       
@@ -138,10 +143,10 @@ const assistenciaController = {
       res.json({
         success: true,
         data: assistenciaRemovida,
-        message: 'Assistência excluída com sucesso'
+        message: 'Assistï¿½ncia excluï¿½da com sucesso'
       });
     } catch (error) {
-      console.error('Erro ao excluir assistência:', error);
+      console.error('Erro ao excluir assistï¿½ncia:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Erro interno do servidor' 
@@ -170,7 +175,7 @@ const assistenciaController = {
         periodo: { dataInicio, dataFim }
       });
     } catch (error) {
-      console.error('Erro ao gerar relatório:', error);
+      console.error('Erro ao gerar relatï¿½rio:', error);
       res.status(500).json({ 
         success: false, 
         error: 'Erro interno do servidor' 

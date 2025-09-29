@@ -91,6 +91,7 @@ interface AssistenciaIntraOperatoriaData {
   garrotePneumatico: GarrotePneumatico;
   mantaTermica: MantaTermica;
   equipamentosSeguranca: EquipamentosSeguranca;
+  intercorrencias?: string;
 }
 
 const AssistenciaIntraOperatoria: React.FC = () => {
@@ -100,10 +101,18 @@ const AssistenciaIntraOperatoria: React.FC = () => {
   const [selectedAssistencia, setSelectedAssistencia] = useState<string>('');
   const [activeTab, setActiveTab] = useState<string>('geral');
   const [bodyMarkers, setBodyMarkers] = useState<Array<{x: number, y: number, note: string, id: string}>>([]);
+  const [intercorrencias, setIntercorrencias] = useState<string>('');
 
   useEffect(() => {
     fetchAssistencias();
   }, []);
+
+  useEffect(() => {
+    if (selectedAssistencia) {
+      const assistenciaData = assistencias.find(a => a.id === selectedAssistencia);
+      setIntercorrencias(assistenciaData?.intercorrencias || '');
+    }
+  }, [selectedAssistencia, assistencias]);
 
   const fetchAssistencias = async () => {
     try {
@@ -132,6 +141,66 @@ const AssistenciaIntraOperatoria: React.FC = () => {
 
   const handleRemoveBodyMarker = (id: string) => {
     setBodyMarkers(bodyMarkers.filter(marker => marker.id !== id));
+  };
+
+  const handleSaveIntercorrencias = async () => {
+    if (!selectedAssistencia) {
+      alert('Nenhuma assistência selecionada.');
+      return;
+    }
+
+    try {
+      console.log('Salvando intercorrências para assistência:', selectedAssistencia);
+      console.log('Conteúdo das intercorrências:', intercorrencias);
+      
+      // Primeiro, obter os dados completos da assistência
+      const assistenciaAtual = assistencias.find(a => a.id === selectedAssistencia);
+      if (!assistenciaAtual) {
+        throw new Error('Assistência não encontrada');
+      }
+
+      // Preparar dados completos para atualização
+      const dadosCompletos = {
+        ...assistenciaAtual,
+        intercorrencias
+      };
+      
+      console.log('Dados completos a serem enviados:', dadosCompletos);
+
+      const response = await fetch(`http://localhost:5000/api/assistencia-intra-operatoria/${selectedAssistencia}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dadosCompletos),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Erro da API:', {
+          status: response.status,
+          statusText: response.statusText,
+          url: response.url,
+          body: errorText
+        });
+        throw new Error(`Erro ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      
+      if (result.success) {
+        // Atualizar os dados localmente
+        setAssistencias(prev => prev.map(a => 
+          a.id === selectedAssistencia ? { ...a, intercorrencias } : a
+        ));
+        alert('Intercorrências salvas com sucesso!');
+      } else {
+        throw new Error(result.error || 'Erro desconhecido');
+      }
+    } catch (err) {
+      console.error('Erro ao salvar intercorrências:', err);
+      alert(`Erro ao salvar intercorrências: ${err instanceof Error ? err.message : 'Erro desconhecido'}`);
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -307,6 +376,7 @@ const AssistenciaIntraOperatoria: React.FC = () => {
                       { id: 'medicamentos', name: 'Medicamentos' },
                       { id: 'posicionamento', name: 'Posicionamento' },
                       { id: 'equipamentos', name: 'Equipamentos' },
+                      { id: 'intercorrencias', name: 'Intercorrências' },
                       { id: 'corpo', name: 'Indicação Corporal' }
                     ].map((tab) => (
                       <button
@@ -628,6 +698,49 @@ const AssistenciaIntraOperatoria: React.FC = () => {
                           />
                           <label className="text-sm text-gray-700">Faixa de Segurança</label>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Tab Content - Intercorrências */}
+                {activeTab === 'intercorrencias' && (
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-3">Intercorrências</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Descrição das Intercorrências
+                          </label>
+                          <textarea
+                            value={intercorrencias}
+                            onChange={(e) => setIntercorrencias(e.target.value)}
+                            rows={8}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-vertical"
+                            placeholder="Descreva aqui as intercorrências ocorridas durante o procedimento cirúrgico..."
+                          />
+                        </div>
+                        <div className="flex justify-end">
+                          <button
+                            onClick={handleSaveIntercorrencias}
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                          >
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            Salvar Intercorrências
+                          </button>
+                        </div>
+                        
+                        {selectedAssistenciaData?.intercorrencias && (
+                          <div className="mt-4 p-4 bg-gray-50 rounded-md">
+                            <h4 className="text-sm font-medium text-gray-700 mb-2">Intercorrências Registradas:</h4>
+                            <div className="text-sm text-gray-600 whitespace-pre-wrap">
+                              {selectedAssistenciaData.intercorrencias}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
