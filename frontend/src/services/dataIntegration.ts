@@ -188,6 +188,64 @@ export class DataIntegrationService {
     return funcionarios.filter(f => f.coren && f.ativo);
   }
 
+  // Método com filtros flexíveis para busca de funcionários
+  static async searchFuncionarios({
+    setor,
+    cargo,
+    searchTerm
+  }: {
+    setor?: string;
+    cargo?: string;
+    searchTerm?: string;
+  } = {}): Promise<Funcionario[]> {
+    const funcionarios = await this.getFuncionarios();
+    
+    const filtered = funcionarios.filter(funcionario => {
+      // Verificar se está ativo
+      if (!funcionario.ativo) return false;
+      
+      // Filtrar por setor se especificado
+      if (setor && funcionario.setor !== setor) return false;
+      
+      // Filtrar por cargo se especificado
+      if (cargo) {
+        const cargoNormalizado = cargo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        const funcionarioCargo = funcionario.cargo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        
+        if (cargo === 'medico') {
+          // Lógica específica para médicos - melhorada
+          const cargoOriginal = funcionario.cargo.toLowerCase();
+          const isMedico = funcionario.crm || 
+                          cargoOriginal.includes('médico') || 
+                          cargoOriginal.includes('medico') || 
+                          cargoOriginal.includes('cirurgi') ||
+                          cargoOriginal.includes('obstetra') ||
+                          cargoOriginal.includes('intensivista') ||
+                          cargoOriginal.includes('anestesi');
+          
+          if (!isMedico) return false;
+        } else {
+          // Para outros cargos, verificar se contém o termo
+          if (!funcionarioCargo.includes(cargoNormalizado)) return false;
+        }
+      }
+      
+      // Filtrar por termo de busca se especificado
+      if (searchTerm) {
+        const searchLower = searchTerm.toLowerCase();
+        const matchNome = funcionario.nome.toLowerCase().includes(searchLower);
+        const matchCrm = funcionario.crm && funcionario.crm.toLowerCase().includes(searchLower);
+        const matchCoren = funcionario.coren && funcionario.coren.toLowerCase().includes(searchLower);
+        
+        if (!matchNome && !matchCrm && !matchCoren) return false;
+      }
+      
+      return true;
+    });
+    
+    return filtered;
+  }
+
   // Métodos de integração para Centro Cirúrgico
   static async getDataForCentroCircurgico(numeroInternacao: string) {
     const [paciente, internacao] = await Promise.all([

@@ -605,8 +605,9 @@ const RecepcaoCentroCircurgico: React.FC = () => {
                   <h3 className="text-lg font-semibold mb-4 text-gray-800">Médico Responsável</h3>
                   <FuncionarioSeletor
                     onFuncionarioSelecionado={handleMedicoSelecionado}
-                    setor="CIRURGIA"
+                    cargo="medico"
                     multiplo={false}
+                    placeholder="Buscar médico responsável..."
                   />
                   {medicoSelecionado && (
                     <div className="mt-3 p-3 bg-white rounded border border-green-200">

@@ -39,61 +39,13 @@ const FuncionarioSeletor: React.FC<FuncionarioSeletorProps> = ({
 
       setIsLoading(true);
       try {
-        let resultados: Funcionario[] = [];
+        const funcionariosEncontrados = await DataIntegrationService.searchFuncionarios({
+          setor,
+          cargo,
+          searchTerm
+        });
         
-        console.log('Buscando funcionários com:', { setor, cargo, searchTerm });
-        
-        if (setor && cargo) {
-          // Se ambos especificados, filtrar por ambos
-          const funcionariosSetor = await DataIntegrationService.getFuncionariosBySetor(setor);
-          resultados = funcionariosSetor.filter(f => 
-            f.cargo.toLowerCase().includes(cargo.toLowerCase()) &&
-            (f.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-             (f.crm && f.crm.includes(searchTerm)) ||
-             (f.coren && f.coren.includes(searchTerm)))
-          );
-        } else if (setor) {
-          const funcionariosSetor = await DataIntegrationService.getFuncionariosBySetor(setor);
-          resultados = funcionariosSetor.filter(f =>
-            f.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (f.crm && f.crm.includes(searchTerm)) ||
-            (f.coren && f.coren.includes(searchTerm))
-          );
-        } else if (cargo) {
-          // Para médicos, buscar todos os funcionários e filtrar por cargos relacionados
-          const todosFuncionarios = await DataIntegrationService.getFuncionarios();
-          
-          let cargosFiltro: string[] = [];
-          const cargoLower = cargo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          
-          if (cargoLower === 'medico' || cargoLower === 'médico') {
-            // Se buscar por médico, incluir todos os tipos de médicos
-            cargosFiltro = ['médico', 'medico', 'cirurgiã', 'cirurgião', 'obstetra', 'intensivista'];
-          } else {
-            cargosFiltro = [cargoLower];
-          }
-          
-          resultados = todosFuncionarios.filter(f => {
-            const cargoFuncionario = f.cargo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-            const matchCargo = cargosFiltro.some(c => cargoFuncionario.includes(c));
-            const matchBusca = f.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                              (f.crm && f.crm.includes(searchTerm)) ||
-                              (f.coren && f.coren.includes(searchTerm)) ||
-                              (f.especialidade && f.especialidade.toLowerCase().includes(searchTerm.toLowerCase()));
-            
-            return matchCargo && matchBusca && f.ativo;
-          });
-        } else {
-          const todosFuncionarios = await DataIntegrationService.getFuncionarios();
-          resultados = todosFuncionarios.filter(f =>
-            f.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (f.crm && f.crm.includes(searchTerm)) ||
-            (f.coren && f.coren.includes(searchTerm))
-          );
-        }
-        
-        console.log('Resultados encontrados:', resultados.length, resultados);
-        setFuncionarios(resultados);
+        setFuncionarios(funcionariosEncontrados);
         setShowDropdown(true);
       } catch (error) {
         console.error('Erro ao buscar funcionários:', error);
@@ -113,10 +65,6 @@ const FuncionarioSeletor: React.FC<FuncionarioSeletorProps> = ({
     setFuncionarios([]); // Limpar a lista para evitar mostrar "Nenhum funcionário encontrado"
     setFuncionarioSelecionado(funcionario);
     onFuncionarioSelecionado(funcionario);
-  };
-
-  const isSelecionado = (funcionario: Funcionario) => {
-    return funcionariosSelecionados.some(f => f.id === funcionario.id);
   };
 
   return (
