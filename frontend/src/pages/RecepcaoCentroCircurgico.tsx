@@ -43,8 +43,28 @@ const RecepcaoCentroCircurgico: React.FC = () => {
   });
 
   useEffect(() => {
+    console.log('Componente montado, carregando recepções...');
+    
+    // Teste direto da API
+    fetch('http://localhost:5000/api/centro-cirurgico-recepcao')
+      .then(response => {
+        console.log('Resposta do fetch direto:', response.status, response.statusText);
+        return response.json();
+      })
+      .then(data => {
+        console.log('Dados do fetch direto:', data);
+      })
+      .catch(error => {
+        console.error('Erro no fetch direto:', error);
+      });
+    
     carregarRecepcoes();
   }, []);
+
+  useEffect(() => {
+    console.log('Estado recepcoes atualizado:', recepcoes);
+    console.log('Quantidade de recepcoes:', recepcoes.length);
+  }, [recepcoes]);
 
   useEffect(() => {
     // Carregar dados dos pacientes para as recepções existentes
@@ -111,8 +131,21 @@ const RecepcaoCentroCircurgico: React.FC = () => {
 
   const carregarRecepcoes = async () => {
     try {
-      const data = await api.getRecepcoesCentroCircurgico();
+      console.log('Iniciando carregamento das recepções...');
+      const response = await api.getRecepcoesCentroCircurgico();
+      console.log('Resposta da API:', response);
+      console.log('Tipo da resposta:', typeof response);
+      console.log('É array?', Array.isArray(response));
+      
+      // A API retorna {success: true, data: [...]}
+      const data = (response as any)?.data || response;
+      console.log('Dados extraídos:', data);
+      console.log('Tipo dos dados:', typeof data);
+      console.log('É array dos dados?', Array.isArray(data));
+      console.log('Quantidade de itens:', data?.length);
+      
       setRecepcoes(Array.isArray(data) ? data as RecepcaoType[] : []);
+      console.log('Recepções definidas no estado');
     } catch (error) {
       console.error('Erro ao carregar recepções:', error);
       setRecepcoes([]);
@@ -208,6 +241,8 @@ const RecepcaoCentroCircurgico: React.FC = () => {
     setIsModalOpen(true); // Abre o modal para nova recepção com dados do paciente
   };
 
+  console.log('Calculando filteredRecepcoes com recepcoes:', recepcoes);
+  console.log('recepcoes é array?', Array.isArray(recepcoes));
   const filteredRecepcoes = Array.isArray(recepcoes) ? recepcoes
     .filter(recepcao => {
       // Filtro por busca
@@ -436,6 +471,17 @@ const RecepcaoCentroCircurgico: React.FC = () => {
             <div className="mt-3 text-sm text-gray-600">
               Exibindo {filteredRecepcoes.length} de {recepcoes.length} recepções
             </div>
+          </div>
+
+          {/* Debug Info */}
+          <div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded">
+            <h4 className="font-bold text-yellow-800">Debug Info:</h4>
+            <p>Recepcoes array length: {recepcoes.length}</p>
+            <p>Filtered recepcoes length: {filteredRecepcoes.length}</p>
+            <p>Search term: "{searchTerm}"</p>
+            <p>Filter by: {filterBy}</p>
+            <p>View mode: {viewMode}</p>
+            <p>Recepcoes first item: {recepcoes[0] ? JSON.stringify(recepcoes[0], null, 2).slice(0, 200) + '...' : 'N/A'}</p>
           </div>
 
           {/* Lista de Recepções */}
