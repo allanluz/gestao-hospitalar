@@ -198,5 +198,301 @@
         ]
       }
     ]
+  },
+  {
+    "id": 5,
+    "nome": "João Pereira Lima",
+    "cpf": "987.654.321-00",
+    "dataNascimento": "1972-11-28",
+    "idade": 52,
+    "sexo": "M",
+    "endereco": {
+      "rua": "Av. Paulista, 456",
+      "bairro": "Bela Vista",
+      "cidade": "São Paulo",
+      "cep": "01310-100",
+      "uf": "SP"
+    },
+    "telefone": "(11) 91234-5678",
+    "convenio": "Bradesco Saúde",
+    "tipoSanguineo": "A-",
+    "alergias": {
+      "possui": true,
+      "descricao": "Dipirona - erupção cutânea"
+    },
+    "historicoMedico": "Colelitíase crônica",
+    "statusAtual": "internado"
+  },
+  {
+    "id": 6,
+    "nome": "Ana Carolina Oliveira",
+    "cpf": "456.789.123-00",
+    "dataNascimento": "1990-07-12",
+    "idade": 35,
+    "sexo": "F",
+    "endereco": {
+      "rua": "Rua Augusta, 789",
+      "bairro": "Consolação",
+      "cidade": "São Paulo",
+      "cep": "01305-000",
+      "uf": "SP"
+    },
+    "telefone": "(11) 99876-5432",
+    "convenio": "SulAmérica",
+    "tipoSanguineo": "O+",
+    "alergias": {
+      "possui": false,
+      "descricao": ""
+    },
+    "historicoMedico": "Gestante - 38 semanas",
+    "statusAtual": "internado"
+  },
+  {
+    "id": 7,
+    "nome": "Carlos Eduardo Mendes",
+    "cpf": "321.654.987-00",
+    "dataNascimento": "1968-05-03",
+    "idade": 57,
+    "sexo": "M",
+    "endereco": {
+      "rua": "Rua Oscar Freire, 321",
+      "bairro": "Jardins",
+      "cidade": "São Paulo",
+      "cep": "01426-001",
+      "uf": "SP"
+    },
+    "telefone": "(11) 94567-8901",
+    "convenio": "Porto Seguro",
+    "tipoSanguineo": "B+",
+    "alergias": {
+      "possui": false,
+      "descricao": ""
+    },
+    "historicoMedico": "Ex-atleta profissional, lesão crônica de menisco",
+    "statusAtual": "internado",
+    "deficiencias": {
+      "auditiva": false,
+      "visual": false,
+      "fisica": true,
+      "intelectual": false
+    },
+    "neurodivergencias": {
+      "autismo": false,
+      "tdah": false,
+      "sindrome_down": false
+    },
+    "necessidadesEspeciais": {
+      "cadeirante": false,
+      "interprete_libras": false,
+      "acompanhante": false
+    }
+  },
+  {
+    "id": 8,
+    "nome": "Sandra Regina Costa",
+    "cpf": "654.321.987-00",
+    "dataNascimento": "1955-12-20",
+    "idade": 69,
+    "sexo": "F",
+    "endereco": {
+      "rua": "Rua Haddock Lobo, 654",
+      "bairro": "Cerqueira César",
+      "cidade": "São Paulo",
+      "cep": "01414-001",
+      "uf": "SP"
+    },
+    "telefone": "(11) 93456-7890",
+    "convenio": "Amil",
+    "tipoSanguineo": "AB+",
+    "alergias": {
+      "possui": true,
+      "descricao": "Contraste iodado"
+    },
+    "historicoMedico": "Câncer de mama em tratamento oncológico",
+    "statusAtual": "internado",
+    "deficiencias": {
+      "auditiva": true,
+      "visual": false,
+      "fisica": false,
+      "intelectual": false
+    },
+    "neurodivergencias": {
+      "autismo": false,
+      "tdah": false,
+      "sindrome_down": false
+    },
+    "necessidadesEspeciais": {
+      "cadeirante": false,
+      "interprete_libras": true,
+      "acompanhante": true
+    }
+  },
+  {
+    "id": 9,
+    "nome": "Pedro Henrique Alves",
+    "cpf": "789.123.456-00",
+    "dataNascimento": "2010-08-14",
+    "idade": 15,
+    "sexo": "M",
+    "endereco": {
+      "rua": "Rua da Consolação, 987",
+      "bairro": "Consolação",
+      "cidade": "São Paulo",
+      "cep": "01301-000",
+      "uf": "SP"
+    },
+    "telefone": "(11) 92345-6789",
+    "convenio": "Particular",
+    "tipoSanguineo": "O-",
+    "alergias": {
+      "possui": false,
+      "descricao": ""
+    },
+    "historicoMedico": "Fenda palatina congênita",
+    "statusAtual": "internado",
+    "deficiencias": {
+      "auditiva": false,
+      "visual": false,
+      "fisica": false,
+      "intelectual": false
+    },
+    "neurodivergencias": {
+      "autismo": true,
+      "tdah": false,
+      "sindrome_down": false
+    },
+    "necessidadesEspeciais": {
+      "cadeirante": false,
+      "interprete_libras": false,
+      "acompanhante": true
+    }
+  },
+  {
+    "id": 10,
+    "nome": "Luiza Fernanda Souza",
+    "cpf": "147.258.369-00",
+    "dataNascimento": "1983-01-25",
+    "idade": 42,
+    "sexo": "F",
+    "endereco": {
+      "rua": "Alameda Santos, 147",
+      "bairro": "Paraíso",
+      "cidade": "São Paulo",
+      "cep": "01419-000",
+      "uf": "SP"
+    },
+    "telefone": "(11) 91357-2468",
+    "convenio": "Unimed",
+    "tipoSanguineo": "A+",
+    "alergias": {
+      "possui": false,
+      "descricao": ""
+    },
+    "historicoMedico": "Hérnia inguinal bilateral",
+    "statusAtual": "internado"
+  },
+  {
+    "id": 11,
+    "nome": "Roberto Silva Junior",
+    "cpf": "258.369.147-00",
+    "dataNascimento": "1978-09-08",
+    "idade": 47,
+    "sexo": "M",
+    "endereco": {
+      "rua": "Rua Bela Cintra, 258",
+      "bairro": "Consolação",
+      "cidade": "São Paulo",
+      "cep": "01415-000",
+      "uf": "SP"
+    },
+    "telefone": "(11) 98024-6801",
+    "convenio": "Bradesco Saúde",
+    "tipoSanguineo": "AB-",
+    "alergias": {
+      "possui": false,
+      "descricao": ""
+    },
+    "historicoMedico": "Câncer de próstata detectado precocemente",
+    "statusAtual": "internado"
+  },
+  {
+    "id": 12,
+    "nome": "Mariana Beatriz Lima",
+    "cpf": "369.147.258-00",
+    "dataNascimento": "1995-04-30",
+    "idade": 30,
+    "sexo": "F",
+    "endereco": {
+      "rua": "Rua Estados Unidos, 369",
+      "bairro": "Jardim América",
+      "cidade": "São Paulo",
+      "cep": "01427-000",
+      "uf": "SP"
+    },
+    "telefone": "(11) 97531-9642",
+    "convenio": "Porto Seguro",
+    "tipoSanguineo": "B-",
+    "alergias": {
+      "possui": false,
+      "descricao": ""
+    },
+    "historicoMedico": "Desvio de septo nasal severo",
+    "statusAtual": "internado",
+    "deficiencias": {
+      "auditiva": false,
+      "visual": true,
+      "fisica": false,
+      "intelectual": false
+    },
+    "neurodivergencias": {
+      "autismo": false,
+      "tdah": true,
+      "sindrome_down": false
+    },
+    "necessidadesEspeciais": {
+      "cadeirante": false,
+      "interprete_libras": false,
+      "acompanhante": false
+    }
+  },
+  {
+    "id": 13,
+    "nome": "Francisco das Chagas",
+    "cpf": "741.852.963-00",
+    "dataNascimento": "1942-06-17",
+    "idade": 83,
+    "sexo": "M",
+    "endereco": {
+      "rua": "Av. Brigadeiro Faria Lima, 741",
+      "bairro": "Itaim Bibi",
+      "cidade": "São Paulo",
+      "cep": "04538-132",
+      "uf": "SP"
+    },
+    "telefone": "(11) 96420-7531",
+    "convenio": "SulAmérica",
+    "tipoSanguineo": "O+",
+    "alergias": {
+      "possui": true,
+      "descricao": "AAS - broncoespasmo"
+    },
+    "historicoMedico": "Aneurisma de aorta abdominal, hipertensão arterial, diabetes mellitus",
+    "statusAtual": "internado",
+    "deficiencias": {
+      "auditiva": true,
+      "visual": true,
+      "fisica": false,
+      "intelectual": false
+    },
+    "neurodivergencias": {
+      "autismo": false,
+      "tdah": false,
+      "sindrome_down": false
+    },
+    "necessidadesEspeciais": {
+      "cadeirante": true,
+      "interprete_libras": false,
+      "acompanhante": true
+    }
   }
 ]

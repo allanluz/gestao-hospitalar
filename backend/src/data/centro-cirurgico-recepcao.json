@@ -1,60 +1,232 @@
-{
-  "recepcoes": [
-    {
-      "id": "550e8400-e29b-41d4-a716-446655440001",
-      "numeroInternacao": "2025001",
-      "nome": "Maria Silva Santos",
-      "reservaUti": true,
-      "reservaHemoderivados": {
-        "necessita": true,
-        "tipo": ["concentrado_hemacias"]
-      },
-      "tipoSanguineo": "O+",
-      "medicacaoPreAnestesica": {
-        "administrada": true,
-        "medicamento": "Midazolam 7,5mg"
-      },
-      "alergias": {
-        "possui": false,
-        "descricao": ""
-      },
-      "patologiasBase": "Diabetes Mellitus tipo 2, Hipertensão Arterial",
-      "medicacoesUso": "Metformina 850mg, Losartana 50mg",
-      "anotacoesEnfermagem": "Paciente orientada sobre o procedimento. Sinais vitais estáveis. Jejum de 8h respeitado.",
-      "responsavel": {
-        "assinatura": "Enf. Ana Costa",
-        "coren": "123456-SP"
-      },
-      "dataHora": "2025-09-09T08:30:00.000Z",
-      "status": "ativo"
+[
+  {
+    "id": "recepcao001",
+    "numeroInternacao": "INT-2025-001",
+    "nomePaciente": "Maria Silva Santos",
+    "dataNascimento": "1985-03-15",
+    "sexo": "F",
+    "procedimentoProgramado": "Colecistectomia Laparoscópica",
+    "medico": "Dr. Roberto Cardoso (CRM: 98765)",
+    "tipoAnestesia": "geral",
+    "consentimentoAssinado": true,
+    "tempoJejum": 12,
+    "checklist": {
+      "identificacaoCorreta": true,
+      "sitioCircurgicoConfirmado": true,
+      "procedimentoConfirmado": true,
+      "consentimentoCircurgia": true,
+      "consentimentoAnestesia": true,
+      "alergiasMedicamentos": true,
+      "sinaisVitaisVerificados": true,
+      "materialCirurgicoDisponivel": true
     },
-    {
-      "id": "550e8400-e29b-41d4-a716-446655440002",
-      "numeroInternacao": "2025002",
-      "nome": "João Pereira Lima",
-      "reservaUti": false,
-      "reservaHemoderivados": {
-        "necessita": false,
-        "tipo": []
-      },
-      "tipoSanguineo": "A-",
-      "medicacaoPreAnestesica": {
-        "administrada": false,
-        "medicamento": ""
-      },
-      "alergias": {
-        "possui": true,
-        "descricao": "Dipirona - erupção cutânea"
-      },
-      "patologiasBase": "Colelitíase",
-      "medicacoesUso": "Omeprazol 20mg",
-      "anotacoesEnfermagem": "Paciente ansioso. Orientado sobre alergia. Acompanhante presente.",
-      "responsavel": {
-        "assinatura": "Enf. Carlos Mendes",
-        "coren": "654321-SP"
-      },
-      "dataHora": "2025-09-09T10:15:00.000Z",
-      "status": "concluido"
-    }
-  ]
-}
+    "observacoes": "Paciente cooperativa, sem complicações. Histórico de diabetes controlada."
+  },
+  {
+    "id": "recepcao002",
+    "numeroInternacao": "INT-2025-002",
+    "nomePaciente": "João Pereira Lima",
+    "dataNascimento": "1972-11-28",
+    "sexo": "M",
+    "procedimentoProgramado": "Apendicectomia",
+    "medico": "Dra. Ana Paula Ferreira (CRM: 45678)",
+    "tipoAnestesia": "geral",
+    "consentimentoAssinado": true,
+    "tempoJejum": 8,
+    "checklist": {
+      "identificacaoCorreta": true,
+      "sitioCircurgicoConfirmado": true,
+      "procedimentoConfirmado": true,
+      "consentimentoCircurgia": true,
+      "consentimentoAnestesia": false,
+      "alergiasMedicamentos": true,
+      "sinaisVitaisVerificados": false,
+      "materialCirurgicoDisponivel": true
+    },
+    "observacoes": "Paciente ansioso, alergia à dipirona documentada. Aguardando consentimento anestésico."
+  },
+  {
+    "id": "recepcao003",
+    "numeroInternacao": "INT-2025-003",
+    "nomePaciente": "Ana Carolina Oliveira",
+    "dataNascimento": "1990-07-12",
+    "sexo": "F",
+    "procedimentoProgramado": "Cesariana Eletiva",
+    "medico": "Dr. Eduardo Santos (CRM: 12345)",
+    "tipoAnestesia": "peridural",
+    "consentimentoAssinado": true,
+    "tempoJejum": 6,
+    "checklist": {
+      "identificacaoCorreta": true,
+      "sitioCircurgicoConfirmado": false,
+      "procedimentoConfirmado": true,
+      "consentimentoCircurgia": true,
+      "consentimentoAnestesia": true,
+      "alergiasMedicamentos": true,
+      "sinaisVitaisVerificados": false,
+      "materialCirurgicoDisponivel": false
+    },
+    "observacoes": "Paciente 38 semanas de gestação. Aguardando confirmação de material neonatal."
+  },
+  {
+    "id": "recepcao004",
+    "numeroInternacao": "INT-2025-004",
+    "nomePaciente": "Carlos Eduardo Mendes",
+    "dataNascimento": "1968-05-03",
+    "sexo": "M",
+    "procedimentoProgramado": "Artroscopia de Joelho",
+    "medico": "Dr. Marcelo Ribeiro (CRM: 78901)",
+    "tipoAnestesia": "raquianestesia",
+    "consentimentoAssinado": true,
+    "tempoJejum": 10,
+    "checklist": {
+      "identificacaoCorreta": true,
+      "sitioCircurgicoConfirmado": true,
+      "procedimentoConfirmado": true,
+      "consentimentoCircurgia": true,
+      "consentimentoAnestesia": true,
+      "alergiasMedicamentos": true,
+      "sinaisVitaisVerificados": true,
+      "materialCirurgicoDisponivel": true
+    },
+    "observacoes": "Paciente ex-atleta, lesão crônica de menisco. Procedimento ambulatorial."
+  },
+  {
+    "id": "recepcao005",
+    "numeroInternacao": "INT-2025-005",
+    "nomePaciente": "Sandra Regina Costa",
+    "dataNascimento": "1955-12-20",
+    "sexo": "F",
+    "procedimentoProgramado": "Mastectomia Radical",
+    "medico": "Dra. Lívia Martins (CRM: 23456)",
+    "tipoAnestesia": "geral",
+    "consentimentoAssinado": true,
+    "tempoJejum": 14,
+    "checklist": {
+      "identificacaoCorreta": true,
+      "sitioCircurgicoConfirmado": true,
+      "procedimentoConfirmado": true,
+      "consentimentoCircurgia": true,
+      "consentimentoAnestesia": true,
+      "alergiasMedicamentos": false,
+      "sinaisVitaisVerificados": true,
+      "materialCirurgicoDisponivel": true
+    },
+    "observacoes": "Paciente oncológica, necessita verificação de alergias. Família orientada."
+  },
+  {
+    "id": "recepcao006",
+    "numeroInternacao": "INT-2025-006",
+    "nomePaciente": "Pedro Henrique Alves",
+    "dataNascimento": "2010-08-14",
+    "sexo": "M",
+    "procedimentoProgramado": "Correção de Fenda Palatina",
+    "medico": "Dr. Felipe Nascimento (CRM: 34567)",
+    "tipoAnestesia": "geral",
+    "consentimentoAssinado": true,
+    "tempoJejum": 6,
+    "checklist": {
+      "identificacaoCorreta": true,
+      "sitioCircurgicoConfirmado": false,
+      "procedimentoConfirmado": true,
+      "consentimentoCircurgia": true,
+      "consentimentoAnestesia": false,
+      "alergiasMedicamentos": false,
+      "sinaisVitaisVerificados": false,
+      "materialCirurgicoDisponivel": false
+    },
+    "observacoes": "Paciente pediátrico, 15 anos. Necessita acompanhante durante todo período. Aguardando checklist completo."
+  },
+  {
+    "id": "recepcao007",
+    "numeroInternacao": "INT-2025-007",
+    "nomePaciente": "Luiza Fernanda Souza",
+    "dataNascimento": "1983-01-25",
+    "sexo": "F",
+    "procedimentoProgramado": "Herniorrafia Inguinal",
+    "medico": "Dr. Antonio Carlos (CRM: 56789)",
+    "tipoAnestesia": "local",
+    "consentimentoAssinado": true,
+    "tempoJejum": 4,
+    "checklist": {
+      "identificacaoCorreta": true,
+      "sitioCircurgicoConfirmado": true,
+      "procedimentoConfirmado": true,
+      "consentimentoCircurgia": true,
+      "consentimentoAnestesia": true,
+      "alergiasMedicamentos": true,
+      "sinaisVitaisVerificados": true,
+      "materialCirurgicoDisponivel": true
+    },
+    "observacoes": "Procedimento de baixa complexidade. Paciente sem comorbidades."
+  },
+  {
+    "id": "recepcao008",
+    "numeroInternacao": "INT-2025-008",
+    "nomePaciente": "Roberto Silva Junior",
+    "dataNascimento": "1978-09-08",
+    "sexo": "M",
+    "procedimentoProgramado": "Prostatectomia Robótica",
+    "medico": "Dr. Ricardo Oliveira (CRM: 67890)",
+    "tipoAnestesia": "geral",
+    "consentimentoAssinado": true,
+    "tempoJejum": 12,
+    "checklist": {
+      "identificacaoCorreta": true,
+      "sitioCircurgicoConfirmado": true,
+      "procedimentoConfirmado": true,
+      "consentimentoCircurgia": true,
+      "consentimentoAnestesia": true,
+      "alergiasMedicamentos": true,
+      "sinaisVitaisVerificados": false,
+      "materialCirurgicoDisponivel": true
+    },
+    "observacoes": "Cirurgia oncológica. Equipamento robótico testado. Aguardando sinais vitais pré-operatórios."
+  },
+  {
+    "id": "recepcao009",
+    "numeroInternacao": "INT-2025-009",
+    "nomePaciente": "Mariana Beatriz Lima",
+    "dataNascimento": "1995-04-30",
+    "sexo": "F",
+    "procedimentoProgramado": "Septoplastia",
+    "medico": "Dra. Carla Mendonça (CRM: 78123)",
+    "tipoAnestesia": "geral",
+    "consentimentoAssinado": false,
+    "tempoJejum": 8,
+    "checklist": {
+      "identificacaoCorreta": true,
+      "sitioCircurgicoConfirmado": false,
+      "procedimentoConfirmado": true,
+      "consentimentoCircurgia": false,
+      "consentimentoAnestesia": false,
+      "alergiasMedicamentos": false,
+      "sinaisVitaisVerificados": false,
+      "materialCirurgicoDisponivel": true
+    },
+    "observacoes": "Paciente chegou atrasada. Iniciando processo de admissão. Aguarda documentação completa."
+  },
+  {
+    "id": "recepcao010",
+    "numeroInternacao": "INT-2025-010",
+    "nomePaciente": "Francisco das Chagas",
+    "dataNascimento": "1942-06-17",
+    "sexo": "M",
+    "procedimentoProgramado": "Correção de Aneurisma Aórtico",
+    "medico": "Dr. Sergio Vasconcelos (CRM: 91234)",
+    "tipoAnestesia": "geral",
+    "consentimentoAssinado": true,
+    "tempoJejum": 16,
+    "checklist": {
+      "identificacaoCorreta": true,
+      "sitioCircurgicoConfirmado": true,
+      "procedimentoConfirmado": true,
+      "consentimentoCircurgia": true,
+      "consentimentoAnestesia": true,
+      "alergiasMedicamentos": true,
+      "sinaisVitaisVerificados": true,
+      "materialCirurgicoDisponivel": false
+    },
+    "observacoes": "Cirurgia de alta complexidade. Necessita UTI pós-operatória. Aguardando prótese vascular."
+  }
+]
