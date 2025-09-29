@@ -8,6 +8,7 @@ const Estoque: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | 'quantidade-asc' | 'quantidade-desc' | 'categoria-asc' | 'categoria-desc'>('asc');
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState<'create' | 'edit' | 'delete' | 'movimentacao'>('create');
   const [selectedItem, setSelectedItem] = useState<ItemEstoque | null>(null);
@@ -198,10 +199,29 @@ const Estoque: React.FC = () => {
     }
   };
 
-  const filteredItens = itens.filter(item =>
-    item.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.categoria.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredItens = itens
+    .filter(item =>
+      item.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.categoria.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      switch (sortOrder) {
+        case 'asc':
+          return a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' });
+        case 'desc':
+          return b.nome.localeCompare(a.nome, 'pt-BR', { sensitivity: 'base' });
+        case 'quantidade-asc':
+          return a.quantidade - b.quantidade;
+        case 'quantidade-desc':
+          return b.quantidade - a.quantidade;
+        case 'categoria-asc':
+          return a.categoria.localeCompare(b.categoria, 'pt-BR', { sensitivity: 'base' });
+        case 'categoria-desc':
+          return b.categoria.localeCompare(a.categoria, 'pt-BR', { sensitivity: 'base' });
+        default:
+          return a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' });
+      }
+    });
 
   const itensEstoqueBaixo = itens.filter(item => item.quantidade < item.estoqueMinimo);
 
@@ -247,15 +267,32 @@ const Estoque: React.FC = () => {
       )}
 
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <div className="flex items-center mb-4">
-          🔍
-          <input
-            type="text"
-            placeholder="Buscar por nome ou categoria..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
-          />
+        <div className="flex flex-col sm:flex-row gap-4 mb-4">
+          <div className="flex items-center flex-1">
+            🔍
+            <input
+              type="text"
+              placeholder="Buscar por nome ou categoria..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 ml-2"
+            />
+          </div>
+          <div className="flex items-center">
+            <label className="text-sm font-medium text-gray-700 mr-2">Ordenar por:</label>
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as any)}
+              className="p-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 bg-white"
+            >
+              <option value="asc">Nome (A-Z)</option>
+              <option value="desc">Nome (Z-A)</option>
+              <option value="categoria-asc">Categoria (A-Z)</option>
+              <option value="categoria-desc">Categoria (Z-A)</option>
+              <option value="quantidade-asc">Quantidade (Menor)</option>
+              <option value="quantidade-desc">Quantidade (Maior)</option>
+            </select>
+          </div>
         </div>
       </div>
 

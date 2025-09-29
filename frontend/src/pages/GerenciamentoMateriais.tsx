@@ -21,6 +21,9 @@ const GerenciamentoMateriais: React.FC = () => {
     search: ''
   });
 
+  // Ordenação
+  const [sortOrder, setSortOrder] = useState<'nome-asc' | 'nome-desc' | 'categoria-asc' | 'categoria-desc' | 'estoque-asc' | 'estoque-desc' | 'valor-asc' | 'valor-desc'>('nome-asc');
+
   // Form data
   const [formData, setFormData] = useState<Partial<Material>>({
     nome: '',
@@ -80,6 +83,30 @@ const GerenciamentoMateriais: React.FC = () => {
       console.error('Erro ao buscar materiais:', error);
     }
   };
+
+  // Materiais ordenados
+  const materiaisOrdenados = [...materiais].sort((a, b) => {
+    switch (sortOrder) {
+      case 'nome-asc':
+        return a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' });
+      case 'nome-desc':
+        return b.nome.localeCompare(a.nome, 'pt-BR', { sensitivity: 'base' });
+      case 'categoria-asc':
+        return a.categoria.localeCompare(b.categoria, 'pt-BR', { sensitivity: 'base' });
+      case 'categoria-desc':
+        return b.categoria.localeCompare(a.categoria, 'pt-BR', { sensitivity: 'base' });
+      case 'estoque-asc':
+        return (a.estoqueAtual || 0) - (b.estoqueAtual || 0);
+      case 'estoque-desc':
+        return (b.estoqueAtual || 0) - (a.estoqueAtual || 0);
+      case 'valor-asc':
+        return a.valorVenda - b.valorVenda;
+      case 'valor-desc':
+        return b.valorVenda - a.valorVenda;
+      default:
+        return a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' });
+    }
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -238,7 +265,7 @@ const GerenciamentoMateriais: React.FC = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Buscar</label>
             <input
@@ -248,6 +275,24 @@ const GerenciamentoMateriais: React.FC = () => {
               placeholder="Nome, código ou especificação..."
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Ordenar por</label>
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as any)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="nome-asc">Nome (A-Z)</option>
+              <option value="nome-desc">Nome (Z-A)</option>
+              <option value="categoria-asc">Categoria (A-Z)</option>
+              <option value="categoria-desc">Categoria (Z-A)</option>
+              <option value="estoque-asc">Estoque (Menor)</option>
+              <option value="estoque-desc">Estoque (Maior)</option>
+              <option value="valor-asc">Valor (Menor)</option>
+              <option value="valor-desc">Valor (Maior)</option>
+            </select>
           </div>
 
           <div>
@@ -639,7 +684,7 @@ const GerenciamentoMateriais: React.FC = () => {
       <div className="bg-white rounded-lg shadow-md">
         <div className="p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-800">
-            Lista de Materiais ({materiais.length})
+            Lista de Materiais ({materiaisOrdenados.length})
           </h2>
         </div>
 
@@ -668,7 +713,7 @@ const GerenciamentoMateriais: React.FC = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {materiais.map((material) => (
+              {materiaisOrdenados.map((material) => (
                 <tr key={material.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">{material.nome}</div>
@@ -740,7 +785,7 @@ const GerenciamentoMateriais: React.FC = () => {
               ))}
             </tbody>
           </table>
-          {materiais.length === 0 && (
+          {materiaisOrdenados.length === 0 && (
             <div className="text-center py-8 text-gray-500">
               Nenhum material encontrado
             </div>
