@@ -1,6 +1,7 @@
-[
-  {
-    "id": "recepcao001",
+{
+  "recepcoes": [
+    {
+      "id": "recepcao001",
     "numeroInternacao": "INT-2025-001",
     "nomePaciente": "Maria Silva Santos",
     "dataNascimento": "1985-03-15",
@@ -229,4 +230,5 @@
     },
     "observacoes": "Cirurgia de alta complexidade. Necessita UTI pós-operatória. Aguardando prótese vascular."
   }
-]
+  ]
+}
