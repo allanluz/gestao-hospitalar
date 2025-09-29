@@ -16,6 +16,9 @@ const RecepcaoCentroCircurgico: React.FC = () => {
   const [medicoSelecionado, setMedicoSelecionado] = useState<Funcionario | null>(null);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [showScanner, setShowScanner] = useState(false);
+  const [sortBy, setSortBy] = useState<'nome' | 'data' | 'procedimento' | 'status'>('nome');
+  const [filterBy, setFilterBy] = useState<'todos' | 'aguardando' | 'em_andamento' | 'concluido'>('todos');
+  const [viewMode, setViewMode] = useState<'cards' | 'tabela'>('cards');
   const [formData, setFormData] = useState<Partial<RecepcaoType>>({
     numeroInternacao: '',
     nomePaciente: '',
@@ -205,11 +208,48 @@ const RecepcaoCentroCircurgico: React.FC = () => {
     setIsModalOpen(true); // Abre o modal para nova recepção com dados do paciente
   };
 
-  const filteredRecepcoes = Array.isArray(recepcoes) ? recepcoes.filter(recepcao =>
-    recepcao.nomePaciente?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    recepcao.numeroInternacao?.includes(searchTerm) ||
-    recepcao.procedimentoProgramado?.toLowerCase().includes(searchTerm.toLowerCase())
-  ) : [];
+  const filteredRecepcoes = Array.isArray(recepcoes) ? recepcoes
+    .filter(recepcao => {
+      // Filtro por busca
+      const matchesSearch = recepcao.nomePaciente?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        recepcao.numeroInternacao?.includes(searchTerm) ||
+        recepcao.procedimentoProgramado?.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      if (!matchesSearch) return false;
+      
+      // Filtro por status do checklist
+      if (filterBy !== 'todos') {
+        const checklistStatus = getChecklistStatus(recepcao.checklist);
+        switch (filterBy) {
+          case 'aguardando':
+            return checklistStatus.percentage < 50;
+          case 'em_andamento':
+            return checklistStatus.percentage >= 50 && checklistStatus.percentage < 100;
+          case 'concluido':
+            return checklistStatus.percentage === 100;
+          default:
+            return true;
+        }
+      }
+      
+      return true;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'nome':
+          return (a.nomePaciente || '').localeCompare(b.nomePaciente || '');
+        case 'data':
+          return (b.id || '').localeCompare(a.id || ''); // Mais recentes primeiro
+        case 'procedimento':
+          return (a.procedimentoProgramado || '').localeCompare(b.procedimentoProgramado || '');
+        case 'status':
+          const statusA = getChecklistStatus(a.checklist).percentage;
+          const statusB = getChecklistStatus(b.checklist).percentage;
+          return statusB - statusA;
+        default:
+          return 0;
+      }
+    }) : [];
 
   const getChecklistStatus = (checklist: any) => {
     const total = Object.keys(checklist).length;
@@ -283,8 +323,43 @@ const RecepcaoCentroCircurgico: React.FC = () => {
             </div>
           </div>
 
+          {/* Estatísticas Resumo */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              <div className="text-2xl font-bold text-blue-600">{recepcoes.length}</div>
+              <div className="text-sm text-blue-800">Total de Recepções</div>
+            </div>
+            <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+              <div className="text-2xl font-bold text-yellow-600">
+                {recepcoes.filter(r => {
+                  const status = getChecklistStatus(r.checklist);
+                  return status.percentage < 50;
+                }).length}
+              </div>
+              <div className="text-sm text-yellow-800">Aguardando</div>
+            </div>
+            <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+              <div className="text-2xl font-bold text-orange-600">
+                {recepcoes.filter(r => {
+                  const status = getChecklistStatus(r.checklist);
+                  return status.percentage >= 50 && status.percentage < 100;
+                }).length}
+              </div>
+              <div className="text-sm text-orange-800">Em Andamento</div>
+            </div>
+            <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+              <div className="text-2xl font-bold text-green-600">
+                {recepcoes.filter(r => {
+                  const status = getChecklistStatus(r.checklist);
+                  return status.percentage === 100;
+                }).length}
+              </div>
+              <div className="text-sm text-green-800">Concluídas</div>
+            </div>
+          </div>
+
           {/* Barra de Pesquisa */}
-          <div className="mb-6">
+          <div className="mb-4">
             <input
               type="text"
               placeholder="Pesquisar por paciente, número de internação ou procedimento..."
@@ -294,113 +369,287 @@ const RecepcaoCentroCircurgico: React.FC = () => {
             />
           </div>
 
+          {/* Controles de Filtro e Visualização */}
+          <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div className="flex flex-wrap gap-4 items-center justify-between">
+              <div className="flex flex-wrap gap-4 items-center">
+                {/* Filtro por Status */}
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium text-gray-700">Status:</label>
+                  <select
+                    value={filterBy}
+                    onChange={(e) => setFilterBy(e.target.value as any)}
+                    className="px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="todos">Todos</option>
+                    <option value="aguardando">Aguardando (&lt;50%)</option>
+                    <option value="em_andamento">Em Andamento (50-99%)</option>
+                    <option value="concluido">Concluídas (100%)</option>
+                  </select>
+                </div>
+
+                {/* Ordenação */}
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium text-gray-700">Ordenar por:</label>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as any)}
+                    className="px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="nome">Nome do Paciente</option>
+                    <option value="data">Mais Recentes</option>
+                    <option value="procedimento">Procedimento</option>
+                    <option value="status">% Checklist</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Modo de Visualização */}
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium text-gray-700">Visualização:</label>
+                <div className="flex border border-gray-300 rounded overflow-hidden">
+                  <button
+                    onClick={() => setViewMode('cards')}
+                    className={`px-3 py-1 text-sm ${
+                      viewMode === 'cards'
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-white text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    Cards
+                  </button>
+                  <button
+                    onClick={() => setViewMode('tabela')}
+                    className={`px-3 py-1 text-sm ${
+                      viewMode === 'tabela'
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-white text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    Tabela
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Contador de Resultados */}
+            <div className="mt-3 text-sm text-gray-600">
+              Exibindo {filteredRecepcoes.length} de {recepcoes.length} recepções
+            </div>
+          </div>
+
           {/* Lista de Recepções */}
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filteredRecepcoes.map((recepcao) => {
-              const checklistStatus = getChecklistStatus(recepcao.checklist);
-              return (
-                <div key={recepcao.id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-800">{recepcao.nomePaciente}</h3>
-                      <p className="text-sm text-gray-600">Int: {recepcao.numeroInternacao}</p>
+          {viewMode === 'cards' ? (
+            /* Visualização em Cards */
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {filteredRecepcoes.map((recepcao) => {
+                const checklistStatus = getChecklistStatus(recepcao.checklist);
+                return (
+                  <div key={recepcao.id} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-800">{recepcao.nomePaciente}</h3>
+                        <p className="text-sm text-gray-600">Int: {recepcao.numeroInternacao}</p>
+                      </div>
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => handleEdit(recepcao)}
+                          className="text-blue-600 hover:text-blue-800 text-sm"
+                        >
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => handleDelete(recepcao.id!)}
+                          className="text-red-600 hover:text-red-800 text-sm"
+                        >
+                          Excluir
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => handleEdit(recepcao)}
-                        className="text-blue-600 hover:text-blue-800 text-sm"
-                      >
-                        Editar
-                      </button>
-                      <button
-                        onClick={() => handleDelete(recepcao.id!)}
-                        className="text-red-600 hover:text-red-800 text-sm"
-                      >
-                        Excluir
-                      </button>
+                    
+                    <div className="space-y-2 text-sm">
+                      <p><strong>Procedimento:</strong> {recepcao.procedimentoProgramado}</p>
+                      <p><strong>Médico:</strong> {recepcao.medico}</p>
+                      <p><strong>Anestesia:</strong> {recepcao.tipoAnestesia}</p>
+                      <p><strong>Jejum:</strong> {recepcao.tempoJejum}h</p>
+                      
+                      {/* Indicadores de Acessibilidade na Listagem */}
+                      {(() => {
+                        const pacienteInfo = pacientesData[recepcao.nomePaciente];
+                        if (pacienteInfo && (pacienteInfo.deficiencias || pacienteInfo.neurodivergencias || pacienteInfo.necessidadesEspeciais)) {
+                          const hasDeficiencias = Object.values(pacienteInfo.deficiencias || {}).some(val => val === true);
+                          const hasNeurodivergencias = Object.values(pacienteInfo.neurodivergencias || {}).some(val => val === true);
+                          const hasNecessidades = Object.values(pacienteInfo.necessidadesEspeciais || {}).some(val => val === true || val);
+                          
+                          if (hasDeficiencias || hasNeurodivergencias || hasNecessidades) {
+                            return (
+                              <div className="bg-red-100 border-2 border-red-400 rounded p-2 mt-2">
+                                <div className="flex items-center gap-1 mb-1">
+                                  <span className="text-red-800 font-bold text-xs">🚨 ATENÇÃO ESPECIAL REQUERIDA</span>
+                                </div>
+                                <div className="flex flex-wrap gap-1">
+                                  {pacienteInfo.deficiencias?.auditiva && (
+                                    <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">🔇 AUDITIVA</span>
+                                  )}
+                                  {pacienteInfo.deficiencias?.visual && (
+                                    <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">👁️ VISUAL</span>
+                                  )}
+                                  {pacienteInfo.deficiencias?.fisica && (
+                                    <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">♿ FÍSICA</span>
+                                  )}
+                                  {pacienteInfo.deficiencias?.intelectual && (
+                                    <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">🧠 INTELECTUAL</span>
+                                  )}
+                                  {pacienteInfo.neurodivergencias?.autismo && (
+                                    <span className="inline-block bg-purple-600 text-white text-xs px-2 py-1 rounded font-bold">🧩 AUTISMO</span>
+                                  )}
+                                  {pacienteInfo.neurodivergencias?.tdah && (
+                                    <span className="inline-block bg-purple-600 text-white text-xs px-2 py-1 rounded font-bold">⚡ TDAH</span>
+                                  )}
+                                  {pacienteInfo.neurodivergencias?.sindrome_down && (
+                                    <span className="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded font-bold">💙 DOWN</span>
+                                  )}
+                                  {pacienteInfo.necessidadesEspeciais?.cadeirante && (
+                                    <span className="inline-block bg-green-600 text-white text-xs px-2 py-1 rounded font-bold">♿ CADEIRANTE</span>
+                                  )}
+                                  {pacienteInfo.necessidadesEspeciais?.interprete_libras && (
+                                    <span className="inline-block bg-orange-600 text-white text-xs px-2 py-1 rounded font-bold">🤟 LIBRAS</span>
+                                  )}
+                                  {pacienteInfo.necessidadesEspeciais?.acompanhante && (
+                                    <span className="inline-block bg-indigo-600 text-white text-xs px-2 py-1 rounded font-bold">👥 ACOMPANHANTE</span>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          }
+                        }
+                        return null;
+                      })()}
+                      
+                      <div className="flex justify-between items-center">
+                        <span><strong>Checklist:</strong></span>
+                        <span className={`font-semibold ${checklistStatus.color}`}>
+                          {checklistStatus.completed}/{checklistStatus.total} ({checklistStatus.percentage}%)
+                        </span>
+                      </div>
+                      
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className={`h-2 rounded-full ${
+                            checklistStatus.percentage === 100 ? 'bg-green-600' :
+                            checklistStatus.percentage >= 75 ? 'bg-yellow-600' : 'bg-red-600'
+                          }`}
+                          style={{ width: `${checklistStatus.percentage}%` }}
+                        ></div>
+                      </div>
                     </div>
                   </div>
-                  
-                  <div className="space-y-2 text-sm">
-                    <p><strong>Procedimento:</strong> {recepcao.procedimentoProgramado}</p>
-                    <p><strong>Médico:</strong> {recepcao.medico}</p>
-                    <p><strong>Anestesia:</strong> {recepcao.tipoAnestesia}</p>
-                    <p><strong>Jejum:</strong> {recepcao.tempoJejum}h</p>
+                );
+              })}
+            </div>
+          ) : (
+            /* Visualização em Tabela */
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paciente</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Internação</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Procedimento</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Médico</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Anestesia</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jejum</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Checklist</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Especiais</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {filteredRecepcoes.map((recepcao) => {
+                    const checklistStatus = getChecklistStatus(recepcao.checklist);
+                    const pacienteInfo = pacientesData[recepcao.nomePaciente];
+                    const hasEspeciais = pacienteInfo && (
+                      Object.values(pacienteInfo.deficiencias || {}).some(val => val === true) ||
+                      Object.values(pacienteInfo.neurodivergencias || {}).some(val => val === true) ||
+                      Object.values(pacienteInfo.necessidadesEspeciais || {}).some(val => val === true || val)
+                    );
                     
-                    {/* Indicadores de Acessibilidade na Listagem */}
-                    {(() => {
-                      const pacienteInfo = pacientesData[recepcao.nomePaciente];
-                      if (pacienteInfo && (pacienteInfo.deficiencias || pacienteInfo.neurodivergencias || pacienteInfo.necessidadesEspeciais)) {
-                        const hasDeficiencias = Object.values(pacienteInfo.deficiencias || {}).some(val => val === true);
-                        const hasNeurodivergencias = Object.values(pacienteInfo.neurodivergencias || {}).some(val => val === true);
-                        const hasNecessidades = Object.values(pacienteInfo.necessidadesEspeciais || {}).some(val => val === true || val);
-                        
-                        if (hasDeficiencias || hasNeurodivergencias || hasNecessidades) {
-                          return (
-                            <div className="bg-red-100 border-2 border-red-400 rounded p-2 mt-2">
-                              <div className="flex items-center gap-1 mb-1">
-                                <span className="text-red-800 font-bold text-xs">🚨 ATENÇÃO ESPECIAL REQUERIDA</span>
+                    return (
+                      <tr key={recepcao.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-gray-900">{recepcao.nomePaciente}</div>
+                          <div className="text-sm text-gray-500">{recepcao.sexo === 'M' ? 'Masculino' : 'Feminino'}</div>
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {recepcao.numeroInternacao}
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-900">
+                          <div className="max-w-xs truncate">{recepcao.procedimentoProgramado}</div>
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-900">
+                          <div className="max-w-xs truncate">{recepcao.medico}</div>
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {recepcao.tipoAnestesia}
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {recepcao.tempoJejum}h
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="flex-1">
+                              <div className="flex justify-between text-sm mb-1">
+                                <span>{checklistStatus.completed}/{checklistStatus.total}</span>
+                                <span className="font-medium">{checklistStatus.percentage}%</span>
                               </div>
-                              <div className="flex flex-wrap gap-1">
-                                {pacienteInfo.deficiencias?.auditiva && (
-                                  <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">🔇 AUDITIVA</span>
-                                )}
-                                {pacienteInfo.deficiencias?.visual && (
-                                  <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">👁️ VISUAL</span>
-                                )}
-                                {pacienteInfo.deficiencias?.fisica && (
-                                  <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">♿ FÍSICA</span>
-                                )}
-                                {pacienteInfo.deficiencias?.intelectual && (
-                                  <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded font-bold">🧠 INTELECTUAL</span>
-                                )}
-                                {pacienteInfo.neurodivergencias?.autismo && (
-                                  <span className="inline-block bg-purple-600 text-white text-xs px-2 py-1 rounded font-bold">🧩 AUTISMO</span>
-                                )}
-                                {pacienteInfo.neurodivergencias?.tdah && (
-                                  <span className="inline-block bg-purple-600 text-white text-xs px-2 py-1 rounded font-bold">⚡ TDAH</span>
-                                )}
-                                {pacienteInfo.neurodivergencias?.sindrome_down && (
-                                  <span className="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded font-bold">💙 DOWN</span>
-                                )}
-                                {pacienteInfo.necessidadesEspeciais?.cadeirante && (
-                                  <span className="inline-block bg-green-600 text-white text-xs px-2 py-1 rounded font-bold">♿ CADEIRANTE</span>
-                                )}
-                                {pacienteInfo.necessidadesEspeciais?.interprete_libras && (
-                                  <span className="inline-block bg-orange-600 text-white text-xs px-2 py-1 rounded font-bold">🤟 LIBRAS</span>
-                                )}
-                                {pacienteInfo.necessidadesEspeciais?.acompanhante && (
-                                  <span className="inline-block bg-indigo-600 text-white text-xs px-2 py-1 rounded font-bold">👥 ACOMPANHANTE</span>
-                                )}
+                              <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div
+                                  className={`h-2 rounded-full ${
+                                    checklistStatus.percentage === 100 ? 'bg-green-600' :
+                                    checklistStatus.percentage >= 75 ? 'bg-yellow-600' : 'bg-red-600'
+                                  }`}
+                                  style={{ width: `${checklistStatus.percentage}%` }}
+                                ></div>
                               </div>
                             </div>
-                          );
-                        }
-                      }
-                      return null;
-                    })()}
-                    
-                    <div className="flex justify-between items-center">
-                      <span><strong>Checklist:</strong></span>
-                      <span className={`font-semibold ${checklistStatus.color}`}>
-                        {checklistStatus.completed}/{checklistStatus.total} ({checklistStatus.percentage}%)
-                      </span>
-                    </div>
-                    
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div
-                        className={`h-2 rounded-full ${
-                          checklistStatus.percentage === 100 ? 'bg-green-600' :
-                          checklistStatus.percentage >= 75 ? 'bg-yellow-600' : 'bg-red-600'
-                        }`}
-                        style={{ width: `${checklistStatus.percentage}%` }}
-                      ></div>
-                    </div>
-                  </div>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-center">
+                          {hasEspeciais && (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                              🚨 Especiais
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => handleEdit(recepcao)}
+                              className="text-blue-600 hover:text-blue-900"
+                            >
+                              Editar
+                            </button>
+                            <button
+                              onClick={() => handleDelete(recepcao.id!)}
+                              className="text-red-600 hover:text-red-900"
+                            >
+                              Excluir
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+              
+              {filteredRecepcoes.length === 0 && (
+                <div className="text-center py-8 text-gray-500">
+                  <p>Nenhuma recepção encontrada com os critérios selecionados.</p>
                 </div>
-              );
-            })}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
