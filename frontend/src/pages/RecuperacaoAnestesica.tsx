@@ -493,14 +493,174 @@ const RecuperacaoAnestesicaPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Componentes Especializados */}
-          <div className="space-y-6">
-            {/* Componentes serão adicionados posteriormente */}
-            <div className="p-4 bg-gray-50 rounded-md">
-              <p className="text-gray-600 text-center">
-                Componentes especializados (Sinais Vitais, Escala Ramsay, Índice Aldrete) serão implementados em breve
-              </p>
+          {/* Sinais Vitais */}
+          <div>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-2 sm:space-y-0">
+              <h3 className="text-lg font-semibold text-gray-700">Sinais Vitais</h3>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const novoSinal: SinaisVitais = {
+                      hora: new Date().toTimeString().slice(0, 5),
+                      pa: '120/80',
+                      fc: 75,
+                      fr: 16,
+                      so2: 98,
+                      temperatura: 36.5,
+                    };
+                    setFormData({
+                      ...formData,
+                      sinaisVitaisHorarios: [...(formData.sinaisVitaisHorarios || []), novoSinal]
+                    });
+                  }}
+                  className="bg-green-500 text-white px-3 py-2 rounded-md hover:bg-green-600 text-sm flex items-center"
+                  title="Adicionar com valores normais pré-definidos"
+                >
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Registro Rápido
+                </button>
+                <button
+                  type="button"
+                  onClick={addSinaisVitais}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 flex items-center"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                  Registro Manual
+                </button>
+              </div>
             </div>
+
+            {formData.sinaisVitaisHorarios && formData.sinaisVitaisHorarios.length > 0 ? (
+              <div className="space-y-4">
+                {formData.sinaisVitaisHorarios.map((sinal, index) => (
+                  <div key={index} className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                    <div className="flex justify-between items-center mb-3">
+                      <h4 className="text-md font-medium text-gray-700">Registro #{index + 1}</h4>
+                      <button
+                        type="button"
+                        onClick={() => removeSinaisVitais(index)}
+                        className="text-red-500 hover:text-red-700 p-1"
+                        title="Remover registro"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Horário
+                        </label>
+                        <input
+                          type="time"
+                          value={sinal.hora}
+                          onChange={(e) => updateSinaisVitais(index, 'hora', e.target.value)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          PA (mmHg)
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="120/80"
+                          value={sinal.pa}
+                          onChange={(e) => updateSinaisVitais(index, 'pa', e.target.value)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          FC (bpm)
+                        </label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="300"
+                          value={sinal.fc}
+                          onChange={(e) => updateSinaisVitais(index, 'fc', parseInt(e.target.value) || 0)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          FR (mrpm)
+                        </label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          value={sinal.fr}
+                          onChange={(e) => updateSinaisVitais(index, 'fr', parseInt(e.target.value) || 0)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          SpO₂ (%)
+                        </label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          value={sinal.so2}
+                          onChange={(e) => updateSinaisVitais(index, 'so2', parseInt(e.target.value) || 0)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Temp. (°C)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          min="30"
+                          max="45"
+                          value={sinal.temperatura}
+                          onChange={(e) => updateSinaisVitais(index, 'temperatura', parseFloat(e.target.value) || 0)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+                <svg className="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                <p className="text-gray-500 text-lg font-medium mb-2">Nenhum sinal vital registrado</p>
+                <p className="text-gray-400 mb-4">Clique no botão "Registrar Sinais Vitais" para adicionar o primeiro registro</p>
+                <button
+                  type="button"
+                  onClick={addSinaisVitais}
+                  className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
+                >
+                  Registrar Primeiro Sinal Vital
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Medicamentos Ministrados */}
@@ -566,6 +726,137 @@ const RecuperacaoAnestesicaPage: React.FC = () => {
               </div>
             ))}
           </div>
+
+          {/* Resumo dos Sinais Vitais */}
+          {formData.sinaisVitaisHorarios && formData.sinaisVitaisHorarios.length > 0 && (
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Resumo dos Sinais Vitais ({formData.sinaisVitaisHorarios.length} registros)
+              </h3>
+              
+              <div className="overflow-x-auto">
+                <table className="min-w-full bg-white rounded-lg shadow">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Horário</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PA (mmHg)</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">FC (bpm)</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">FR (mrpm)</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SpO₂ (%)</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Temp. (°C)</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {formData.sinaisVitaisHorarios.map((sinal, index) => {
+                      // Análise básica dos sinais vitais
+                      const fcNormal = sinal.fc >= 60 && sinal.fc <= 100;
+                      const frNormal = sinal.fr >= 12 && sinal.fr <= 20;
+                      const so2Normal = sinal.so2 >= 95;
+                      const tempNormal = sinal.temperatura >= 36.0 && sinal.temperatura <= 37.5;
+                      
+                      const statusGeral = fcNormal && frNormal && so2Normal && tempNormal ? 'normal' : 'atencao';
+                      
+                      return (
+                        <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                          <td className="px-4 py-3 text-sm font-medium text-gray-900">{sinal.hora}</td>
+                          <td className="px-4 py-3 text-sm text-gray-700">{sinal.pa || '--'}</td>
+                          <td className={`px-4 py-3 text-sm font-medium ${fcNormal ? 'text-green-600' : 'text-red-600'}`}>
+                            <div className="flex items-center">
+                              {sinal.fc || '--'}
+                              {sinal.fc && (
+                                fcNormal ? 
+                                  <svg className="w-4 h-4 ml-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                  </svg> :
+                                  <svg className="w-4 h-4 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                  </svg>
+                              )}
+                            </div>
+                          </td>
+                          <td className={`px-4 py-3 text-sm font-medium ${frNormal ? 'text-green-600' : 'text-red-600'}`}>
+                            <div className="flex items-center">
+                              {sinal.fr || '--'}
+                              {sinal.fr && (
+                                frNormal ? 
+                                  <svg className="w-4 h-4 ml-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                  </svg> :
+                                  <svg className="w-4 h-4 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                  </svg>
+                              )}
+                            </div>
+                          </td>
+                          <td className={`px-4 py-3 text-sm font-medium ${so2Normal ? 'text-green-600' : 'text-red-600'}`}>
+                            <div className="flex items-center">
+                              {sinal.so2 || '--'}
+                              {sinal.so2 && (
+                                so2Normal ? 
+                                  <svg className="w-4 h-4 ml-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                  </svg> :
+                                  <svg className="w-4 h-4 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                  </svg>
+                              )}
+                            </div>
+                          </td>
+                          <td className={`px-4 py-3 text-sm font-medium ${tempNormal ? 'text-green-600' : 'text-red-600'}`}>
+                            <div className="flex items-center">
+                              {sinal.temperatura || '--'}
+                              {sinal.temperatura && (
+                                tempNormal ? 
+                                  <svg className="w-4 h-4 ml-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                  </svg> :
+                                  <svg className="w-4 h-4 ml-1 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                  </svg>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm">
+                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                              statusGeral === 'normal' 
+                                ? 'bg-green-100 text-green-800' 
+                                : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {statusGeral === 'normal' ? 'Normal' : 'Atenção'}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              
+              {/* Indicadores de Valores de Referência */}
+              <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div className="bg-white p-3 rounded border">
+                  <p className="font-medium text-gray-700">FC Normal</p>
+                  <p className="text-gray-600">60-100 bpm</p>
+                </div>
+                <div className="bg-white p-3 rounded border">
+                  <p className="font-medium text-gray-700">FR Normal</p>
+                  <p className="text-gray-600">12-20 mrpm</p>
+                </div>
+                <div className="bg-white p-3 rounded border">
+                  <p className="font-medium text-gray-700">SpO₂ Normal</p>
+                  <p className="text-gray-600">≥ 95%</p>
+                </div>
+                <div className="bg-white p-3 rounded border">
+                  <p className="font-medium text-gray-700">Temp. Normal</p>
+                  <p className="text-gray-600">36.0-37.5°C</p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Botões */}
           <div className="flex space-x-4">
