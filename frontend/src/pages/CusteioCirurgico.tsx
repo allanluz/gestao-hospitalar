@@ -62,8 +62,9 @@ const CusteioCirurgicoPage: React.FC = () => {
 
   const fetchMateriais = async () => {
     try {
-      const data = await api.getMateriais({ ativo: true });
-      setMateriaisDisponiveis(data as any[]);
+      const response = await api.getMateriais({ ativo: true });
+      const data = (response as any)?.data || response;
+      setMateriaisDisponiveis(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Erro ao carregar materiais:', error);
       setMateriaisDisponiveis([]);
@@ -72,32 +73,37 @@ const CusteioCirurgicoPage: React.FC = () => {
 
   const fetchCusteios = async () => {
     try {
-      const data = await api.getCusteios();
-      setCusteios(data as CusteioCircurgico[]);
+      const response = await api.getCusteios();
+      const data = (response as any)?.data || response;
+      setCusteios(Array.isArray(data) ? data as CusteioCircurgico[] : []);
     } catch (error) {
       console.error('Erro ao carregar custeios:', error);
+      setCusteios([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const calcularTotais = () => {
-    const custo = (formData.materiaisUtilizados || []).reduce(
+  const calcularTotais = (materiais: MaterialUtilizado[]) => {
+    const custo = materiais.reduce(
       (total, material) => total + (material.quantidade * material.valorCusto), 0
     );
-    const venda = (formData.materiaisUtilizados || []).reduce(
+    const venda = materiais.reduce(
       (total, material) => total + (material.quantidade * material.valorVenda), 0
     );
 
-    setFormData({
-      ...formData,
-      somaTotal: { custo, venda }
-    });
+    return { custo, venda };
   };
 
   useEffect(() => {
-    calcularTotais();
-  }, [formData.materiaisUtilizados]);
+    if (formData.materiaisUtilizados) {
+      const totais = calcularTotais(formData.materiaisUtilizados);
+      setFormData(prev => ({
+        ...prev,
+        somaTotal: totais
+      }));
+    }
+  }, [formData.materiaisUtilizados?.length]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

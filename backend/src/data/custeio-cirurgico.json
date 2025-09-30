@@ -92,6 +92,342 @@
         "cirurgiao": "Dr. Carlos Eduardo Silva - CRM 123456",
         "responsavel": "Adm. João Santos - Setor Faturamento"
       }
+    },
+    {
+      "id": "990e8400-e29b-41d4-a716-446655440002",
+      "numeroInternacao": "2025005",
+      "nomePaciente": "Ana Paula Ferreira",
+      "idade": 35,
+      "quarto": "305",
+      "tipoCirurgia": "Cesariana eletiva",
+      "horarios": {
+        "inicio": "11:00",
+        "fim": "11:45",
+        "total": 45
+      },
+      "equipe": {
+        "cirurgiao": "Dr. Marcos Antonio Silva",
+        "assistentes": ["Dr. Claudia Ferreira"],
+        "instrumentadoras": ["Tec. Joana Dias"],
+        "anestesista": "Dr. Helena Souza",
+        "circulante": "Tec. Marina Costa"
+      },
+      "porte": "2",
+      "classificacao": "CASSI",
+      "data": "2025-01-19",
+      "materiaisUtilizados": [
+        {
+          "quantidade": 1,
+          "material": "Kit Cesariana",
+          "valorCusto": 180.00,
+          "valorVenda": 270.00
+        },
+        {
+          "quantidade": 3,
+          "material": "Fio Vicryl 1-0",
+          "valorCusto": 42.30,
+          "valorVenda": 63.45
+        },
+        {
+          "quantidade": 1,
+          "material": "Fio Mononylon 4-0",
+          "valorCusto": 28.50,
+          "valorVenda": 42.75
+        },
+        {
+          "quantidade": 5,
+          "material": "Compressa Cirúrgica",
+          "valorCusto": 8.50,
+          "valorVenda": 12.75
+        },
+        {
+          "quantidade": 2,
+          "material": "Lâmina Bisturi Nº 22",
+          "valorCusto": 2.60,
+          "valorVenda": 3.90
+        },
+        {
+          "quantidade": 1000,
+          "material": "Soro Fisiológico 0,9% (ml)",
+          "valorCusto": 0.02,
+          "valorVenda": 0.03
+        },
+        {
+          "quantidade": 1,
+          "material": "Bupivacaína 0,5% Pesada",
+          "valorCusto": 15.20,
+          "valorVenda": 22.80
+        },
+        {
+          "quantidade": 1,
+          "material": "Fentanil 0,1mg",
+          "valorCusto": 6.80,
+          "valorVenda": 10.20
+        }
+      ],
+      "somaTotal": {
+        "custo": 313.92,
+        "venda": 470.88
+      },
+      "assinaturas": {
+        "cirurgiao": "Dr. Marcos Antonio Silva - CRM 234567",
+        "responsavel": "Adm. Carla Mendes - Setor Faturamento"
+      }
+    },
+    {
+      "id": "990e8400-e29b-41d4-a716-446655440003",
+      "numeroInternacao": "2025006",
+      "nomePaciente": "José Roberto Silveira",
+      "idade": 71,
+      "quarto": "412",
+      "tipoCirurgia": "Prostatectomia radical robótica",
+      "horarios": {
+        "inicio": "14:00",
+        "fim": "18:00",
+        "total": 240
+      },
+      "equipe": {
+        "cirurgiao": "Dr. Ricardo Santos",
+        "assistentes": ["Dr. Fernando Costa", "Dr. Amanda Silva"],
+        "instrumentadoras": ["Tec. Paulo Roberto", "Tec. Simone Araújo"],
+        "anestesista": "Dr. Amanda Silva",
+        "circulante": "Tec. Carlos Eduardo"
+      },
+      "porte": "4",
+      "classificacao": "SCS",
+      "data": "2025-01-20",
+      "materiaisUtilizados": [
+        {
+          "quantidade": 1,
+          "material": "Kit Prostatectomia Robótica",
+          "valorCusto": 2500.00,
+          "valorVenda": 3750.00
+        },
+        {
+          "quantidade": 4,
+          "material": "Fio Vicryl 3-0",
+          "valorCusto": 32.80,
+          "valorVenda": 49.20
+        },
+        {
+          "quantidade": 1,
+          "material": "Dreno Jackson-Pratt",
+          "valorCusto": 45.60,
+          "valorVenda": 68.40
+        },
+        {
+          "quantidade": 8,
+          "material": "Compressa Cirúrgica",
+          "valorCusto": 8.50,
+          "valorVenda": 12.75
+        },
+        {
+          "quantidade": 2,
+          "material": "Sonda Foley 18Fr",
+          "valorCusto": 18.90,
+          "valorVenda": 28.35
+        },
+        {
+          "quantidade": 1500,
+          "material": "Soro Fisiológico 0,9% (ml)",
+          "valorCusto": 0.02,
+          "valorVenda": 0.03
+        },
+        {
+          "quantidade": 1,
+          "material": "Propofol 200mg",
+          "valorCusto": 18.70,
+          "valorVenda": 28.05
+        },
+        {
+          "quantidade": 2,
+          "material": "Fentanil 0,5mg",
+          "valorCusto": 8.90,
+          "valorVenda": 13.35
+        },
+        {
+          "quantidade": 1,
+          "material": "Rocurônio 50mg",
+          "valorCusto": 28.40,
+          "valorVenda": 42.60
+        }
+      ],
+      "somaTotal": {
+        "custo": 2691.82,
+        "venda": 4037.73
+      },
+      "assinaturas": {
+        "cirurgiao": "Dr. Ricardo Santos - CRM 345678",
+        "responsavel": "Adm. Patricia Lima - Setor Faturamento"
+      }
+    },
+    {
+      "id": "990e8400-e29b-41d4-a716-446655440004",
+      "numeroInternacao": "2025008",
+      "nomePaciente": "Luiz Carlos Pereira",
+      "idade": 42,
+      "quarto": "215",
+      "tipoCirurgia": "Osteossíntese de fêmur com haste intramedular",
+      "horarios": {
+        "inicio": "14:45",
+        "fim": "17:15",
+        "total": 150
+      },
+      "equipe": {
+        "cirurgiao": "Dr. Eduardo Martins",
+        "assistentes": ["Dr. Gabriela Lima"],
+        "instrumentadoras": ["Tec. Maria José"],
+        "anestesista": "Dr. Claudio Reis",
+        "circulante": "Tec. Roberto Silva"
+      },
+      "porte": "3",
+      "classificacao": "SUS",
+      "data": "2025-01-22",
+      "materiaisUtilizados": [
+        {
+          "quantidade": 1,
+          "material": "Haste Intramedular Titânio",
+          "valorCusto": 1200.00,
+          "valorVenda": 1800.00
+        },
+        {
+          "quantidade": 3,
+          "material": "Parafuso Cortical 4,5mm",
+          "valorCusto": 85.30,
+          "valorVenda": 127.95
+        },
+        {
+          "quantidade": 2,
+          "material": "Parafuso Esponjoso 6,5mm",
+          "valorCusto": 95.40,
+          "valorVenda": 143.10
+        },
+        {
+          "quantidade": 1,
+          "material": "Kit Instrumental Ortopedia",
+          "valorCusto": 180.00,
+          "valorVenda": 270.00
+        },
+        {
+          "quantidade": 6,
+          "material": "Compressa Cirúrgica",
+          "valorCusto": 8.50,
+          "valorVenda": 12.75
+        },
+        {
+          "quantidade": 2,
+          "material": "Fio Vicryl 1-0",
+          "valorCusto": 42.30,
+          "valorVenda": 63.45
+        },
+        {
+          "quantidade": 1,
+          "material": "Bupivacaína 0,5% Isobárica",
+          "valorCusto": 18.90,
+          "valorVenda": 28.35
+        },
+        {
+          "quantidade": 1000,
+          "material": "Soro Fisiológico 0,9% (ml)",
+          "valorCusto": 0.02,
+          "valorVenda": 0.03
+        }
+      ],
+      "somaTotal": {
+        "custo": 1650.42,
+        "venda": 2475.63
+      },
+      "assinaturas": {
+        "cirurgiao": "Dr. Eduardo Martins - CRM 456789",
+        "responsavel": "Adm. Marcos Silva - Setor Faturamento"
+      }
+    },
+    {
+      "id": "990e8400-e29b-41d4-a716-446655440005",
+      "numeroInternacao": "2025007",
+      "nomePaciente": "Sandra Regina Mendes",
+      "idade": 58,
+      "quarto": "308",
+      "tipoCirurgia": "Mastectomia radical modificada + Linfadenectomia",
+      "horarios": {
+        "inicio": "09:15",
+        "fim": "12:15",
+        "total": 180
+      },
+      "equipe": {
+        "cirurgiao": "Dr. Patricia Almeida",
+        "assistentes": ["Dr. André Costa"],
+        "instrumentadoras": ["Tec. Lucia Fernandes"],
+        "anestesista": "Dr. Rafael Oliveira",
+        "circulante": "Tec. João Pedro"
+      },
+      "porte": "3",
+      "classificacao": "Particular",
+      "data": "2025-01-21",
+      "materiaisUtilizados": [
+        {
+          "quantidade": 1,
+          "material": "Kit Mastectomia",
+          "valorCusto": 320.00,
+          "valorVenda": 480.00
+        },
+        {
+          "quantidade": 1,
+          "material": "Dreno Portovac",
+          "valorCusto": 65.80,
+          "valorVenda": 98.70
+        },
+        {
+          "quantidade": 4,
+          "material": "Fio Vicryl 2-0",
+          "valorCusto": 35.80,
+          "valorVenda": 53.70
+        },
+        {
+          "quantidade": 2,
+          "material": "Fio Mononylon 3-0",
+          "valorCusto": 32.40,
+          "valorVenda": 48.60
+        },
+        {
+          "quantidade": 8,
+          "material": "Compressa Cirúrgica",
+          "valorCusto": 8.50,
+          "valorVenda": 12.75
+        },
+        {
+          "quantidade": 3,
+          "material": "Lâmina Bisturi Nº 15",
+          "valorCusto": 2.30,
+          "valorVenda": 3.45
+        },
+        {
+          "quantidade": 1,
+          "material": "Propofol 200mg",
+          "valorCusto": 18.70,
+          "valorVenda": 28.05
+        },
+        {
+          "quantidade": 2,
+          "material": "Fentanil 0,5mg",
+          "valorCusto": 8.90,
+          "valorVenda": 13.35
+        },
+        {
+          "quantidade": 1,
+          "material": "Atracúrio 25mg",
+          "valorCusto": 24.80,
+          "valorVenda": 37.20
+        }
+      ],
+      "somaTotal": {
+        "custo": 525.20,
+        "venda": 787.80
+      },
+      "assinaturas": {
+        "cirurgiao": "Dr. Patricia Almeida - CRM 567890",
+        "responsavel": "Adm. Beatriz Santos - Setor Faturamento"
+      }
     }
   ]
 }
