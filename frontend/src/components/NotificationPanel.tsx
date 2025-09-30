@@ -126,9 +126,9 @@ const NotificationPanel: React.FC = () => {
       {/* Botão de Notificação */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors group"
+        className="relative p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors group"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path 
             strokeLinecap="round" 
             strokeLinejoin="round" 
@@ -138,7 +138,7 @@ const NotificationPanel: React.FC = () => {
         </svg>
         {unreadCount > 0 && (
           <>
-            <span className={`absolute -top-1 -right-1 min-w-[1.25rem] h-5 text-white text-xs font-bold rounded-full flex items-center justify-center px-1 ${
+            <span className={`absolute -top-0.5 -right-0.5 min-w-[1rem] h-4 text-white text-xs font-bold rounded-full flex items-center justify-center px-1 ${
               notifications.some(n => !n.read && (n.type === 'urgent' || n.type === 'error'))
                 ? 'bg-red-500 animate-pulse'
                 : notifications.some(n => !n.read && n.type === 'warning')
@@ -148,7 +148,7 @@ const NotificationPanel: React.FC = () => {
               {unreadCount > 99 ? '99+' : unreadCount}
             </span>
             {notifications.some(n => !n.read && n.type === 'urgent') && (
-              <span className="absolute -top-2 -right-2 w-6 h-6 border-2 border-red-500 rounded-full animate-ping"></span>
+              <span className="absolute -top-1 -right-1 w-5 h-5 border-2 border-red-500 rounded-full animate-ping"></span>
             )}
           </>
         )}
