@@ -143,7 +143,9 @@ const RecuperacaoAnestesicaPage: React.FC = () => {
 
   const fetchRecuperacoes = async () => {
     try {
-      const data = await api.getRecuperacoesAnestesicas();
+      const response = await api.getRecuperacoesAnestesicas();
+      // A API retorna {success: true, data: [...]}
+      const data = (response as any)?.data || response;
       setRecuperacoes(Array.isArray(data) ? data as RecuperacaoAnestesica[] : []);
     } catch (error) {
       console.error('Erro ao buscar recuperações:', error);

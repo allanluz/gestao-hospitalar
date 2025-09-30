@@ -117,6 +117,576 @@
         "tecnicoEnfermagem": "Tec. Maria José Santos",
         "enfermeiro": "Enf. Ana Costa Silva"
       }
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440002",
+      "numeroInternacao": "INT-2025-002",
+      "nome": "João Pereira Lima",
+      "idade": 52,
+      "quartoLeito": "105-B",
+      "cirurgiaRealizada": "Apendicectomia",
+      "diagnosticoBase": "Apendicite aguda",
+      "tipoAnestesia": {
+        "geralVenosa": true,
+        "geralInalatoria": false,
+        "geralCombinada": false,
+        "peridural": false,
+        "periduralCateter": false,
+        "raqui": false,
+        "bloqueio": false,
+        "sedacao": false
+      },
+      "alergias": {
+        "possui": true,
+        "descricao": "Dipirona - erupção cutânea"
+      },
+      "anestesiologista": "Dra. Carla Mendonça",
+      "nebulizacao": true,
+      "monitorizacao": {
+        "multiparametrico": true,
+        "ecg": true,
+        "oximetroPulso": true,
+        "pa": true,
+        "pvc": false,
+        "paInvasiva": false,
+        "localPaInvasiva": ""
+      },
+      "sinaisVitaisHorarios": [
+        {
+          "hora": "14:15",
+          "pa": "135x85",
+          "fc": 95,
+          "fr": 18,
+          "so2": 96,
+          "temperatura": 37.1
+        },
+        {
+          "hora": "14:30",
+          "pa": "125x80",
+          "fc": 88,
+          "fr": 16,
+          "so2": 98,
+          "temperatura": 36.8
+        },
+        {
+          "hora": "14:45",
+          "pa": "120x75",
+          "fc": 82,
+          "fr": 15,
+          "so2": 99,
+          "temperatura": 36.5
+        }
+      ],
+      "indiceAldreteKroulik": {
+        "movimentacao": 2,
+        "respiracao": 2,
+        "pressaoArterial": 1,
+        "consciencia": 2,
+        "saturacaoO2": 2,
+        "total": 9
+      },
+      "prescricaoMedica": {
+        "altaHorario": "15:00",
+        "medico": "Dra. Ana Paula Ferreira",
+        "crm": "45678-SP"
+      },
+      "transferencia": {
+        "destino": "Quarto 105",
+        "tecnicoEnfermagem": "Tec. Carlos Silva",
+        "enfermeiro": "Enf. Roberto Santos"
+      }
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440003",
+      "numeroInternacao": "INT-2025-003",
+      "nome": "Ana Carolina Oliveira",
+      "idade": 35,
+      "quartoLeito": "302-A",
+      "cirurgiaRealizada": "Cesariana Eletiva",
+      "diagnosticoBase": "Gestação de termo - 38 semanas",
+      "tipoAnestesia": {
+        "geralVenosa": false,
+        "geralInalatoria": false,
+        "geralCombinada": false,
+        "peridural": true,
+        "periduralCateter": false,
+        "raqui": false,
+        "bloqueio": false,
+        "sedacao": false
+      },
+      "alergias": {
+        "possui": false,
+        "descricao": ""
+      },
+      "anestesiologista": "Dr. Fernando Silva",
+      "nebulizacao": false,
+      "monitorizacao": {
+        "multiparametrico": true,
+        "ecg": true,
+        "oximetroPulso": true,
+        "pa": true,
+        "pvc": false,
+        "paInvasiva": false,
+        "localPaInvasiva": ""
+      },
+      "sinaisVitaisHorarios": [
+        {
+          "hora": "09:30",
+          "pa": "100x60",
+          "fc": 68,
+          "fr": 14,
+          "so2": 99,
+          "temperatura": 36.0
+        },
+        {
+          "hora": "09:45",
+          "pa": "105x65",
+          "fc": 72,
+          "fr": 15,
+          "so2": 100,
+          "temperatura": 36.2
+        },
+        {
+          "hora": "10:00",
+          "pa": "110x70",
+          "fc": 75,
+          "fr": 16,
+          "so2": 99,
+          "temperatura": 36.4
+        },
+        {
+          "hora": "10:15",
+          "pa": "115x75",
+          "fc": 78,
+          "fr": 16,
+          "so2": 98,
+          "temperatura": 36.6
+        }
+      ],
+      "indiceAldreteKroulik": {
+        "movimentacao": 2,
+        "respiracao": 2,
+        "pressaoArterial": 2,
+        "consciencia": 2,
+        "saturacaoO2": 2,
+        "total": 10
+      },
+      "prescricaoMedica": {
+        "altaHorario": "10:30",
+        "medico": "Dr. Eduardo Santos",
+        "crm": "12345-SP"
+      },
+      "transferencia": {
+        "destino": "Alojamento Conjunto 302",
+        "tecnicoEnfermagem": "Tec. Fernanda Costa",
+        "enfermeiro": "Enf. Patrícia Lima"
+      }
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440004",
+      "numeroInternacao": "INT-2025-004",
+      "nome": "Carlos Eduardo Mendes",
+      "idade": 57,
+      "quartoLeito": "208-B",
+      "cirurgiaRealizada": "Artroscopia de Joelho",
+      "diagnosticoBase": "Lesão de menisco medial",
+      "tipoAnestesia": {
+        "geralVenosa": false,
+        "geralInalatoria": false,
+        "geralCombinada": false,
+        "peridural": false,
+        "periduralCateter": false,
+        "raqui": true,
+        "bloqueio": false,
+        "sedacao": false
+      },
+      "alergias": {
+        "possui": false,
+        "descricao": ""
+      },
+      "anestesiologista": "Dr. Rodrigo Martins",
+      "nebulizacao": false,
+      "monitorizacao": {
+        "multiparametrico": true,
+        "ecg": true,
+        "oximetroPulso": true,
+        "pa": true,
+        "pvc": false,
+        "paInvasiva": false,
+        "localPaInvasiva": ""
+      },
+      "sinaisVitaisHorarios": [
+        {
+          "hora": "16:00",
+          "pa": "140x90",
+          "fc": 85,
+          "fr": 18,
+          "so2": 97,
+          "temperatura": 36.8
+        },
+        {
+          "hora": "16:15",
+          "pa": "130x85",
+          "fc": 80,
+          "fr": 16,
+          "so2": 98,
+          "temperatura": 36.5
+        },
+        {
+          "hora": "16:30",
+          "pa": "125x80",
+          "fc": 78,
+          "fr": 15,
+          "so2": 99,
+          "temperatura": 36.3
+        }
+      ],
+      "indiceAldreteKroulik": {
+        "movimentacao": 1,
+        "respiracao": 2,
+        "pressaoArterial": 2,
+        "consciencia": 2,
+        "saturacaoO2": 2,
+        "total": 9
+      },
+      "prescricaoMedica": {
+        "altaHorario": "17:00",
+        "medico": "Dr. Marcelo Ribeiro",
+        "crm": "78901-SP"
+      },
+      "transferencia": {
+        "destino": "Quarto 208",
+        "tecnicoEnfermagem": "Tec. Júlia Oliveira",
+        "enfermeiro": "Enf. Marcos Antonio"
+      }
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440005",
+      "numeroInternacao": "INT-2025-005",
+      "nome": "Sandra Regina Costa",
+      "idade": 69,
+      "quartoLeito": "401-A",
+      "cirurgiaRealizada": "Mastectomia Radical",
+      "diagnosticoBase": "Carcinoma ductal invasivo de mama esquerda",
+      "tipoAnestesia": {
+        "geralVenosa": false,
+        "geralInalatoria": true,
+        "geralCombinada": false,
+        "peridural": false,
+        "periduralCateter": false,
+        "raqui": false,
+        "bloqueio": true,
+        "sedacao": false
+      },
+      "alergias": {
+        "possui": true,
+        "descricao": "Contraste iodado"
+      },
+      "anestesiologista": "Dra. Lívia Martins",
+      "nebulizacao": true,
+      "monitorizacao": {
+        "multiparametrico": true,
+        "ecg": true,
+        "oximetroPulso": true,
+        "pa": true,
+        "pvc": true,
+        "paInvasiva": true,
+        "localPaInvasiva": "Artéria radial direita"
+      },
+      "sinaisVitaisHorarios": [
+        {
+          "hora": "08:00",
+          "pa": "160x95",
+          "fc": 110,
+          "fr": 20,
+          "so2": 94,
+          "temperatura": 37.5
+        },
+        {
+          "hora": "08:15",
+          "pa": "150x90",
+          "fc": 105,
+          "fr": 18,
+          "so2": 96,
+          "temperatura": 37.2
+        },
+        {
+          "hora": "08:30",
+          "pa": "145x85",
+          "fc": 100,
+          "fr": 16,
+          "so2": 97,
+          "temperatura": 36.9
+        },
+        {
+          "hora": "08:45",
+          "pa": "140x80",
+          "fc": 95,
+          "fr": 15,
+          "so2": 98,
+          "temperatura": 36.7
+        },
+        {
+          "hora": "09:00",
+          "pa": "135x75",
+          "fc": 90,
+          "fr": 14,
+          "so2": 99,
+          "temperatura": 36.5
+        }
+      ],
+      "indiceAldreteKroulik": {
+        "movimentacao": 1,
+        "respiracao": 1,
+        "pressaoArterial": 1,
+        "consciencia": 2,
+        "saturacaoO2": 2,
+        "total": 7
+      },
+      "prescricaoMedica": {
+        "altaHorario": "09:30",
+        "medico": "Dra. Lívia Martins",
+        "crm": "23456-SP"
+      },
+      "transferencia": {
+        "destino": "UTI Pós-Operatória",
+        "tecnicoEnfermagem": "Tec. Ricardo Santos",
+        "enfermeiro": "Enf. Luciana Silva"
+      }
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440006",
+      "numeroInternacao": "INT-2025-006",
+      "nome": "Pedro Henrique Alves",
+      "idade": 15,
+      "quartoLeito": "205-A",
+      "cirurgiaRealizada": "Correção de Fenda Palatina",
+      "diagnosticoBase": "Fenda palatina congênita",
+      "tipoAnestesia": {
+        "geralVenosa": false,
+        "geralInalatoria": true,
+        "geralCombinada": false,
+        "peridural": false,
+        "periduralCateter": false,
+        "raqui": false,
+        "bloqueio": false,
+        "sedacao": false
+      },
+      "alergias": {
+        "possui": false,
+        "descricao": ""
+      },
+      "anestesiologista": "Dr. Felipe Nascimento",
+      "nebulizacao": false,
+      "monitorizacao": {
+        "multiparametrico": true,
+        "ecg": true,
+        "oximetroPulso": true,
+        "pa": true,
+        "pvc": false,
+        "paInvasiva": false,
+        "localPaInvasiva": ""
+      },
+      "sinaisVitaisHorarios": [
+        {
+          "hora": "12:30",
+          "pa": "90x50",
+          "fc": 100,
+          "fr": 20,
+          "so2": 98,
+          "temperatura": 36.0
+        },
+        {
+          "hora": "12:45",
+          "pa": "95x55",
+          "fc": 95,
+          "fr": 18,
+          "so2": 99,
+          "temperatura": 36.2
+        },
+        {
+          "hora": "13:00",
+          "pa": "100x60",
+          "fc": 90,
+          "fr": 16,
+          "so2": 100,
+          "temperatura": 36.5
+        }
+      ],
+      "indiceAldreteKroulik": {
+        "movimentacao": 2,
+        "respiracao": 2,
+        "pressaoArterial": 2,
+        "consciencia": 1,
+        "saturacaoO2": 2,
+        "total": 9
+      },
+      "prescricaoMedica": {
+        "altaHorario": "13:30",
+        "medico": "Dr. Felipe Nascimento",
+        "crm": "34567-SP"
+      },
+      "transferencia": {
+        "destino": "Pediatria - Quarto 205",
+        "tecnicoEnfermagem": "Tec. Amanda Santos",
+        "enfermeiro": "Enf. Beatriz Costa"
+      }
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440007",
+      "numeroInternacao": "INT-2025-007",
+      "nome": "Luiza Fernanda Souza",
+      "idade": 42,
+      "quartoLeito": "103-B",
+      "cirurgiaRealizada": "Herniorrafia Inguinal",
+      "diagnosticoBase": "Hérnia inguinal bilateral",
+      "tipoAnestesia": {
+        "geralVenosa": false,
+        "geralInalatoria": false,
+        "geralCombinada": false,
+        "peridural": false,
+        "periduralCateter": false,
+        "raqui": false,
+        "bloqueio": true,
+        "sedacao": true
+      },
+      "alergias": {
+        "possui": false,
+        "descricao": ""
+      },
+      "anestesiologista": "Dr. Antonio Carlos",
+      "nebulizacao": false,
+      "monitorizacao": {
+        "multiparametrico": true,
+        "ecg": false,
+        "oximetroPulso": true,
+        "pa": true,
+        "pvc": false,
+        "paInvasiva": false,
+        "localPaInvasiva": ""
+      },
+      "sinaisVitaisHorarios": [
+        {
+          "hora": "15:45",
+          "pa": "120x80",
+          "fc": 75,
+          "fr": 14,
+          "so2": 100,
+          "temperatura": 36.0
+        },
+        {
+          "hora": "16:00",
+          "pa": "115x75",
+          "fc": 72,
+          "fr": 14,
+          "so2": 100,
+          "temperatura": 36.2
+        }
+      ],
+      "indiceAldreteKroulik": {
+        "movimentacao": 2,
+        "respiracao": 2,
+        "pressaoArterial": 2,
+        "consciencia": 2,
+        "saturacaoO2": 2,
+        "total": 10
+      },
+      "prescricaoMedica": {
+        "altaHorario": "16:15",
+        "medico": "Dr. Antonio Carlos",
+        "crm": "56789-SP"
+      },
+      "transferencia": {
+        "destino": "Day Hospital",
+        "tecnicoEnfermagem": "Tec. Bruno Lima",
+        "enfermeiro": "Enf. Carla Dias"
+      }
+    },
+    {
+      "id": "770e8400-e29b-41d4-a716-446655440008",
+      "numeroInternacao": "INT-2025-008",
+      "nome": "Roberto Silva Junior",
+      "idade": 47,
+      "quartoLeito": "309-A",
+      "cirurgiaRealizada": "Prostatectomia Robótica",
+      "diagnosticoBase": "Adenocarcinoma de próstata",
+      "tipoAnestesia": {
+        "geralVenosa": true,
+        "geralInalatoria": true,
+        "geralCombinada": false,
+        "peridural": false,
+        "periduralCateter": false,
+        "raqui": false,
+        "bloqueio": false,
+        "sedacao": false
+      },
+      "alergias": {
+        "possui": false,
+        "descricao": ""
+      },
+      "anestesiologista": "Dr. Ricardo Oliveira",
+      "nebulizacao": false,
+      "monitorizacao": {
+        "multiparametrico": true,
+        "ecg": true,
+        "oximetroPulso": true,
+        "pa": true,
+        "pvc": true,
+        "paInvasiva": true,
+        "localPaInvasiva": "Artéria femoral esquerda"
+      },
+      "sinaisVitaisHorarios": [
+        {
+          "hora": "10:30",
+          "pa": "130x85",
+          "fc": 88,
+          "fr": 16,
+          "so2": 98,
+          "temperatura": 36.8
+        },
+        {
+          "hora": "10:45",
+          "pa": "125x80",
+          "fc": 85,
+          "fr": 15,
+          "so2": 99,
+          "temperatura": 36.5
+        },
+        {
+          "hora": "11:00",
+          "pa": "120x75",
+          "fc": 82,
+          "fr": 14,
+          "so2": 100,
+          "temperatura": 36.3
+        },
+        {
+          "hora": "11:15",
+          "pa": "118x72",
+          "fc": 80,
+          "fr": 14,
+          "so2": 99,
+          "temperatura": 36.2
+        }
+      ],
+      "indiceAldreteKroulik": {
+        "movimentacao": 2,
+        "respiracao": 2,
+        "pressaoArterial": 2,
+        "consciencia": 2,
+        "saturacaoO2": 2,
+        "total": 10
+      },
+      "prescricaoMedica": {
+        "altaHorario": "11:45",
+        "medico": "Dr. Ricardo Oliveira",
+        "crm": "67890-SP"
+      },
+      "transferencia": {
+        "destino": "Quarto 309",
+        "tecnicoEnfermagem": "Tec. Diego Martins",
+        "enfermeiro": "Enf. Eliane Pereira"
+      }
     }
   ]
 }
