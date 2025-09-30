@@ -54,6 +54,12 @@ const CusteioCirurgicoPage: React.FC = () => {
   const [quantidadeMaterial, setQuantidadeMaterial] = useState(0);
   const [mostrarListaMateriais, setMostrarListaMateriais] = useState(false);
   const [buscaMaterial, setBuscaMaterial] = useState('');
+  
+  // Estados para filtros e ordenação de materiais
+  const [filtroCategoria, setFiltroCategoria] = useState('');
+  const [filtroFaixaPreco, setFiltroFaixaPreco] = useState('');
+  const [ordenacao, setOrdenacao] = useState('nome');
+  const [direcaoOrdenacao, setDirecaoOrdenacao] = useState<'asc' | 'desc'>('asc');
 
   useEffect(() => {
     fetchCusteios();
@@ -224,6 +230,86 @@ const CusteioCirurgicoPage: React.FC = () => {
     const materiais = [...(formData.materiaisUtilizados || [])];
     materiais.splice(index, 1);
     setFormData({ ...formData, materiaisUtilizados: materiais });
+  };
+
+  // Função para filtrar e ordenar materiais
+  const getMateriaisFilteredAndSorted = () => {
+    let materiaisFiltrados = [...materiaisDisponiveis];
+
+    // Aplicar busca por nome
+    if (buscaMaterial) {
+      materiaisFiltrados = materiaisFiltrados.filter((material: any) => 
+        material.nome.toLowerCase().includes(buscaMaterial.toLowerCase())
+      );
+    }
+
+    // Aplicar filtro por categoria
+    if (filtroCategoria) {
+      materiaisFiltrados = materiaisFiltrados.filter((material: any) => 
+        material.categoria === filtroCategoria
+      );
+    }
+
+    // Aplicar filtro por faixa de preço
+    if (filtroFaixaPreco) {
+      materiaisFiltrados = materiaisFiltrados.filter((material: any) => {
+        const preco = material.valorVenda;
+        switch (filtroFaixaPreco) {
+          case 'ate-10': return preco <= 10;
+          case '10-50': return preco > 10 && preco <= 50;
+          case '50-100': return preco > 50 && preco <= 100;
+          case '100-500': return preco > 100 && preco <= 500;
+          case 'acima-500': return preco > 500;
+          default: return true;
+        }
+      });
+    }
+
+    // Aplicar ordenação
+    materiaisFiltrados.sort((a: any, b: any) => {
+      let valorA, valorB;
+      
+      switch (ordenacao) {
+        case 'nome':
+          valorA = a.nome.toLowerCase();
+          valorB = b.nome.toLowerCase();
+          break;
+        case 'categoria':
+          valorA = a.categoria?.toLowerCase() || '';
+          valorB = b.categoria?.toLowerCase() || '';
+          break;
+        case 'valorCusto':
+          valorA = a.valorCusto;
+          valorB = b.valorCusto;
+          break;
+        case 'valorVenda':
+          valorA = a.valorVenda;
+          valorB = b.valorVenda;
+          break;
+        default:
+          valorA = a.nome.toLowerCase();
+          valorB = b.nome.toLowerCase();
+      }
+
+      if (typeof valorA === 'string') {
+        const comparacao = valorA.localeCompare(valorB);
+        return direcaoOrdenacao === 'asc' ? comparacao : -comparacao;
+      } else {
+        return direcaoOrdenacao === 'asc' ? valorA - valorB : valorB - valorA;
+      }
+    });
+
+    return materiaisFiltrados;
+  };
+
+  // Função para obter categorias únicas
+  const getCategoriasUnicas = () => {
+    const categorias = materiaisDisponiveis
+      .map((material: any) => material.categoria)
+      .filter((categoria: string) => categoria && categoria.trim() !== '')
+      .filter((categoria: string, index: number, array: string[]) => array.indexOf(categoria) === index)
+      .sort();
+    return categorias;
   };
 
   const adicionarAssistente = () => {
@@ -638,9 +724,107 @@ const CusteioCirurgicoPage: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-700">Materiais Utilizados</h3>
             
+            {/* Filtros e Ordenação de Materiais */}
+            <div className="bg-gray-50 p-4 rounded-lg border">
+              <h4 className="text-md font-medium text-gray-800 mb-3">🔍 Filtros e Ordenação</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Filtro por Categoria */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Categoria
+                  </label>
+                  <select
+                    value={filtroCategoria}
+                    onChange={(e) => setFiltroCategoria(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
+                  >
+                    <option value="">Todas as categorias</option>
+                    {getCategoriasUnicas().map((categoria: string) => (
+                      <option key={categoria} value={categoria}>
+                        {categoria}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Filtro por Faixa de Preço */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Faixa de Preço
+                  </label>
+                  <select
+                    value={filtroFaixaPreco}
+                    onChange={(e) => setFiltroFaixaPreco(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
+                  >
+                    <option value="">Todos os preços</option>
+                    <option value="ate-10">Até R$ 10,00</option>
+                    <option value="10-50">R$ 10,01 - R$ 50,00</option>
+                    <option value="50-100">R$ 50,01 - R$ 100,00</option>
+                    <option value="100-500">R$ 100,01 - R$ 500,00</option>
+                    <option value="acima-500">Acima de R$ 500,00</option>
+                  </select>
+                </div>
+
+                {/* Ordenar por */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Ordenar por
+                  </label>
+                  <select
+                    value={ordenacao}
+                    onChange={(e) => setOrdenacao(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
+                  >
+                    <option value="nome">Nome (A-Z)</option>
+                    <option value="categoria">Categoria</option>
+                    <option value="valorCusto">Valor de Custo</option>
+                    <option value="valorVenda">Valor de Venda</option>
+                  </select>
+                </div>
+
+                {/* Direção da Ordenação */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Direção
+                  </label>
+                  <select
+                    value={direcaoOrdenacao}
+                    onChange={(e) => setDirecaoOrdenacao(e.target.value as 'asc' | 'desc')}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm"
+                  >
+                    <option value="asc">Crescente</option>
+                    <option value="desc">Decrescente</option>
+                  </select>
+                </div>
+              </div>
+              
+              {/* Botão para limpar filtros */}
+              <div className="mt-3 text-right">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFiltroCategoria('');
+                    setFiltroFaixaPreco('');
+                    setOrdenacao('nome');
+                    setDirecaoOrdenacao('asc');
+                    setBuscaMaterial('');
+                  }}
+                  className="px-4 py-2 bg-gray-500 text-white text-sm rounded-md hover:bg-gray-600 transition-colors"
+                >
+                  Limpar Filtros
+                </button>
+              </div>
+            </div>
+            
             {/* Adicionar Material da Central */}
             <div className="bg-blue-50 p-4 rounded-lg">
-              <h4 className="text-md font-medium text-blue-800 mb-3">📦 Selecionar da Central de Materiais</h4>
+              <div className="flex justify-between items-center mb-3">
+                <h4 className="text-md font-medium text-blue-800">📦 Selecionar da Central de Materiais</h4>
+                <span className="text-sm text-blue-600 bg-blue-100 px-2 py-1 rounded-full">
+                  {getMateriaisFilteredAndSorted().length} de {materiaisDisponiveis.length} materiais
+                </span>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-blue-700 mb-1">
@@ -658,16 +842,10 @@ const CusteioCirurgicoPage: React.FC = () => {
                       value={materialSelecionado}
                       onChange={(e) => setMaterialSelecionado(e.target.value)}
                       className="w-full px-3 py-2 border border-blue-300 rounded-md focus:ring-2 focus:ring-blue-500 bg-white"
-                      size={buscaMaterial ? Math.min(5, materiaisDisponiveis.filter((m: any) => 
-                        m.nome.toLowerCase().includes(buscaMaterial.toLowerCase())
-                      ).length) : 1}
+                      size={buscaMaterial || filtroCategoria || filtroFaixaPreco ? Math.min(5, getMateriaisFilteredAndSorted().length) : 1}
                     >
                       <option value="">Selecione um material...</option>
-                      {materiaisDisponiveis
-                        .filter((material: any) => 
-                          buscaMaterial === '' || 
-                          material.nome.toLowerCase().includes(buscaMaterial.toLowerCase())
-                        )
+                      {getMateriaisFilteredAndSorted()
                         .map((material: any, index: number) => (
                           <option key={index} value={material.nome}>
                             {material.nome} - Custo: R$ {material.valorCusto.toFixed(2)} | Venda: R$ {material.valorVenda.toFixed(2)}
