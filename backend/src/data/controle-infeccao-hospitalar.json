@@ -153,6 +153,545 @@
         "local": ""
       },
       "intercorrencias": "Sem intercorrências"
+    },
+    {
+      "id": "880e8400-e29b-41d4-a716-446655440003",
+      "pacienteId": 15,
+      "assistenciaIntraOperatoriaId": "660e8400-e29b-41d4-a716-446655440015",
+      "dataControle": "2025-01-17T08:45:00.000Z",
+      "dataCirurgia": "2025-01-17",
+      "nome": "Maria Santos Oliveira",
+      "idade": 62,
+      "classificacao": "sus",
+      "sexo": "f",
+      "unidadeInternacao": "UTI Geral",
+      "numeroInternacao": "2025003",
+      "admissao": {
+        "data": "2025-01-12",
+        "horario": "22:15"
+      },
+      "antecedentes": {
+        "tabagista": false,
+        "diabetico": true,
+        "renalCronico": true,
+        "obeso": true,
+        "hipertenso": true
+      },
+      "tempoInternacao": {
+        "unidade": 96,
+        "uti": 24,
+        "infeccaoPrevia": true
+      },
+      "preOperatorio": {
+        "tricotomiaHoras": 6,
+        "local": "Região torácica e abdominal",
+        "preparoSala": true,
+        "antissepticos": {
+          "clorexidinaDegermante": true,
+          "pvpiDegermante": false,
+          "clorexidinaAlcoolica": true,
+          "pvpiTintura": false,
+          "clorexidinaAquosa": true,
+          "pvpiTopico": false
+        }
+      },
+      "sondagens": {
+        "vesicalDemora": true,
+        "nasogastrica": true,
+        "vesicalAlivio": false,
+        "responsavel": "Enf. Patricia Silva"
+      },
+      "antibioticoProfilatico": "Vancomicina 1g EV + Ceftriaxone 1g EV",
+      "transfusoes": {
+        "sangue": true,
+        "plasma": false,
+        "quantidade": "2 unidades CH"
+      },
+      "cirurgia": {
+        "periodo": "m",
+        "reoperacao": true,
+        "duracao": 360,
+        "asa": "ASA IV",
+        "cpc": "Infectada",
+        "realizada": "Laparotomia exploradora + Ressecção intestinal",
+        "cirurgiao": "Dr. Fernando Almeida",
+        "auxiliar": "Dr. Marcos Pereira",
+        "anestesia": "geral",
+        "anestesiologista": "Dr. Lucia Cardoso",
+        "circulantes": ["Tec. Rosa Lima", "Tec. José Carlos", "Tec. Ana Beatriz"]
+      },
+      "proteses": false,
+      "drenos": {
+        "succao": true,
+        "penrose": true,
+        "torax": false,
+        "kheer": false,
+        "outros": "Dreno de Kher biliar",
+        "local": "Cavidade abdominal e Via biliar"
+      },
+      "intercorrencias": "Instabilidade hemodinâmica intraoperatória. Necessidade de drogas vasoativas. Sangramento ativo controlado."
+    },
+    {
+      "id": "880e8400-e29b-41d4-a716-446655440004",
+      "pacienteId": 8,
+      "assistenciaIntraOperatoriaId": "660e8400-e29b-41d4-a716-446655440008",
+      "dataControle": "2025-01-18T13:20:00.000Z",
+      "dataCirurgia": "2025-01-18",
+      "nome": "Pedro Henrique Costa",
+      "idade": 8,
+      "classificacao": "particular",
+      "sexo": "m",
+      "unidadeInternacao": "Pediatria",
+      "numeroInternacao": "2025004",
+      "admissao": {
+        "data": "2025-01-17",
+        "horario": "16:30"
+      },
+      "antecedentes": {
+        "tabagista": false,
+        "diabetico": false,
+        "renalCronico": false,
+        "obeso": false,
+        "hipertenso": false
+      },
+      "tempoInternacao": {
+        "unidade": 18,
+        "uti": 0,
+        "infeccaoPrevia": false
+      },
+      "preOperatorio": {
+        "tricotomiaHoras": 1,
+        "local": "Região facial",
+        "preparoSala": true,
+        "antissepticos": {
+          "clorexidinaDegermante": false,
+          "pvpiDegermante": true,
+          "clorexidinaAlcoolica": false,
+          "pvpiTintura": true,
+          "clorexidinaAquosa": false,
+          "pvpiTopico": false
+        }
+      },
+      "sondagens": {
+        "vesicalDemora": false,
+        "nasogastrica": false,
+        "vesicalAlivio": true,
+        "responsavel": "Enf. Carla Mendes"
+      },
+      "antibioticoProfilatico": "Amoxicilina + Clavulanato 50mg/kg EV",
+      "transfusoes": {
+        "sangue": false,
+        "plasma": false,
+        "quantidade": "0"
+      },
+      "cirurgia": {
+        "periodo": "t",
+        "reoperacao": false,
+        "duracao": 120,
+        "asa": "ASA I",
+        "cpc": "Limpa",
+        "realizada": "Correção de Fenda Palatina",
+        "cirurgiao": "Dr. Sandra Rodrigues",
+        "auxiliar": "Dr. Juliano Silva",
+        "anestesia": "geral",
+        "anestesiologista": "Dr. Roberto Campos",
+        "circulantes": ["Tec. Fatima Santos"]
+      },
+      "proteses": false,
+      "drenos": {
+        "succao": false,
+        "penrose": false,
+        "torax": false,
+        "kheer": false,
+        "outros": "",
+        "local": ""
+      },
+      "intercorrencias": "Sem intercorrências. Paciente pediátrico manejado conforme protocolos específicos."
+    },
+    {
+      "id": "880e8400-e29b-41d4-a716-446655440005",
+      "pacienteId": 22,
+      "assistenciaIntraOperatoriaId": "660e8400-e29b-41d4-a716-446655440022",
+      "dataControle": "2025-01-19T11:10:00.000Z",
+      "dataCirurgia": "2025-01-19",
+      "nome": "Ana Paula Ferreira",
+      "idade": 35,
+      "classificacao": "cassi",
+      "sexo": "f",
+      "unidadeInternacao": "Ginecologia",
+      "numeroInternacao": "2025005",
+      "admissao": {
+        "data": "2025-01-18",
+        "horario": "07:00"
+      },
+      "antecedentes": {
+        "tabagista": false,
+        "diabetico": false,
+        "renalCronico": false,
+        "obeso": false,
+        "hipertenso": false
+      },
+      "tempoInternacao": {
+        "unidade": 28,
+        "uti": 0,
+        "infeccaoPrevia": false
+      },
+      "preOperatorio": {
+        "tricotomiaHoras": 2,
+        "local": "Região abdominal baixa",
+        "preparoSala": true,
+        "antissepticos": {
+          "clorexidinaDegermante": true,
+          "pvpiDegermante": false,
+          "clorexidinaAlcoolica": true,
+          "pvpiTintura": false,
+          "clorexidinaAquosa": false,
+          "pvpiTopico": false
+        }
+      },
+      "sondagens": {
+        "vesicalDemora": true,
+        "nasogastrica": false,
+        "vesicalAlivio": false,
+        "responsavel": "Enf. Roberta Lima"
+      },
+      "antibioticoProfilatico": "Cefazolina 2g EV",
+      "transfusoes": {
+        "sangue": false,
+        "plasma": false,
+        "quantidade": "0"
+      },
+      "cirurgia": {
+        "periodo": "m",
+        "reoperacao": false,
+        "duracao": 45,
+        "asa": "ASA I",
+        "cpc": "Limpa",
+        "realizada": "Cesariana eletiva",
+        "cirurgiao": "Dr. Marcos Antonio Silva",
+        "auxiliar": "Dr. Claudia Ferreira",
+        "anestesia": "peridural",
+        "anestesiologista": "Dr. Helena Souza",
+        "circulantes": ["Tec. Joana Dias", "Tec. Marina Costa"]
+      },
+      "proteses": false,
+      "drenos": {
+        "succao": false,
+        "penrose": false,
+        "torax": false,
+        "kheer": false,
+        "outros": "",
+        "local": ""
+      },
+      "intercorrencias": "Sem intercorrências. RN sexo feminino, Apgar 9/10, peso 3.240g."
+    },
+    {
+      "id": "880e8400-e29b-41d4-a716-446655440006",
+      "pacienteId": 33,
+      "assistenciaIntraOperatoriaId": "660e8400-e29b-41d4-a716-446655440033",
+      "dataControle": "2025-01-20T16:30:00.000Z",
+      "dataCirurgia": "2025-01-20",
+      "nome": "José Roberto Silveira",
+      "idade": 71,
+      "classificacao": "scs",
+      "sexo": "m",
+      "unidadeInternacao": "Urologia",
+      "numeroInternacao": "2025006",
+      "admissao": {
+        "data": "2025-01-19",
+        "horario": "14:00"
+      },
+      "antecedentes": {
+        "tabagista": true,
+        "diabetico": true,
+        "renalCronico": false,
+        "obeso": false,
+        "hipertenso": true
+      },
+      "tempoInternacao": {
+        "unidade": 26,
+        "uti": 0,
+        "infeccaoPrevia": false
+      },
+      "preOperatorio": {
+        "tricotomiaHoras": 2,
+        "local": "Região perineal",
+        "preparoSala": true,
+        "antissepticos": {
+          "clorexidinaDegermante": true,
+          "pvpiDegermante": false,
+          "clorexidinaAlcoolica": true,
+          "pvpiTintura": false,
+          "clorexidinaAquosa": false,
+          "pvpiTopico": false
+        }
+      },
+      "sondagens": {
+        "vesicalDemora": true,
+        "nasogastrica": false,
+        "vesicalAlivio": false,
+        "responsavel": "Enf. Carlos Eduardo"
+      },
+      "antibioticoProfilatico": "Ciprofloxacino 400mg EV",
+      "transfusoes": {
+        "sangue": false,
+        "plasma": false,
+        "quantidade": "0"
+      },
+      "cirurgia": {
+        "periodo": "t",
+        "reoperacao": false,
+        "duracao": 240,
+        "asa": "ASA III",
+        "cpc": "Limpa Contaminada",
+        "realizada": "Prostatectomia radical robótica",
+        "cirurgiao": "Dr. Ricardo Santos",
+        "auxiliar": "Dr. Fernando Costa",
+        "anestesia": "geral",
+        "anestesiologista": "Dr. Amanda Silva",
+        "circulantes": ["Tec. Paulo Roberto", "Tec. Simone Araújo"]
+      },
+      "proteses": false,
+      "drenos": {
+        "succao": true,
+        "penrose": false,
+        "torax": false,
+        "kheer": false,
+        "outros": "Dreno de Jackson-Pratt",
+        "local": "Loja prostática"
+      },
+      "intercorrencias": "Pequeno sangramento intraoperatório controlado. Boa evolução técnica."
+    },
+    {
+      "id": "880e8400-e29b-41d4-a716-446655440007",
+      "pacienteId": 44,
+      "assistenciaIntraOperatoriaId": "660e8400-e29b-41d4-a716-446655440044",
+      "dataControle": "2025-01-21T09:15:00.000Z",
+      "dataCirurgia": "2025-01-21",
+      "nome": "Sandra Regina Mendes",
+      "idade": 58,
+      "classificacao": "particular",
+      "sexo": "f",
+      "unidadeInternacao": "Oncologia",
+      "numeroInternacao": "2025007",
+      "admissao": {
+        "data": "2025-01-20",
+        "horario": "08:30"
+      },
+      "antecedentes": {
+        "tabagista": false,
+        "diabetico": false,
+        "renalCronico": false,
+        "obeso": false,
+        "hipertenso": true
+      },
+      "tempoInternacao": {
+        "unidade": 25,
+        "uti": 0,
+        "infeccaoPrevia": false
+      },
+      "preOperatorio": {
+        "tricotomiaHoras": 2,
+        "local": "Região torácica",
+        "preparoSala": true,
+        "antissepticos": {
+          "clorexidinaDegermante": true,
+          "pvpiDegermante": false,
+          "clorexidinaAlcoolica": true,
+          "pvpiTintura": false,
+          "clorexidinaAquosa": false,
+          "pvpiTopico": false
+        }
+      },
+      "sondagens": {
+        "vesicalDemora": true,
+        "nasogastrica": false,
+        "vesicalAlivio": false,
+        "responsavel": "Enf. Beatriz Santos"
+      },
+      "antibioticoProfilatico": "Cefuroxima 1.5g EV",
+      "transfusoes": {
+        "sangue": false,
+        "plasma": false,
+        "quantidade": "0"
+      },
+      "cirurgia": {
+        "periodo": "m",
+        "reoperacao": false,
+        "duracao": 180,
+        "asa": "ASA II",
+        "cpc": "Limpa",
+        "realizada": "Mastectomia radical modificada + Linfadenectomia",
+        "cirurgiao": "Dr. Patricia Almeida",
+        "auxiliar": "Dr. André Costa",
+        "anestesia": "geral",
+        "anestesiologista": "Dr. Rafael Oliveira",
+        "circulantes": ["Tec. Lucia Fernandes", "Tec. João Pedro"]
+      },
+      "proteses": false,
+      "drenos": {
+        "succao": true,
+        "penrose": false,
+        "torax": false,
+        "kheer": false,
+        "outros": "Dreno de Portovac",
+        "local": "Axila direita"
+      },
+      "intercorrencias": "Sem intercorrências. Linfonodos enviados para anatomopatológico."
+    },
+    {
+      "id": "880e8400-e29b-41d4-a716-446655440008",
+      "pacienteId": 7,
+      "assistenciaIntraOperatoriaId": "660e8400-e29b-41d4-a716-446655440007",
+      "dataControle": "2025-01-22T14:45:00.000Z",
+      "dataCirurgia": "2025-01-22",
+      "nome": "Luiz Carlos Pereira",
+      "idade": 42,
+      "classificacao": "sus",
+      "sexo": "m",
+      "unidadeInternacao": "Traumatologia",
+      "numeroInternacao": "2025008",
+      "admissao": {
+        "data": "2025-01-21",
+        "horario": "23:45"
+      },
+      "antecedentes": {
+        "tabagista": true,
+        "diabetico": false,
+        "renalCronico": false,
+        "obeso": false,
+        "hipertenso": false
+      },
+      "tempoInternacao": {
+        "unidade": 15,
+        "uti": 0,
+        "infeccaoPrevia": false
+      },
+      "preOperatorio": {
+        "tricotomiaHoras": 1,
+        "local": "Região do fêmur direito",
+        "preparoSala": true,
+        "antissepticos": {
+          "clorexidinaDegermante": true,
+          "pvpiDegermante": false,
+          "clorexidinaAlcoolica": true,
+          "pvpiTintura": false,
+          "clorexidinaAquosa": false,
+          "pvpiTopico": false
+        }
+      },
+      "sondagens": {
+        "vesicalDemora": false,
+        "nasogastrica": false,
+        "vesicalAlivio": true,
+        "responsavel": "Enf. Marcos Silva"
+      },
+      "antibioticoProfilatico": "Cefazolina 2g EV",
+      "transfusoes": {
+        "sangue": false,
+        "plasma": false,
+        "quantidade": "0"
+      },
+      "cirurgia": {
+        "periodo": "t",
+        "reoperacao": false,
+        "duracao": 150,
+        "asa": "ASA II",
+        "cpc": "Limpa",
+        "realizada": "Osteossíntese de fêmur com haste intramedular",
+        "cirurgiao": "Dr. Eduardo Martins",
+        "auxiliar": "Dr. Gabriela Lima",
+        "anestesia": "raquianestesia",
+        "anestesiologista": "Dr. Claudio Reis",
+        "circulantes": ["Tec. Maria José", "Tec. Roberto Silva"]
+      },
+      "proteses": true,
+      "drenos": {
+        "succao": false,
+        "penrose": false,
+        "torax": false,
+        "kheer": false,
+        "outros": "",
+        "local": ""
+      },
+      "intercorrencias": "Sem intercorrências. Implante de haste femoral titânio sem complicações."
+    },
+    {
+      "id": "880e8400-e29b-41d4-a716-446655440009",
+      "pacienteId": 18,
+      "assistenciaIntraOperatoriaId": "660e8400-e29b-41d4-a716-446655440018",
+      "dataControle": "2025-01-23T10:30:00.000Z",
+      "dataCirurgia": "2025-01-23",
+      "nome": "Elena Rodrigues Costa",
+      "idade": 28,
+      "classificacao": "pacote",
+      "sexo": "f",
+      "unidadeInternacao": "Day Hospital",
+      "numeroInternacao": "2025009",
+      "admissao": {
+        "data": "2025-01-23",
+        "horario": "06:30"
+      },
+      "antecedentes": {
+        "tabagista": false,
+        "diabetico": false,
+        "renalCronico": false,
+        "obeso": false,
+        "hipertenso": false
+      },
+      "tempoInternacao": {
+        "unidade": 4,
+        "uti": 0,
+        "infeccaoPrevia": false
+      },
+      "preOperatorio": {
+        "tricotomiaHoras": 1,
+        "local": "Região inguinal bilateral",
+        "preparoSala": true,
+        "antissepticos": {
+          "clorexidinaDegermante": true,
+          "pvpiDegermante": false,
+          "clorexidinaAlcoolica": true,
+          "pvpiTintura": false,
+          "clorexidinaAquosa": false,
+          "pvpiTopico": false
+        }
+      },
+      "sondagens": {
+        "vesicalDemora": false,
+        "nasogastrica": false,
+        "vesicalAlivio": false,
+        "responsavel": ""
+      },
+      "antibioticoProfilatico": "Cefazolina 1g EV",
+      "transfusoes": {
+        "sangue": false,
+        "plasma": false,
+        "quantidade": "0"
+      },
+      "cirurgia": {
+        "periodo": "m",
+        "reoperacao": false,
+        "duracao": 60,
+        "asa": "ASA I",
+        "cpc": "Limpa",
+        "realizada": "Herniorrafia inguinal bilateral por videolaparoscopia",
+        "cirurgiao": "Dr. Antonio Carlos",
+        "auxiliar": "Tec. Lucia Fernandes",
+        "anestesia": "geral",
+        "anestesiologista": "Dr. Sergio Campos",
+        "circulantes": ["Tec. Carmen Silva"]
+      },
+      "proteses": true,
+      "drenos": {
+        "succao": false,
+        "penrose": false,
+        "torax": false,
+        "kheer": false,
+        "outros": "",
+        "local": ""
+      },
+      "intercorrencias": "Sem intercorrências. Tela de polipropileno implantada bilateralmente."
     }
   ]
 }

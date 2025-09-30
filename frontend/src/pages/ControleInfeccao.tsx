@@ -204,7 +204,8 @@ const ControleInfeccaoPage: React.FC = () => {
 
   const fetchControles = async () => {
     try {
-      const data = await api.getControlesInfeccao();
+      const response = await api.getControlesInfeccao();
+      const data = (response as any)?.data || response;
       setControles(Array.isArray(data) ? data as ControleInfeccaoHospitalar[] : []);
     } catch (error) {
       console.error('Erro ao buscar controles:', error);
