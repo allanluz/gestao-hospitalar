@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Hospitalar - Galeria de Screenshots</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2a5298;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .modules {
+            padding: 2rem;
+        }
+
+        .modules h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+            font-size: 2rem;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .module-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .module-subtitle {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .screenshots-grid {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .screenshot-item {
+            position: relative;
+            aspect-ratio: 16/9;
+            background: #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px dashed #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .screenshot-item:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .screenshot-item.has-image {
+            border: none;
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .screenshot-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.3rem;
+            font-size: 0.7rem;
+            text-align: center;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .instructions h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .instructions ul {
+            list-style-position: inside;
+            color: #666;
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Sistema de Gestão Hospitalar</h1>
+            <p>Galeria Completa de Screenshots - Documentação Visual</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalModules">13</div>
+                <div class="stat-label">Módulos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalScreenshots">0</div>
+                <div class="stat-label">Screenshots</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completedModules">0</div>
+                <div class="stat-label">Completos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="progressPercent">0%</div>
+                <div class="stat-label">Progresso</div>
+            </div>
+        </div>
+
+        <div class="modules">
+            <h2>📊 Módulos do Sistema</h2>
+            <div class="module-grid">
+                
+                <!-- Dashboard -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">01. Dashboard Principal</div>
+                        <div class="module-subtitle">Visão geral e menu de navegação</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>dashboard-overview.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>dashboard-sidebar-collapsed.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>dashboard-sidebar-expanded.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>dashboard-notificacoes.png</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pacientes -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">02. Gestão de Pacientes</div>
+                        <div class="module-subtitle">Cadastro, busca e histórico</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>pacientes-listagem.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>pacientes-busca.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>pacientes-filtros.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>pacientes-formulario-novo.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>pacientes-detalhes.png</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Funcionários -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">03. Gestão de Funcionários</div>
+                        <div class="module-subtitle">Equipe médica e administrativa</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>funcionarios-listagem.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>funcionarios-busca-cargo.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>funcionarios-busca-setor.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>funcionarios-formulario.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>funcionarios-perfil.png</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estoque -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">04. Controle de Estoque</div>
+                        <div class="module-subtitle">Inventário e movimentações</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>estoque-dashboard.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>estoque-alertas.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>estoque-movimentacao.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>estoque-relatorios.png</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UTI -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">05. UTI</div>
+                        <div class="module-subtitle">Unidade de Terapia Intensiva</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>uti-dashboard.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>uti-leitos-ocupados.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>uti-leitos-disponiveis.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>uti-pacientes-criticos.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>uti-equipamentos.png</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Centro Cirúrgico -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">06. Centro Cirúrgico</div>
+                        <div class="module-subtitle">Agenda e salas cirúrgicas</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>cc-agenda-diaria.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>cc-agenda-semanal.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>cc-salas-status.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>cc-equipamentos.png</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recepção Centro Cirúrgico -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">07. Recepção CC</div>
+                        <div class="module-subtitle">Entrada e controle cirúrgico</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>recepcao-dashboard.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>recepcao-formulario-entrada.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>recepcao-listagem-registros.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>recepcao-filtros-avancados.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>recepcao-modo-cards.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>recepcao-modo-tabela.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>recepcao-busca-ativa.png</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assistência Intra-Operatória -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">08. Assistência Intra-Operatória</div>
+                        <div class="module-subtitle">Controle durante cirurgias</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>assistencia-formulario-principal.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>assistencia-selecao-equipe.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>assistencia-materiais-utilizados.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>assistencia-intercorrencias.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>assistencia-horarios.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>assistencia-listagem.png</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recuperação Anestésica -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">09. Recuperação Anestésica</div>
+                        <div class="module-subtitle">Monitoramento pós-cirúrgico</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>recuperacao-dashboard.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>recuperacao-pacientes-ativos.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>recuperacao-sinais-vitais.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>recuperacao-aldrete-kroulik.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>recuperacao-formulario-completo.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>recuperacao-analise-tendencias.png</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controle de Infecção -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">10. Controle de Infecção</div>
+                        <div class="module-subtitle">CCIH e vigilância epidemiológica</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>infeccao-formulario-controle.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>infeccao-busca-paciente.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>infeccao-dados-cirurgia.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>infeccao-validacao-dados.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>infeccao-listagem-controles.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>infeccao-relatorio-ccih.png</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custeio Cirúrgico -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">11. Custeio Cirúrgico</div>
+                        <div class="module-subtitle">Controle de custos e materiais</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>custeio-formulario-principal.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>custeio-filtros-materiais.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>custeio-ordenacao-alfabetica.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>custeio-selecao-materiais.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>custeio-calculos-automaticos.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>custeio-listagem-registros.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>custeio-contador-materiais.png</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gerenciamento de Materiais -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">12. Gerenciamento de Materiais</div>
+                        <div class="module-subtitle">Catálogo de 352 itens cirúrgicos</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>materiais-listagem-completa.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>materiais-ordenacao-nome.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>materiais-filtro-categoria.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>materiais-busca-textual.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>materiais-detalhes-item.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>materiais-estatisticas.png</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sistema de Notificações -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-title">13. Sistema de Notificações</div>
+                        <div class="module-subtitle">Alertas e comunicação em tempo real</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <span>notificacoes-icone-header.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>notificacoes-badge-contador.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>notificacoes-painel-aberto.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>notificacoes-filtro-todas.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>notificacoes-filtro-nao-lidas.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>notificacoes-categorias.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>notificacoes-urgentes.png</span>
+                        </div>
+                        <div class="screenshot-item">
+                            <span>notificacoes-acoes.png</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Como utilizar esta galeria:</h3>
+            <ul>
+                <li>Cada módulo mostra as capturas de tela necessárias</li>
+                <li>Clique nos espaços vazios para ver o nome do arquivo esperado</li>
+                <li>As imagens aparecerão automaticamente quando colocadas nas pastas</li>
+                <li>Use os scripts de organização para mover as capturas automaticamente</li>
+                <li>O progresso é calculado automaticamente baseado nas imagens presentes</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 Sistema de Gestão Hospitalar - Documentação Visual Completa</p>
+        </div>
+    </div>
+
+    <script>
+        // Função para calcular estatísticas e atualizar a interface
+        function updateStats() {
+            const totalModules = 13;
+            let totalScreenshots = 0;
+            let completedModules = 0;
+            
+            const moduleCards = document.querySelectorAll('.module-card');
+            
+            moduleCards.forEach(card => {
+                const screenshots = card.querySelectorAll('.screenshot-item');
+                const hasImages = card.querySelectorAll('.screenshot-item.has-image');
+                
+                totalScreenshots += screenshots.length;
+                
+                const progress = (hasImages.length / screenshots.length) * 100;
+                const progressBar = card.querySelector('.progress-fill');
+                progressBar.style.width = progress + '%';
+                
+                if (progress === 100) {
+                    completedModules++;
+                }
+            });
+            
+            const overallProgress = Math.round((completedModules / totalModules) * 100);
+            
+            document.getElementById('totalScreenshots').textContent = totalScreenshots;
+            document.getElementById('completedModules').textContent = completedModules;
+            document.getElementById('progressPercent').textContent = overallProgress + '%';
+        }
+
+        // Simular carregamento de imagens (em um caso real, isso seria dinâmico)
+        function simulateImageLoading() {
+            // Esta função pode ser expandida para detectar arquivos reais
+            updateStats();
+        }
+
+        // Inicializar quando a página carregar
+        document.addEventListener('DOMContentLoaded', simulateImageLoading);
+        
+        // Atualizar a cada 5 segundos para detectar novas imagens
+        setInterval(updateStats, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "hospital-screenshots-automation",
+  "version": "1.0.0",
+  "description": "Automação para capturas de tela do sistema hospitalar",
+  "main": "screenshot-automation.js",
+  "scripts": {
+    "install-playwright": "npx playwright install",
+    "capture": "node screenshot-automation.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["playwright", "screenshots", "automation", "hospital"],
+  "author": "Sistema Hospitalar",
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.40.0",
+    "fs-extra": "^11.1.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}
