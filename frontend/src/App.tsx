@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { NotificationProvider } from './contexts/NotificationContext';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import Dashboard from './pages/Dashboard';
@@ -109,9 +110,11 @@ const AppLayout: React.FC = () => {
 
 function App() {
   return (
-    <Router>
-      <AppLayout />
-    </Router>
+    <NotificationProvider>
+      <Router>
+        <AppLayout />
+      </Router>
+    </NotificationProvider>
   );
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import NotificationPanel from './NotificationPanel';
 
 interface HeaderProps {
   onMenuToggle: () => void;
@@ -29,12 +30,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle, title = 'Dashboard' }) =>
         {/* Informações do usuário */}
         <div className="flex items-center space-x-4">
           {/* Notificações */}
-          <button className="relative p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-3.5-3.5a9 9 0 1 0-12.728 0L5 17h5m5 0v1a3 3 0 0 1-6 0v-1m6 0H9" />
-            </svg>
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-          </button>
+          <NotificationPanel />
 
           {/* Perfil do usuário */}
           <div className="flex items-center space-x-2">
