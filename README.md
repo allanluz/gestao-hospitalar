@@ -10,6 +10,7 @@ Um sistema completo de gerenciamento hospitalar desenvolvido com tecnologias mod
 - **Cadastro de Pacientes**: Gestão completa de informações dos pacientes
 - **Cadastro de Funcionários**: Controle de equipe médica e administrativa
 - **Controle de Estoque**: Gerenciamento de medicamentos e materiais hospitalares
+- **Gerenciamento de Materiais**: Catálogo completo com 260+ materiais hospitalares especializados
 - **UTI**: Controle específico de consumo e movimentações da UTI
 
 ### Centro Cirúrgico - Fluxo Completo
@@ -45,6 +46,42 @@ Um sistema completo de gerenciamento hospitalar desenvolvido com tecnologias mod
 - ✅ Relatórios de materiais utilizados
 - ✅ Análise de rentabilidade
 - ✅ Faturamento de procedimentos
+
+### Gerenciamento de Materiais - Catálogo Completo
+
+#### **Catálogo Abrangente**
+- ✅ **260+ materiais cadastrados** - Cobertura completa hospitalar
+- ✅ **25+ categorias especializadas** - Organização por especialidade médica
+- ✅ **Controle de estoque avançado** - Mínimos, máximos e alertas automáticos
+- ✅ **Precificação completa** - Custos e valores de venda configurados
+
+#### **Categorias Implementadas**
+- 🫀 **CARDIOLOGIA** - Stents coronarianos, cateteres especializados, dispositivos cardíacos
+- 🧠 **NEUROLOGIA** - Shunts neurocirúrgicos, materiais de neurocirurgia
+- 🎗️ **ONCOLOGIA** - Ports para quimioterapia, dispositivos oncológicos
+- 👁️ **OFTALMOLOGIA** - Lentes intraoculares, dispositivos oculares
+- 👶 **PEDIATRIA/NEONATOLOGIA** - Materiais específicos para crianças e recém-nascidos
+- 🏥 **UTI/EMERGÊNCIA** - Equipamentos críticos, medicamentos de urgência
+- 🔬 **LABORATÓRIO** - Tubos de coleta, reagentes, análises clínicas
+- 🩺 **CIRURGIA GERAL** - Instrumentais, suturas, materiais básicos
+- 💊 **MEDICAMENTOS** - Ampolas, comprimidos, soluções injetáveis
+- 🦴 **ORTOPEDIA** - Próteses, implantes ortopédicos, materiais cirúrgicos
+- ➕ E mais 15+ categorias especializadas
+
+#### **Funcionalidades Avançadas**
+- ✅ **Sistema de filtros múltiplos** - Por categoria, subcategoria, status
+- ✅ **Busca inteligente** - Por nome, código ou especificação
+- ✅ **Ordenação flexível** - Por nome, categoria, estoque, valor
+- ✅ **Classificações técnicas** - Estéril, descartável, implantável
+- ✅ **Gestão de fornecedores** - Códigos e informações de fornecimento
+- ✅ **Relatórios detalhados** - Estatísticas por categoria e subcategoria
+- ✅ **Interface responsiva** - Otimizada para desktop, tablet e mobile
+
+#### **Integração com Custeio**
+- ✅ **Integração automática** - Materiais disponíveis no custeio cirúrgico
+- ✅ **Precificação em tempo real** - Custos atualizados automaticamente
+- ✅ **Controle de consumo** - Registro de uso por procedimento
+- ✅ **Análise de rentabilidade** - Margem de lucro por material
 
 ### Recursos Técnicos
 
@@ -173,6 +210,15 @@ A aplicação estará disponível em `http://localhost:3000`
 - `POST /api/uti/consumo` - Registrar consumo
 - `GET /api/uti/relatorio` - Relatório de consumo
 
+### Materiais
+- `GET /api/materiais` - Listar todos os materiais (com filtros)
+- `GET /api/materiais/categorias` - Listar categorias disponíveis
+- `GET /api/materiais/estatisticas` - Estatísticas do catálogo
+- `GET /api/materiais/:id` - Buscar material por ID
+- `POST /api/materiais` - Criar novo material
+- `PUT /api/materiais/:id` - Atualizar material
+- `DELETE /api/materiais/:id` - Remover material
+
 ### Centro Cirúrgico
 
 #### Recepção do Centro Cirúrgico
@@ -241,7 +287,9 @@ O sistema vem com dados mockados incluindo:
 - 4 pacientes de exemplo
 - 5 funcionários de diferentes setores
 - 7 itens de estoque (medicamentos e materiais)
+- **260 materiais hospitalares especializados** organizados em 25+ categorias
 - Histórico de movimentações da UTI e Centro Cirúrgico
+- Dados completos de custeio cirúrgico com materiais integrados
 
 ## ✅ Funcionalidades Implementadas
 
@@ -250,6 +298,7 @@ O sistema vem com dados mockados incluindo:
 - ✅ Cadastro completo de pacientes com CEP automático
 - ✅ Gestão de funcionários por setor
 - ✅ Controle de estoque com alertas
+- ✅ **Gerenciamento de Materiais** - Catálogo completo com 260+ itens
 - ✅ UTI com controle de consumo
 
 ### Centro Cirúrgico - Fluxo Completo Santa Casa de Tupã
@@ -312,6 +361,7 @@ Implementação completa do fluxo hospitalar com foco em:
 ---
 
 ⚡ **Status**: Sistema Completo e Operacional  
-🏥 **Versão**: 2.0.0 - Centro Cirúrgico Completo  
-📅 **Última Atualização**: Dezembro 2024  
-🚀 **Ambiente**: Produção Ready
+🏥 **Versão**: 2.1.0 - Catálogo de Materiais Implementado  
+📅 **Última Atualização**: Outubro 2025  
+🚀 **Ambiente**: Produção Ready  
+📦 **Materiais**: 260+ itens em 25+ categorias especializadas
