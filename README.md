@@ -141,43 +141,67 @@ git clone <url-do-repositorio>
 cd gestao-hospitalar
 ```
 
-### 2. Instale as dependências
+### 🚀 **Formas de Inicializar o Sistema**
 
-#### Backend:
-```bash
-cd backend
-npm install
+#### ⚡ **Opção 1: Inicialização Automática (Recomendado)**
+
+##### 🖱️ **Windows - Clique Duplo:**
+```
+1. Clique duas vezes em: START-HOSPITAL.bat
+2. Aguarde a inicialização automática
+3. Sistema abre automaticamente no navegador
 ```
 
-#### Frontend:
+##### 💻 **Qualquer Sistema Operacional:**
 ```bash
-cd frontend
-npm install
+# Primeira execução (instala dependências automaticamente)
+npm start
+
+# Ou usando o script direto
+node start-system.js
 ```
 
-### 3. Execute a aplicação
+#### **Opção 2: Instalação Rápida**
+```bash
+# Instala todas as dependências de uma vez
+npm run setup
 
-#### Opção 1: Usando tarefas do VS Code
+# Inicia o sistema completo
+npm start
+```
+
+#### **Opção 3: VS Code Tasks**
 1. Abra o projeto no VS Code
 2. Use `Ctrl+Shift+P` e digite "Tasks: Run Task"
 3. Selecione "Start Backend Server"
 4. Repita o processo e selecione "Start Frontend Server"
 
-#### Opção 2: Via terminal
+#### **Opção 4: Manual (Tradicional)**
 
 **Backend** (Terminal 1):
 ```bash
 cd backend
+npm install
 npm run dev
 ```
-O servidor estará disponível em `http://localhost:5000`
 
 **Frontend** (Terminal 2):
 ```bash
 cd frontend
+npm install
 npm start
 ```
-A aplicação estará disponível em `http://localhost:3000`
+
+### 🌐 **Acesso ao Sistema**
+- **Dashboard:** http://localhost:3000
+- **Backend API:** http://localhost:5000
+
+### ✨ **Recursos Disponíveis Imediatamente**
+- 📊 Dashboard com estatísticas em tempo real
+- 🔬 Catálogo com 260+ materiais hospitalares
+- 🏥 Centro Cirúrgico completo com 5 módulos
+- 👥 Gestão de pacientes e funcionários
+- 📦 Controle de estoque inteligente
 
 ## 📡 API Endpoints
 

@@ -1,0 +1,61 @@
+{
+  "name": "sistema-hospitalar-santa-casa",
+  "version": "2.1.0",
+  "description": "Sistema completo de gerenciamento hospitalar da Santa Casa de Misericórdia de Tupã com 260+ materiais catalogados",
+  "main": "start-system.js",
+  "scripts": {
+    "start": "node start-system.js",
+    "dev": "node start-system.js",
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "test": "cd frontend && npm test",
+    "setup": "npm run install-all && echo \"✅ Setup completo! Execute: npm start\"",
+    "clean": "rmdir /s /q backend\\node_modules frontend\\node_modules 2>nul || rm -rf backend/node_modules frontend/node_modules",
+    "docs": "echo \"📖 Documentação disponível no README.md\" && type README.md"
+  },
+  "keywords": [
+    "hospital",
+    "management",
+    "healthcare",
+    "santa-casa",
+    "materiais-hospitalares",
+    "centro-cirurgico",
+    "react",
+    "nodejs",
+    "typescript",
+    "sistema-hospitalar"
+  ],
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/allanluz/gestao-hospitalar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/allanluz/gestao-hospitalar/issues"
+  },
+  "homepage": "https://github.com/allanluz/gestao-hospitalar#readme",
+  "author": {
+    "name": "Sistema Hospitalar",
+    "email": "contato@santacasa.com.br"
+  },
+  "license": "MIT",
+  "private": false,
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "files": [
+    "start-system.js",
+    "START-HOSPITAL.bat",
+    "README.md",
+    "backend/",
+    "frontend/",
+    "!backend/node_modules",
+    "!frontend/node_modules"
+  ]
+}
