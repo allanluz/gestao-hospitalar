@@ -7,6 +7,7 @@ const funcionariosRoutes = require('./src/routes/funcionarios');
 const estoqueRoutes = require('./src/routes/estoque');
 const utiRoutes = require('./src/routes/uti');
 const centroCircurgicoRoutes = require('./src/routes/centroCircurgico');
+const medicamentosRoutes = require('./src/routes/medicamentos');
 
 // Novas rotas do fluxo hospitalar
 const centroCircurgicoRecepcaoRoutes = require('./src/routes/centroCircurgicoRecepcao');
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use('/api/pacientes', pacientesRoutes);
 app.use('/api/funcionarios', funcionariosRoutes);
 app.use('/api/estoque', estoqueRoutes);
+app.use('/api/medicamentos', medicamentosRoutes);
 app.use('/api/uti', utiRoutes);
 app.use('/api/centro-cirurgico', centroCircurgicoRoutes);
 

@@ -1,7 +1,30 @@
-const API_BASE_URL = 'http://localhost:5000/api';
-
 class ApiService {
+  // Detecta automaticamente o ambiente em cada requisição
+  private getApiBaseUrl(): string {
+    // Se estiver definido no ambiente, usa
+    if (process.env.REACT_APP_API_URL) {
+      console.log('[API] Usando REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+      return process.env.REACT_APP_API_URL;
+    }
+    
+    // Se estiver acessando pelo IP do servidor, usa o mesmo IP para a API
+    const hostname = window.location.hostname;
+    console.log('[API] Hostname detectado:', hostname);
+    
+    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+      const apiUrl = `http://${hostname}:5000/api`;
+      console.log('[API] Usando API URL:', apiUrl);
+      return apiUrl;
+    }
+    
+    // Fallback para localhost
+    console.log('[API] Fallback para localhost');
+    return 'http://localhost:5000/api';
+  }
+
   private async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
+    // Chama getApiBaseUrl() em cada requisição para garantir detecção correta
+    const API_BASE_URL = this.getApiBaseUrl();
     const url = `${API_BASE_URL}${endpoint}`;
     const response = await fetch(url, {
       headers: {

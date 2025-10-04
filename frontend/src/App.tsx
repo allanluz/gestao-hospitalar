@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Pacientes from './pages/Pacientes';
 import Funcionarios from './pages/Funcionarios';
 import Estoque from './pages/Estoque';
+import Medicamentos from './pages/Medicamentos';
 import UTI from './pages/UTI';
 import CentroCircurgico from './pages/CentroCircurgico';
 import RecepcaoCentroCircurgico from './pages/RecepcaoCentroCircurgico';
@@ -23,6 +24,7 @@ const getPageTitle = (pathname: string): string => {
     '/pacientes': 'Pacientes',
     '/funcionarios': 'Funcionários',
     '/estoque': 'Estoque',
+    '/medicamentos': 'Medicamentos',
     '/uti': 'UTI',
     '/centro-cirurgico': 'Centro Cirúrgico',
     '/centro-cirurgico-recepcao': 'Recepção Centro Cirúrgico',
@@ -93,6 +95,7 @@ const AppLayout: React.FC = () => {
             <Route path="/pacientes" element={<Pacientes />} />
             <Route path="/funcionarios" element={<Funcionarios />} />
             <Route path="/estoque" element={<Estoque />} />
+            <Route path="/medicamentos" element={<Medicamentos />} />
             <Route path="/uti" element={<UTI />} />
             <Route path="/centro-cirurgico" element={<CentroCircurgico />} />
             <Route path="/centro-cirurgico-recepcao" element={<RecepcaoCentroCircurgico />} />
