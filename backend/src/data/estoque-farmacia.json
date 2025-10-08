@@ -1,1 +1,73 @@
-[]
+[
+  {
+    "id": "FAR1704920001",
+    "medicamentoId": "MED001",
+    "medicamentoNome": "Dipirona 500mg",
+    "quantidade": 148,
+    "lote": "LOT2024001",
+    "validade": "2026-12-31",
+    "dataEntrada": "2025-01-10T10:45:00.000Z",
+    "dataUltimaMovimentacao": "2025-01-12T18:40:00.000Z",
+    "localizacao": "Farmácia Principal - Prateleira A2"
+  },
+  {
+    "id": "FAR1704920002",
+    "medicamentoId": "MED002",
+    "medicamentoNome": "Paracetamol 750mg",
+    "quantidade": 65,
+    "lote": "LOT2023080",
+    "validade": "2025-06-30",
+    "dataEntrada": "2024-12-15T14:20:00.000Z",
+    "localizacao": "Farmácia Principal - Prateleira A3"
+  },
+  {
+    "id": "FAR1704920003",
+    "medicamentoId": "MED006",
+    "medicamentoNome": "Losartana 50mg",
+    "quantidade": 220,
+    "lote": "LOT2024015",
+    "validade": "2027-03-10",
+    "dataEntrada": "2025-01-05T09:00:00.000Z",
+    "localizacao": "Farmácia Principal - Prateleira B1"
+  },
+  {
+    "id": "FAR1704920004",
+    "medicamentoId": "MED007",
+    "medicamentoNome": "Metformina 850mg",
+    "quantidade": 180,
+    "lote": "LOT2024020",
+    "validade": "2026-09-25",
+    "dataEntrada": "2025-01-08T11:30:00.000Z",
+    "localizacao": "Farmácia Principal - Prateleira B2"
+  },
+  {
+    "id": "FAR1704920005",
+    "medicamentoId": "MED008",
+    "medicamentoNome": "Atenolol 25mg",
+    "quantidade": 95,
+    "lote": "LOT2024012",
+    "validade": "2026-11-18",
+    "dataEntrada": "2025-01-06T15:45:00.000Z",
+    "localizacao": "Farmácia Principal - Prateleira B3"
+  },
+  {
+    "id": "FAR1704920006",
+    "medicamentoId": "MED009",
+    "medicamentoNome": "Captopril 25mg",
+    "quantidade": 30,
+    "lote": "LOT2023095",
+    "validade": "2025-04-22",
+    "dataEntrada": "2024-11-20T10:00:00.000Z",
+    "localizacao": "Farmácia Principal - Prateleira C1"
+  },
+  {
+    "id": "FAR1704920007",
+    "medicamentoId": "MED010",
+    "medicamentoNome": "Sinvastatina 20mg",
+    "quantidade": 140,
+    "lote": "LOT2024030",
+    "validade": "2027-01-15",
+    "dataEntrada": "2025-01-09T13:20:00.000Z",
+    "localizacao": "Farmácia Principal - Prateleira C2"
+  }
+]

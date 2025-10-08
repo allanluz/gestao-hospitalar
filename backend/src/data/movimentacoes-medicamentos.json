@@ -1,1 +1,179 @@
-[]
+[
+  {
+    "id": "MOV1704923000001ABC",
+    "tipo": "requisicao",
+    "medicamentoId": "MED001",
+    "medicamentoNome": "Dipirona 500mg",
+    "quantidade": 100,
+    "justificativa": "Reposição de estoque para atender demanda semanal",
+    "solicitante": "Dra. Ana Silva - Farmacêutica",
+    "dataSolicitacao": "2025-01-10T08:30:00.000Z",
+    "status": "recebida",
+    "origem": "estoque_central",
+    "destino": "farmacia",
+    "lote": "LOT2024001",
+    "validade": "2026-12-31",
+    "aprovadoPor": "João Santos - Gestor Estoque",
+    "dataAprovacao": "2025-01-10T09:15:00.000Z",
+    "responsavelExpedicao": "Pedro Lima - Almoxarife",
+    "dataExpedicao": "2025-01-10T10:00:00.000Z",
+    "recebidoPor": "Maria Costa - Auxiliar Farmácia",
+    "dataRecebimento": "2025-01-10T10:45:00.000Z",
+    "quantidadeRecebida": 100,
+    "divergencia": false,
+    "observacoes": [
+      {
+        "data": "2025-01-10T09:15:00.000Z",
+        "usuario": "João Santos - Gestor Estoque",
+        "texto": "Requisição aprovada - item disponível em estoque"
+      },
+      {
+        "data": "2025-01-10T10:00:00.000Z",
+        "usuario": "Pedro Lima - Almoxarife",
+        "texto": "Transferência iniciada. Quantidade: 100"
+      },
+      {
+        "data": "2025-01-10T10:45:00.000Z",
+        "usuario": "Maria Costa - Auxiliar Farmácia",
+        "texto": "Recebimento confirmado. Quantidade: 100"
+      }
+    ]
+  },
+  {
+    "id": "MOV1704923000002DEF",
+    "tipo": "requisicao",
+    "medicamentoId": "MED002",
+    "medicamentoNome": "Paracetamol 750mg",
+    "quantidade": 200,
+    "justificativa": "Estoque crítico - necessário para prescrições urgentes",
+    "solicitante": "Dr. Carlos Mendes - Farmacêutico",
+    "dataSolicitacao": "2025-01-11T14:20:00.000Z",
+    "status": "em_transito",
+    "origem": "estoque_central",
+    "destino": "farmacia",
+    "lote": "LOT2024025",
+    "validade": "2026-08-15",
+    "aprovadoPor": "João Santos - Gestor Estoque",
+    "dataAprovacao": "2025-01-11T14:45:00.000Z",
+    "responsavelExpedicao": "Pedro Lima - Almoxarife",
+    "dataExpedicao": "2025-01-11T15:30:00.000Z",
+    "observacoes": [
+      {
+        "data": "2025-01-11T14:45:00.000Z",
+        "usuario": "João Santos - Gestor Estoque",
+        "texto": "Aprovado com urgência devido a estoque crítico"
+      },
+      {
+        "data": "2025-01-11T15:30:00.000Z",
+        "usuario": "Pedro Lima - Almoxarife",
+        "texto": "Transferência iniciada. Quantidade: 200"
+      }
+    ]
+  },
+  {
+    "id": "MOV1704923000003GHI",
+    "tipo": "requisicao",
+    "medicamentoId": "MED003",
+    "medicamentoNome": "Ibuprofeno 600mg",
+    "quantidade": 150,
+    "justificativa": "Reposição mensal programada",
+    "solicitante": "Dra. Ana Silva - Farmacêutica",
+    "dataSolicitacao": "2025-01-12T09:00:00.000Z",
+    "status": "aprovada",
+    "origem": "estoque_central",
+    "destino": "farmacia",
+    "lote": "",
+    "validade": "",
+    "aprovadoPor": "João Santos - Gestor Estoque",
+    "dataAprovacao": "2025-01-12T09:30:00.000Z",
+    "observacoes": [
+      {
+        "data": "2025-01-12T09:30:00.000Z",
+        "usuario": "João Santos - Gestor Estoque",
+        "texto": "Requisição aprovada - aguardando separação"
+      }
+    ]
+  },
+  {
+    "id": "MOV1704923000004JKL",
+    "tipo": "requisicao",
+    "medicamentoId": "MED004",
+    "medicamentoNome": "Omeprazol 20mg",
+    "quantidade": 80,
+    "justificativa": "Aumento de demanda devido a novos protocolos",
+    "solicitante": "Dr. Carlos Mendes - Farmacêutico",
+    "dataSolicitacao": "2025-01-12T16:00:00.000Z",
+    "status": "pendente",
+    "origem": "estoque_central",
+    "destino": "farmacia",
+    "lote": "",
+    "validade": "",
+    "observacoes": []
+  },
+  {
+    "id": "MOV1704923000005MNO",
+    "tipo": "requisicao",
+    "medicamentoId": "MED005",
+    "medicamentoNome": "Amoxicilina 500mg",
+    "quantidade": 300,
+    "justificativa": "Solicitação para campanha de prevenção",
+    "solicitante": "Dra. Ana Silva - Farmacêutica",
+    "dataSolicitacao": "2025-01-10T11:00:00.000Z",
+    "status": "rejeitada",
+    "origem": "estoque_central",
+    "destino": "farmacia",
+    "lote": "",
+    "validade": "",
+    "rejeitadoPor": "João Santos - Gestor Estoque",
+    "dataRejeicao": "2025-01-10T12:00:00.000Z",
+    "motivoRejeicao": "Quantidade insuficiente no estoque central. Disponível apenas 120 unidades.",
+    "observacoes": [
+      {
+        "data": "2025-01-10T12:00:00.000Z",
+        "usuario": "João Santos - Gestor Estoque",
+        "texto": "Requisição rejeitada. Motivo: Quantidade insuficiente no estoque central. Disponível apenas 120 unidades."
+      }
+    ]
+  },
+  {
+    "id": "MOV1704923000006PQR",
+    "tipo": "requisicao",
+    "medicamentoId": "MED001",
+    "medicamentoNome": "Dipirona 500mg",
+    "quantidade": 50,
+    "justificativa": "Complemento de estoque",
+    "solicitante": "Maria Costa - Auxiliar Farmácia",
+    "dataSolicitacao": "2025-01-12T17:30:00.000Z",
+    "status": "recebida",
+    "origem": "estoque_central",
+    "destino": "farmacia",
+    "lote": "LOT2024002",
+    "validade": "2027-01-20",
+    "aprovadoPor": "João Santos - Gestor Estoque",
+    "dataAprovacao": "2025-01-12T17:50:00.000Z",
+    "responsavelExpedicao": "Ana Paula - Auxiliar Almoxarife",
+    "dataExpedicao": "2025-01-12T18:15:00.000Z",
+    "recebidoPor": "Dr. Carlos Mendes - Farmacêutico",
+    "dataRecebimento": "2025-01-12T18:40:00.000Z",
+    "quantidadeRecebida": 48,
+    "divergencia": true,
+    "quantidadeDivergente": 2,
+    "observacoes": [
+      {
+        "data": "2025-01-12T17:50:00.000Z",
+        "usuario": "João Santos - Gestor Estoque",
+        "texto": "Aprovação rápida - item de alta rotatividade"
+      },
+      {
+        "data": "2025-01-12T18:15:00.000Z",
+        "usuario": "Ana Paula - Auxiliar Almoxarife",
+        "texto": "Transferência iniciada. Quantidade: 50"
+      },
+      {
+        "data": "2025-01-12T18:40:00.000Z",
+        "usuario": "Dr. Carlos Mendes - Farmacêutico",
+        "texto": "Recebimento com divergência: 2 unidades danificadas durante transporte - conferir embalagem"
+      }
+    ]
+  }
+]
