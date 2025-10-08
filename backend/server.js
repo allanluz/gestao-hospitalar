@@ -19,6 +19,7 @@ const materiaisRoutes = require('./src/routes/materiais');
 const prescricoesRoutes = require('./src/routes/prescricoes');
 const movimentacoesRoutes = require('./src/routes/movimentacoes');
 const dispensacoesRoutes = require('./src/routes/dispensacoes');
+const relatoriosRoutes = require('./src/routes/relatorios');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -47,6 +48,7 @@ app.use('/api/materiais', materiaisRoutes);
 app.use('/api/prescricoes', prescricoesRoutes);
 app.use('/api/movimentacoes', movimentacoesRoutes);
 app.use('/api/dispensacoes', dispensacoesRoutes);
+app.use('/api/relatorios', relatoriosRoutes);
 
 // Rota de status
 app.get('/api/status', (req, res) => {

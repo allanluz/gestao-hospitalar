@@ -65,6 +65,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
       icon: '💊' 
     },
     { 
+      path: '/relatorios-gerenciais', 
+      label: 'Relatórios', 
+      icon: '📊' 
+    },
+    { 
       path: '/gerenciamento-materiais', 
       label: 'Materiais', 
       icon: '🧰' 

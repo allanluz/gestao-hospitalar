@@ -19,6 +19,7 @@ import GerenciamentoMateriais from './pages/GerenciamentoMateriais';
 import Prescricoes from './pages/Prescricoes';
 import Movimentacoes from './pages/Movimentacoes';
 import Dispensacoes from './pages/Dispensacoes';
+import RelatoriosGerenciais from './pages/RelatoriosGerenciais';
 
 // Componente para obter o título da página
 const getPageTitle = (pathname: string): string => {
@@ -39,6 +40,7 @@ const getPageTitle = (pathname: string): string => {
     '/prescricoes': 'Prescrições Médicas',
     '/movimentacoes': 'Movimentação de Medicamentos',
     '/dispensacoes': 'Dispensação de Medicamentos',
+    '/relatorios-gerenciais': 'Relatórios Gerenciais',
   };
   return titles[pathname] || 'Hospital Manager';
 };
@@ -113,6 +115,7 @@ const AppLayout: React.FC = () => {
             <Route path="/prescricoes" element={<Prescricoes />} />
             <Route path="/movimentacoes" element={<Movimentacoes />} />
             <Route path="/dispensacoes" element={<Dispensacoes />} />
+            <Route path="/relatorios-gerenciais" element={<RelatoriosGerenciais />} />
           </Routes>
         </main>
       </div>
