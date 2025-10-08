@@ -1,1 +1,246 @@
-[]
+[
+  {
+    "id": "DISP1728400000001ABC",
+    "prescricaoId": "PRESC001",
+    "medicamentoId": "MED001",
+    "medicamentoNome": "Dipirona 500mg",
+    "quantidade": 2,
+    "pacienteId": "PAC001",
+    "pacienteNome": "Maria Silva",
+    "lote": "LOT2024001",
+    "validade": "2026-12-31",
+    "status": "administrada",
+    "farmaceutico": "Dra. Ana Costa - Farmacêutica",
+    "dataDispensacao": "2025-10-08T08:00:00.000Z",
+    "enfermeiro": "Enf. João Santos",
+    "dataAdministracao": "2025-10-08T08:15:00.000Z",
+    "horarioPrescrito": "2025-10-08T08:00:00.000Z",
+    "horarioRealAdministracao": "2025-10-08T08:15:00.000Z",
+    "atrasoMinutos": 15,
+    "observacoes": [
+      {
+        "data": "2025-10-08T08:00:00.000Z",
+        "usuario": "Dra. Ana Costa - Farmacêutica",
+        "texto": "Medicamento separado e conferido",
+        "tipo": "dispensacao"
+      },
+      {
+        "data": "2025-10-08T08:15:00.000Z",
+        "usuario": "Enf. João Santos",
+        "texto": "Medicamento administrado ao paciente Maria Silva",
+        "tipo": "administracao"
+      }
+    ]
+  },
+  {
+    "id": "DISP1728400000002DEF",
+    "prescricaoId": "PRESC002",
+    "medicamentoId": "MED002",
+    "medicamentoNome": "Paracetamol 750mg",
+    "quantidade": 1,
+    "pacienteId": "PAC002",
+    "pacienteNome": "João Pereira",
+    "lote": "LOT2023080",
+    "validade": "2025-06-30",
+    "status": "dispensada",
+    "farmaceutico": "Dr. Carlos Mendes - Farmacêutico",
+    "dataDispensacao": "2025-10-08T09:30:00.000Z",
+    "enfermeiro": null,
+    "dataAdministracao": null,
+    "horarioPrescrito": null,
+    "horarioRealAdministracao": null,
+    "observacoes": [
+      {
+        "data": "2025-10-08T09:30:00.000Z",
+        "usuario": "Dr. Carlos Mendes - Farmacêutico",
+        "texto": "Aguardando administração pela enfermagem",
+        "tipo": "dispensacao"
+      }
+    ]
+  },
+  {
+    "id": "DISP1728400000003GHI",
+    "prescricaoId": "PRESC001",
+    "medicamentoId": "MED006",
+    "medicamentoNome": "Losartana 50mg",
+    "quantidade": 1,
+    "pacienteId": "PAC001",
+    "pacienteNome": "Maria Silva",
+    "lote": "LOT2024015",
+    "validade": "2027-03-10",
+    "status": "administrada",
+    "farmaceutico": "Dra. Ana Costa - Farmacêutica",
+    "dataDispensacao": "2025-10-08T07:45:00.000Z",
+    "enfermeiro": "Enf. Paula Oliveira",
+    "dataAdministracao": "2025-10-08T08:00:00.000Z",
+    "horarioPrescrito": "2025-10-08T08:00:00.000Z",
+    "horarioRealAdministracao": "2025-10-08T08:00:00.000Z",
+    "observacoes": [
+      {
+        "data": "2025-10-08T07:45:00.000Z",
+        "usuario": "Dra. Ana Costa - Farmacêutica",
+        "texto": "Medicamento para controle de hipertensão",
+        "tipo": "dispensacao"
+      },
+      {
+        "data": "2025-10-08T08:00:00.000Z",
+        "usuario": "Enf. Paula Oliveira",
+        "texto": "Medicamento administrado ao paciente Maria Silva",
+        "tipo": "administracao"
+      }
+    ]
+  },
+  {
+    "id": "DISP1728400000004JKL",
+    "prescricaoId": "PRESC003",
+    "medicamentoId": "MED007",
+    "medicamentoNome": "Metformina 850mg",
+    "quantidade": 2,
+    "pacienteId": "PAC003",
+    "pacienteNome": "Pedro Alves",
+    "lote": "LOT2024020",
+    "validade": "2026-09-25",
+    "status": "administrada",
+    "farmaceutico": "Dr. Carlos Mendes - Farmacêutico",
+    "dataDispensacao": "2025-10-07T18:30:00.000Z",
+    "enfermeiro": "Enf. Maria Lima",
+    "dataAdministracao": "2025-10-07T19:15:00.000Z",
+    "horarioPrescrito": "2025-10-07T19:00:00.000Z",
+    "horarioRealAdministracao": "2025-10-07T19:15:00.000Z",
+    "atrasoMinutos": 15,
+    "observacoes": [
+      {
+        "data": "2025-10-07T18:30:00.000Z",
+        "usuario": "Dr. Carlos Mendes - Farmacêutico",
+        "texto": "Dispensação para tratamento de diabetes",
+        "tipo": "dispensacao"
+      },
+      {
+        "data": "2025-10-07T19:15:00.000Z",
+        "usuario": "Enf. Maria Lima",
+        "texto": "Medicamento administrado ao paciente Pedro Alves",
+        "tipo": "administracao"
+      }
+    ]
+  },
+  {
+    "id": "DISP1728400000005MNO",
+    "prescricaoId": "PRESC002",
+    "medicamentoId": "MED008",
+    "medicamentoNome": "Atenolol 25mg",
+    "quantidade": 1,
+    "pacienteId": "PAC002",
+    "pacienteNome": "João Pereira",
+    "lote": "LOT2024012",
+    "validade": "2026-11-18",
+    "status": "dispensada",
+    "farmaceutico": "Dra. Ana Costa - Farmacêutica",
+    "dataDispensacao": "2025-10-08T10:00:00.000Z",
+    "enfermeiro": null,
+    "dataAdministracao": null,
+    "horarioPrescrito": null,
+    "horarioRealAdministracao": null,
+    "observacoes": [
+      {
+        "data": "2025-10-08T10:00:00.000Z",
+        "usuario": "Dra. Ana Costa - Farmacêutica",
+        "texto": "Medicamento para controle de pressão arterial",
+        "tipo": "dispensacao"
+      }
+    ]
+  },
+  {
+    "id": "DISP1728400000006PQR",
+    "prescricaoId": "PRESC004",
+    "medicamentoId": "MED001",
+    "medicamentoNome": "Dipirona 500mg",
+    "quantidade": 1,
+    "pacienteId": "PAC004",
+    "pacienteNome": "Ana Rodrigues",
+    "lote": "LOT2024001",
+    "validade": "2026-12-31",
+    "status": "cancelada",
+    "farmaceutico": "Dr. Carlos Mendes - Farmacêutico",
+    "dataDispensacao": "2025-10-08T11:00:00.000Z",
+    "enfermeiro": null,
+    "dataAdministracao": null,
+    "canceladoPor": "Dr. Roberto Santos - Médico",
+    "dataCancelamento": "2025-10-08T11:30:00.000Z",
+    "motivoCancelamento": "Paciente apresentou reação alérgica anterior. Prescrição alterada.",
+    "horarioPrescrito": null,
+    "horarioRealAdministracao": null,
+    "observacoes": [
+      {
+        "data": "2025-10-08T11:00:00.000Z",
+        "usuario": "Dr. Carlos Mendes - Farmacêutico",
+        "texto": "Medicamento separado",
+        "tipo": "dispensacao"
+      },
+      {
+        "data": "2025-10-08T11:30:00.000Z",
+        "usuario": "Dr. Roberto Santos - Médico",
+        "texto": "Dispensação cancelada. Motivo: Paciente apresentou reação alérgica anterior. Prescrição alterada.",
+        "tipo": "cancelamento"
+      }
+    ]
+  },
+  {
+    "id": "DISP1728400000007STU",
+    "prescricaoId": "PRESC001",
+    "medicamentoId": "MED001",
+    "medicamentoNome": "Dipirona 500mg",
+    "quantidade": 2,
+    "pacienteId": "PAC001",
+    "pacienteNome": "Maria Silva",
+    "lote": "LOT2024001",
+    "validade": "2026-12-31",
+    "status": "administrada",
+    "farmaceutico": "Dra. Ana Costa - Farmacêutica",
+    "dataDispensacao": "2025-10-08T14:00:00.000Z",
+    "enfermeiro": "Enf. João Santos",
+    "dataAdministracao": "2025-10-08T14:55:00.000Z",
+    "horarioPrescrito": "2025-10-08T14:00:00.000Z",
+    "horarioRealAdministracao": "2025-10-08T14:55:00.000Z",
+    "atrasoMinutos": 55,
+    "observacoes": [
+      {
+        "data": "2025-10-08T14:00:00.000Z",
+        "usuario": "Dra. Ana Costa - Farmacêutica",
+        "texto": "Dose da tarde",
+        "tipo": "dispensacao"
+      },
+      {
+        "data": "2025-10-08T14:55:00.000Z",
+        "usuario": "Enf. João Santos",
+        "texto": "Medicamento administrado ao paciente Maria Silva - Atraso devido emergência em outro leito",
+        "tipo": "administracao"
+      }
+    ]
+  },
+  {
+    "id": "DISP1728400000008VWX",
+    "prescricaoId": "PRESC005",
+    "medicamentoId": "MED010",
+    "medicamentoNome": "Sinvastatina 20mg",
+    "quantidade": 1,
+    "pacienteId": "PAC005",
+    "pacienteNome": "Carlos Eduardo",
+    "lote": "LOT2024030",
+    "validade": "2027-01-15",
+    "status": "dispensada",
+    "farmaceutico": "Dr. Carlos Mendes - Farmacêutico",
+    "dataDispensacao": "2025-10-08T12:15:00.000Z",
+    "enfermeiro": null,
+    "dataAdministracao": null,
+    "horarioPrescrito": null,
+    "horarioRealAdministracao": null,
+    "observacoes": [
+      {
+        "data": "2025-10-08T12:15:00.000Z",
+        "usuario": "Dr. Carlos Mendes - Farmacêutico",
+        "texto": "Medicamento para controle de colesterol - tomar à noite",
+        "tipo": "dispensacao"
+      }
+    ]
+  }
+]

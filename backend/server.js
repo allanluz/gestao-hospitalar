@@ -18,6 +18,7 @@ const custeioRoutes = require('./src/routes/custeio');
 const materiaisRoutes = require('./src/routes/materiais');
 const prescricoesRoutes = require('./src/routes/prescricoes');
 const movimentacoesRoutes = require('./src/routes/movimentacoes');
+const dispensacoesRoutes = require('./src/routes/dispensacoes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -45,6 +46,7 @@ app.use('/api/materiais', materiaisRoutes);
 // Rotas do sistema de gestão de medicamentos
 app.use('/api/prescricoes', prescricoesRoutes);
 app.use('/api/movimentacoes', movimentacoesRoutes);
+app.use('/api/dispensacoes', dispensacoesRoutes);
 
 // Rota de status
 app.get('/api/status', (req, res) => {
