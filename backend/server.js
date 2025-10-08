@@ -16,6 +16,7 @@ const recuperacaoAnestesicaRoutes = require('./src/routes/recuperacaoAnestesica'
 const controleInfeccaoRoutes = require('./src/routes/controleInfeccao');
 const custeioRoutes = require('./src/routes/custeio');
 const materiaisRoutes = require('./src/routes/materiais');
+const prescricoesRoutes = require('./src/routes/prescricoes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -39,6 +40,9 @@ app.use('/api/recuperacao-anestesica', recuperacaoAnestesicaRoutes);
 app.use('/api/controle-infeccao', controleInfeccaoRoutes);
 app.use('/api/custeio', custeioRoutes);
 app.use('/api/materiais', materiaisRoutes);
+
+// Rotas do sistema de gestão de medicamentos
+app.use('/api/prescricoes', prescricoesRoutes);
 
 // Rota de status
 app.get('/api/status', (req, res) => {
