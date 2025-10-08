@@ -10,6 +10,7 @@ router.get('/prescricao/:prescricaoId', dispensacaoController.listarPorPrescrica
 router.get('/paciente/:pacienteId', dispensacaoController.listarPorPaciente);
 router.get('/:id', dispensacaoController.obterDispensacao);
 
+router.post('/validar-escaneamento', dispensacaoController.validarEscaneamento);
 router.post('/', dispensacaoController.dispensarMedicamento);
 router.put('/:id/administrar', dispensacaoController.confirmarAdministracao);
 router.put('/:id/cancelar', dispensacaoController.cancelarDispensacao);

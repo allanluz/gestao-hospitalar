@@ -29,6 +29,116 @@ function gerarIdDispensacao() {
   return `DISP${Date.now()}${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
 }
 
+// Validar escaneamento de códigos para dispensação
+exports.validarEscaneamento = async (req, res) => {
+  try {
+    const { pacienteId, medicamentoId } = req.body;
+
+    if (!pacienteId || !medicamentoId) {
+      return res.status(400).json({ 
+        erro: 'IDs do paciente e medicamento são obrigatórios',
+        valido: false
+      });
+    }
+
+    // Buscar prescrições do paciente
+    const prescricoes = await readJsonFile(PRESCRICOES_FILE);
+    const prescricoesPaciente = prescricoes.filter(p => 
+      p.pacienteId === pacienteId && 
+      (p.status === 'pendente' || p.status === 'parcial')
+    );
+
+    if (prescricoesPaciente.length === 0) {
+      return res.status(404).json({ 
+        erro: 'Nenhuma prescrição pendente encontrada para este paciente',
+        valido: false,
+        tipo: 'sem_prescricao'
+      });
+    }
+
+    // Verificar se o medicamento está em alguma prescrição do paciente
+    let prescricaoEncontrada = null;
+    let medicamentoEncontrado = null;
+
+    for (const prescricao of prescricoesPaciente) {
+      const medicamento = prescricao.medicamentos.find(m => 
+        m.medicamentoId === medicamentoId && 
+        (m.status === 'pendente' || m.status === 'parcial')
+      );
+      
+      if (medicamento) {
+        prescricaoEncontrada = prescricao;
+        medicamentoEncontrado = medicamento;
+        break;
+      }
+    }
+
+    if (!prescricaoEncontrada || !medicamentoEncontrado) {
+      return res.status(403).json({ 
+        erro: `Medicamento não prescrito para este paciente ou já dispensado`,
+        valido: false,
+        tipo: 'medicamento_nao_prescrito',
+        detalhe: {
+          pacienteNome: prescricoesPaciente[0].pacienteNome,
+          prescricoesAbertas: prescricoesPaciente.length
+        }
+      });
+    }
+
+    // Verificar estoque
+    const estoqueFarmacia = await readJsonFile(ESTOQUE_FARMACIA_FILE);
+    const itemEstoque = estoqueFarmacia.find(e => e.medicamentoId === medicamentoId);
+
+    if (!itemEstoque) {
+      return res.status(404).json({ 
+        erro: 'Medicamento não encontrado no estoque da farmácia',
+        valido: false,
+        tipo: 'sem_estoque'
+      });
+    }
+
+    if (itemEstoque.quantidade < medicamentoEncontrado.quantidade) {
+      return res.status(400).json({ 
+        erro: `Estoque insuficiente. Disponível: ${itemEstoque.quantidade}, Necessário: ${medicamentoEncontrado.quantidade}`,
+        valido: false,
+        tipo: 'estoque_insuficiente',
+        detalhe: {
+          disponivel: itemEstoque.quantidade,
+          necessario: medicamentoEncontrado.quantidade
+        }
+      });
+    }
+
+    // Validação bem-sucedida
+    res.json({
+      valido: true,
+      mensagem: '✅ Validação bem-sucedida! Dispensação liberada.',
+      dados: {
+        prescricaoId: prescricaoEncontrada.id,
+        prescricaoData: prescricaoEncontrada.dataPrescricao,
+        prescritor: prescricaoEncontrada.medico,
+        pacienteId: prescricaoEncontrada.pacienteId,
+        pacienteNome: prescricaoEncontrada.pacienteNome,
+        medicamentoId: medicamentoEncontrado.medicamentoId,
+        medicamentoNome: medicamentoEncontrado.nome,
+        quantidade: medicamentoEncontrado.quantidade,
+        posologia: medicamentoEncontrado.posologia,
+        via: medicamentoEncontrado.via,
+        frequencia: medicamentoEncontrado.frequencia,
+        lote: itemEstoque.lote,
+        validade: itemEstoque.validade,
+        estoqueDisponivel: itemEstoque.quantidade
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao validar escaneamento:', error);
+    res.status(500).json({ 
+      erro: 'Erro ao validar escaneamento',
+      valido: false
+    });
+  }
+};
+
 // Listar todas as dispensações com filtros
 exports.listarDispensacoes = async (req, res) => {
   try {

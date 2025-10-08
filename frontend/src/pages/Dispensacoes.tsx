@@ -8,6 +8,7 @@ import {
   CancelarDispensacaoDTO
 } from '../types/dispensacao';
 import * as dispensacaoService from '../services/dispensacaoService';
+import { ValidacaoEscaneamento } from '../services/dispensacaoService';
 
 const Dispensacoes: React.FC = () => {
   const [dispensacoes, setDispensacoes] = useState<Dispensacao[]>([]);
@@ -23,8 +24,16 @@ const Dispensacoes: React.FC = () => {
   // Modais
   const [modalDetalhes, setModalDetalhes] = useState<Dispensacao | null>(null);
   const [modalNovaDispensacao, setModalNovaDispensacao] = useState(false);
+  const [modalEscaneamento, setModalEscaneamento] = useState(false);
   const [modalAdministrar, setModalAdministrar] = useState<Dispensacao | null>(null);
   const [modalCancelar, setModalCancelar] = useState<Dispensacao | null>(null);
+  
+  // Estados do escaneamento
+  const [codigoPaciente, setCodigoPaciente] = useState('');
+  const [codigoMedicamento, setCodigoMedicamento] = useState('');
+  const [validacao, setValidacao] = useState<ValidacaoEscaneamento | null>(null);
+  const [validando, setValidando] = useState(false);
+  const [etapaEscaneamento, setEtapaEscaneamento] = useState<'paciente' | 'medicamento' | 'validado'>('paciente');
   
   // Formulário nova dispensação
   const [formDispensacao, setFormDispensacao] = useState<DispensarMedicamentoDTO>({
@@ -166,6 +175,95 @@ const Dispensacoes: React.FC = () => {
     }
   };
 
+  // Funções de escaneamento
+  const abrirModalEscaneamento = () => {
+    setModalEscaneamento(true);
+    setCodigoPaciente('');
+    setCodigoMedicamento('');
+    setValidacao(null);
+    setEtapaEscaneamento('paciente');
+  };
+
+  const handleEscanearPaciente = (codigo: string) => {
+    setCodigoPaciente(codigo);
+    if (codigo.trim()) {
+      setEtapaEscaneamento('medicamento');
+    }
+  };
+
+  const handleEscanearMedicamento = async (codigo: string) => {
+    setCodigoMedicamento(codigo);
+    if (codigo.trim() && codigoPaciente.trim()) {
+      await validarCodigos();
+    }
+  };
+
+  const validarCodigos = async () => {
+    if (!codigoPaciente.trim() || !codigoMedicamento.trim()) {
+      return;
+    }
+
+    setValidando(true);
+    try {
+      const resultado = await dispensacaoService.validarEscaneamento(
+        codigoPaciente.trim(),
+        codigoMedicamento.trim()
+      );
+      
+      setValidacao(resultado);
+      
+      if (resultado.valido && resultado.dados) {
+        setEtapaEscaneamento('validado');
+        // Preencher formulário automaticamente
+        setFormDispensacao({
+          prescricaoId: resultado.dados.prescricaoId,
+          medicamentoId: resultado.dados.medicamentoId,
+          medicamentoNome: resultado.dados.medicamentoNome,
+          quantidade: resultado.dados.quantidade,
+          pacienteId: resultado.dados.pacienteId,
+          pacienteNome: resultado.dados.pacienteNome,
+          farmaceutico: '',
+          lote: resultado.dados.lote || '',
+          validade: resultado.dados.validade || '',
+          observacao: `Prescritor: ${resultado.dados.prescritor}. ${resultado.dados.posologia || ''}`
+        });
+      }
+    } catch (error: any) {
+      setValidacao({
+        valido: false,
+        erro: error.message || 'Erro ao validar códigos'
+      });
+    } finally {
+      setValidando(false);
+    }
+  };
+
+  const confirmarDispensacaoEscaneada = async (farmaceutico: string) => {
+    if (!validacao?.valido || !validacao.dados) return;
+
+    try {
+      const dados: DispensarMedicamentoDTO = {
+        ...formDispensacao,
+        farmaceutico
+      };
+      
+      await dispensacaoService.dispensar(dados);
+      setModalEscaneamento(false);
+      setModalNovaDispensacao(false);
+      carregarDados();
+      alert('✅ Medicamento dispensado com sucesso! Aguardando 2ª verificação (enfermeiro).');
+    } catch (error: any) {
+      alert(`❌ Erro: ${error.message}`);
+    }
+  };
+
+  const resetarEscaneamento = () => {
+    setCodigoPaciente('');
+    setCodigoMedicamento('');
+    setValidacao(null);
+    setEtapaEscaneamento('paciente');
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -304,6 +402,13 @@ const Dispensacoes: React.FC = () => {
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
           >
             ➕ Nova Dispensação
+          </button>
+
+          <button
+            onClick={abrirModalEscaneamento}
+            className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium flex items-center gap-2"
+          >
+            📷 Escanear Códigos
           </button>
         </div>
       </div>
@@ -726,6 +831,348 @@ const Dispensacoes: React.FC = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Escaneamento de Códigos */}
+      {modalEscaneamento && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full p-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-start mb-4">
+              <h2 className="text-2xl font-bold">📷 Dispensação por Escaneamento</h2>
+              <button 
+                onClick={() => setModalEscaneamento(false)} 
+                className="text-gray-500 hover:text-gray-700 text-2xl"
+              >
+                &times;
+              </button>
+            </div>
+
+            {/* Indicador de Etapas */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  etapaEscaneamento === 'paciente' ? 'bg-blue-600 text-white' : 'bg-green-600 text-white'
+                }`}>
+                  {etapaEscaneamento === 'paciente' ? '1' : '✓'}
+                </div>
+                <span className="font-medium">Paciente</span>
+              </div>
+              <div className="flex-1 h-1 bg-gray-300 mx-4">
+                <div className={`h-full transition-all ${
+                  etapaEscaneamento !== 'paciente' ? 'bg-green-600 w-full' : 'bg-blue-600 w-0'
+                }`}></div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  etapaEscaneamento === 'paciente' ? 'bg-gray-300 text-gray-600' :
+                  etapaEscaneamento === 'medicamento' ? 'bg-blue-600 text-white' : 'bg-green-600 text-white'
+                }`}>
+                  {etapaEscaneamento === 'validado' ? '✓' : '2'}
+                </div>
+                <span className="font-medium">Medicamento</span>
+              </div>
+              <div className="flex-1 h-1 bg-gray-300 mx-4">
+                <div className={`h-full transition-all ${
+                  etapaEscaneamento === 'validado' ? 'bg-green-600 w-full' : 'bg-blue-600 w-0'
+                }`}></div>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  etapaEscaneamento === 'validado' ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-600'
+                }`}>
+                  3
+                </div>
+                <span className="font-medium">Confirmar</span>
+              </div>
+            </div>
+
+            {/* Etapa 1: Escanear Paciente */}
+            {etapaEscaneamento === 'paciente' && (
+              <div className="space-y-4">
+                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                  <p className="font-medium text-blue-900">📋 Etapa 1: Escanear pulseira do paciente</p>
+                  <p className="text-sm text-blue-700 mt-1">
+                    Escaneie o QR Code ou código de barras da pulseira do paciente
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="flex-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Código do Paciente *
+                    </label>
+                    <input
+                      type="text"
+                      autoFocus
+                      placeholder="Escaneie ou digite o código do paciente..."
+                      className="w-full px-4 py-3 text-lg border-2 border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      value={codigoPaciente}
+                      onChange={(e) => setCodigoPaciente(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && codigoPaciente.trim()) {
+                          handleEscanearPaciente(codigoPaciente);
+                        }
+                      }}
+                    />
+                  </div>
+                  <button
+                    onClick={() => handleEscanearPaciente(codigoPaciente)}
+                    disabled={!codigoPaciente.trim()}
+                    className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Próximo →
+                  </button>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-600">
+                    💡 <strong>Dica:</strong> Posicione o leitor sobre o código QR ou código de barras. 
+                    O sistema detectará automaticamente o código.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Etapa 2: Escanear Medicamento */}
+            {etapaEscaneamento === 'medicamento' && (
+              <div className="space-y-4">
+                <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                  <p className="font-medium text-green-900">✅ Paciente identificado</p>
+                  <p className="text-sm text-green-700 mt-1">
+                    Código do paciente: <strong>{codigoPaciente}</strong>
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                  <p className="font-medium text-blue-900">💊 Etapa 2: Escanear medicamento</p>
+                  <p className="text-sm text-blue-700 mt-1">
+                    Escaneie o QR Code ou código de barras da embalagem do medicamento
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="flex-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Código do Medicamento *
+                    </label>
+                    <input
+                      type="text"
+                      autoFocus
+                      placeholder="Escaneie ou digite o código do medicamento..."
+                      className="w-full px-4 py-3 text-lg border-2 border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      value={codigoMedicamento}
+                      onChange={(e) => setCodigoMedicamento(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && codigoMedicamento.trim()) {
+                          handleEscanearMedicamento(codigoMedicamento);
+                        }
+                      }}
+                      disabled={validando}
+                    />
+                  </div>
+                  <button
+                    onClick={() => handleEscanearMedicamento(codigoMedicamento)}
+                    disabled={!codigoMedicamento.trim() || validando}
+                    className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                  >
+                    {validando ? 'Validando...' : 'Validar'}
+                  </button>
+                </div>
+
+                <button
+                  onClick={resetarEscaneamento}
+                  className="text-sm text-blue-600 hover:text-blue-800"
+                >
+                  ← Voltar para escanear outro paciente
+                </button>
+
+                {/* Exibir erro de validação */}
+                {validacao && !validacao.valido && (
+                  <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
+                    <div className="flex items-start gap-3">
+                      <span className="text-2xl">⛔</span>
+                      <div className="flex-1">
+                        <p className="font-medium text-red-900">{validacao.erro}</p>
+                        {validacao.tipo === 'medicamento_nao_prescrito' && validacao.detalhe && (
+                          <div className="mt-2 text-sm text-red-700">
+                            <p>Paciente: <strong>{validacao.detalhe.pacienteNome}</strong></p>
+                            <p>Prescrições abertas: {validacao.detalhe.prescricoesAbertas}</p>
+                            <p className="mt-1">
+                              ⚠️ Este medicamento não foi prescrito para este paciente ou já foi dispensado.
+                            </p>
+                          </div>
+                        )}
+                        {validacao.tipo === 'estoque_insuficiente' && validacao.detalhe && (
+                          <div className="mt-2 text-sm text-red-700">
+                            <p>Disponível: {validacao.detalhe.disponivel} unidades</p>
+                            <p>Necessário: {validacao.detalhe.necessario} unidades</p>
+                          </div>
+                        )}
+                        <button
+                          onClick={resetarEscaneamento}
+                          className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm"
+                        >
+                          ⟲ Tentar Novamente
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Etapa 3: Validação Bem-Sucedida */}
+            {etapaEscaneamento === 'validado' && validacao?.valido && validacao.dados && (
+              <div className="space-y-4">
+                <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">✅</span>
+                    <div>
+                      <p className="font-bold text-green-900 text-lg">{validacao.mensagem}</p>
+                      <p className="text-sm text-green-700 mt-1">
+                        Prescrição válida encontrada. Confira os dados abaixo antes de confirmar.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Dados da Prescrição */}
+                <div className="bg-white border-2 border-green-200 rounded-lg p-4">
+                  <h3 className="font-bold text-lg mb-3">📋 Dados da Prescrição</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <span className="text-sm text-gray-600">ID Prescrição:</span>
+                      <p className="font-mono font-medium">{validacao.dados.prescricaoId}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-gray-600">Data:</span>
+                      <p className="font-medium">
+                        {new Date(validacao.dados.prescricaoData).toLocaleString('pt-BR')}
+                      </p>
+                    </div>
+                    <div className="col-span-2">
+                      <span className="text-sm text-gray-600">Prescritor:</span>
+                      <p className="font-medium">{validacao.dados.prescritor}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Dados do Paciente */}
+                <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4">
+                  <h3 className="font-bold text-lg mb-3">👤 Paciente</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <span className="text-sm text-gray-600">ID:</span>
+                      <p className="font-mono font-medium">{validacao.dados.pacienteId}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-gray-600">Nome:</span>
+                      <p className="font-medium">{validacao.dados.pacienteNome}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Dados do Medicamento */}
+                <div className="bg-purple-50 border-2 border-purple-200 rounded-lg p-4">
+                  <h3 className="font-bold text-lg mb-3">💊 Medicamento</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <span className="text-sm text-gray-600">ID:</span>
+                      <p className="font-mono font-medium">{validacao.dados.medicamentoId}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-gray-600">Nome:</span>
+                      <p className="font-medium">{validacao.dados.medicamentoNome}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-gray-600">Quantidade:</span>
+                      <p className="font-medium text-lg text-purple-700">
+                        {validacao.dados.quantidade} unidade(s)
+                      </p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-gray-600">Estoque Disponível:</span>
+                      <p className="font-medium text-lg text-green-700">
+                        {validacao.dados.estoqueDisponivel} unidade(s)
+                      </p>
+                    </div>
+                    {validacao.dados.lote && (
+                      <div>
+                        <span className="text-sm text-gray-600">Lote:</span>
+                        <p className="font-medium">{validacao.dados.lote}</p>
+                      </div>
+                    )}
+                    {validacao.dados.validade && (
+                      <div>
+                        <span className="text-sm text-gray-600">Validade:</span>
+                        <p className="font-medium">
+                          {new Date(validacao.dados.validade).toLocaleDateString('pt-BR')}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                  {validacao.dados.posologia && (
+                    <div className="mt-3 pt-3 border-t border-purple-200">
+                      <span className="text-sm text-gray-600">Posologia:</span>
+                      <p className="font-medium">{validacao.dados.posologia}</p>
+                      {validacao.dados.via && (
+                        <p className="text-sm text-gray-700 mt-1">
+                          Via: {validacao.dados.via} {validacao.dados.frequencia && `| ${validacao.dados.frequencia}`}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Formulário de Confirmação */}
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  const farmaceutico = (e.currentTarget.elements.namedItem('farmaceutico') as HTMLInputElement).value;
+                  confirmarDispensacaoEscaneada(farmaceutico);
+                }}>
+                  <div className="bg-gray-50 border-2 border-gray-300 rounded-lg p-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Farmacêutico Responsável *
+                    </label>
+                    <input
+                      type="text"
+                      name="farmaceutico"
+                      required
+                      autoFocus
+                      placeholder="Digite seu nome completo"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+
+                  <div className="flex justify-between gap-3 mt-6">
+                    <button
+                      type="button"
+                      onClick={resetarEscaneamento}
+                      className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      ← Cancelar e Reiniciar
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium text-lg"
+                    >
+                      ✅ Confirmar Dispensação
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {/* Rodapé com informações */}
+            {etapaEscaneamento !== 'validado' && (
+              <div className="mt-6 pt-4 border-t border-gray-200">
+                <p className="text-xs text-gray-500 text-center">
+                  🔒 Sistema de Dupla Verificação | A dispensação será confirmada após 2ª verificação do enfermeiro
+                </p>
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -9,6 +9,47 @@ import {
 
 const API_URL = 'http://localhost:5000/api/dispensacoes';
 
+// Interface para resposta de validação
+export interface ValidacaoEscaneamento {
+  valido: boolean;
+  mensagem?: string;
+  erro?: string;
+  tipo?: string;
+  dados?: {
+    prescricaoId: string;
+    prescricaoData: string;
+    prescritor: string;
+    pacienteId: string;
+    pacienteNome: string;
+    medicamentoId: string;
+    medicamentoNome: string;
+    quantidade: number;
+    posologia?: string;
+    via?: string;
+    frequencia?: string;
+    lote?: string;
+    validade?: string;
+    estoqueDisponivel: number;
+  };
+  detalhe?: any;
+}
+
+// Validar escaneamento de códigos
+export async function validarEscaneamento(pacienteId: string, medicamentoId: string): Promise<ValidacaoEscaneamento> {
+  const response = await fetch(`${API_URL}/validar-escaneamento`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ pacienteId, medicamentoId })
+  });
+  
+  const data = await response.json();
+  
+  // Retorna os dados mesmo se não for ok, pois contém informações sobre o erro
+  return data;
+}
+
 // Listar dispensações com filtros
 export async function listar(filtros?: FiltrosDispensacao): Promise<Dispensacao[]> {
   const params = new URLSearchParams();
