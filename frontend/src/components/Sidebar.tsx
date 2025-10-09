@@ -45,29 +45,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
       icon: '📦' 
     },
     { 
-      path: '/medicamentos', 
-      label: 'Medicamentos', 
-      icon: '💊' 
-    },
-    { 
-      path: '/prescricoes', 
-      label: 'Prescrições', 
-      icon: '📋' 
-    },
-    { 
-      path: '/movimentacoes', 
-      label: 'Movimentações', 
-      icon: '📦' 
-    },
-    { 
-      path: '/dispensacoes', 
-      label: 'Dispensações', 
-      icon: '💊' 
-    },
-    { 
-      path: '/relatorios-gerenciais', 
-      label: 'Relatórios', 
-      icon: '📊' 
+      path: '/gestao-medicamentos', 
+      label: 'Gestão de Medicamentos',
+      icon: '💊',
+      subItems: [
+        { path: '/medicamentos', label: 'Medicamentos', icon: '💊' },
+        { path: '/prescricoes', label: 'Prescrições', icon: '📋' },
+        { path: '/movimentacoes', label: 'Movimentações', icon: '🔄' },
+        { path: '/dispensacoes', label: 'Dispensações', icon: '✅' },
+        { path: '/relatorios-gerenciais', label: 'Relatórios', icon: '📊' },
+      ]
     },
     { 
       path: '/gerenciamento-materiais', 
