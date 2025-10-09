@@ -1,112 +1,160 @@
-# Sistema de Gerenciamento Hospitalar - Santa Casa de Misericórdia de Tupã
+# 🏥 Sistema de Gerenciamento Hospitalar - Hospital Manager
 
-Um sistema completo de gerenciamento hospitalar desenvolvido com tecnologias modernas, implementando todo o fluxo de trabalho da Santa Casa de Misericórdia de Tupã, incluindo módulos específicos para Centro Cirúrgico com protocolos médicos padronizados.
+<div align="center">
+
+![Version](https://img.shields.io/badge/version-2.2.0-blue.svg)
+![Status](https://img.shields.io/badge/status-production-green.svg)
+![License](https://img.shields.io/badge/license-MIT-yellow.svg)
+
+**Sistema completo de gerenciamento hospitalar desenvolvido com tecnologias modernas**
+
+Implementação do fluxo de trabalho completo da Santa Casa de Misericórdia de Tupã,  
+incluindo módulos especializados para Centro Cirúrgico com protocolos médicos padronizados.
+
+[🚀 Instalação](#-instalação-e-execução) • [📚 Documentação](#-api-endpoints) • [✨ Funcionalidades](#-funcionalidades) • [🌐 Deploy](#-deploy-em-produção)
+
+</div>
+
+---
+
+## 🎯 Visão Geral
+
+Sistema web completo para gestão hospitalar com:
+- ✅ **Dashboard Modernizado** com relógio em tempo real e estatísticas
+- ✅ **260+ Materiais Hospitalares** organizados em 25+ categorias
+- ✅ **Gestão de Medicamentos** completa (prescrições, dispensações, relatórios)
+- ✅ **Centro Cirúrgico** com 5 módulos especializados
+- ✅ **Protocolos Médicos** (Escala Ramsay, Índice Aldrete-Kroulik)
+- ✅ **Interface Responsiva** para desktop, tablet e mobile
+
+---
 
 ## 🏥 Funcionalidades
 
-### Principais Módulos
+### 📊 Dashboard Inteligente
 
-- **Dashboard**: Visão geral com estatísticas e indicadores em tempo real
-- **Cadastro de Pacientes**: Gestão completa de informações dos pacientes
-- **Cadastro de Funcionários**: Controle de equipe médica e administrativa
-- **Controle de Estoque**: Gerenciamento de medicamentos e materiais hospitalares
-- **Gerenciamento de Materiais**: Catálogo completo com 260+ materiais hospitalares especializados
-- **UTI**: Controle específico de consumo e movimentações da UTI
+**Novo Design Moderno (v2.2.0)**
+- ⏰ **Relógio em Tempo Real** - Atualiza a cada segundo com data por extenso
+- 📈 **8 Cards Estatísticos** - Com gradientes, animações e indicadores de tendência
+- 🏥 **Indicadores Hospitalares**
+  - Leitos ocupados (50 leitos disponíveis)
+  - Altas do dia
+  - Emergências ativas
+  - Cirurgias programadas
+  - Prescrições ativas
+- ⚡ **Ações Rápidas** - Acesso direto às 4 funções principais
+- 📝 **Atividades Recentes** - Timeline de eventos do sistema
+- 🎨 **Design Responsivo** - Gradientes coloridos e animações suaves
 
-### Centro Cirúrgico - Fluxo Completo
+### 💊 Gestão de Medicamentos (Novo!)
 
-#### 1. **Recepção do Centro Cirúrgico**
-- ✅ Recebimento e verificação de pacientes
-- ✅ Checklist de segurança pré-operatória
-- ✅ Controle de documentação e consentimentos
-- ✅ Preparação pré-anestésica
+**Menu Hierárquico Organizado**
+- 💊 **Medicamentos** - Catálogo completo de medicamentos
+- 📋 **Prescrições Médicas** - Emissão e controle de prescrições
+- 🔄 **Movimentações** - Entrada e saída de medicamentos
+- ✅ **Dispensações** - Controle de dispensação para pacientes
+- 📊 **Relatórios Gerenciais** - Análises e estatísticas detalhadas
 
-#### 2. **Assistência Intra-Operatória**
-- ✅ **Escala de Sedação de Ramsay** (1-6 pontos com indicadores visuais)
-- ✅ **Monitor de Sinais Vitais** em tempo real
-- ✅ Controle de medicamentos utilizados
-- ✅ Registro de eventos intra-operatórios
-- ✅ Monitoramento contínuo do paciente
+### 👥 Gestão de Pacientes e Funcionários
 
-#### 3. **Recuperação Anestésica**
-- ✅ **Índice de Aldrete-Kroulik** (≥8 pontos para alta)
-- ✅ Monitoramento pós-anestésico
-- ✅ Controle de dor e náuseas
-- ✅ Critérios de alta da recuperação
-- ✅ Registro de complicações
+- **Cadastro de Pacientes**: Informações completas, busca por CEP automática
+- **Cadastro de Funcionários**: Controle por setor e especialidade
+- **Controle de Estoque**: Alertas automáticos de estoque baixo
+- **UTI**: Controle específico de consumo e movimentações
 
-#### 4. **Controle de Infecção Hospitalar**
-- ✅ Protocolos de assepsia e antissepsia
-- ✅ Controle de materiais estéreis
-- ✅ Registro de procedimentos de limpeza
-- ✅ Monitoramento de infecções relacionadas
+### 🏥 Centro Cirúrgico - Fluxo Completo
 
-#### 5. **Custeio Cirúrgico**
-- ✅ Controle de custos por procedimento
-- ✅ Relatórios de materiais utilizados
-- ✅ Análise de rentabilidade
-- ✅ Faturamento de procedimentos
+**Sistema completo com 5 módulos integrados**
 
-### Gerenciamento de Materiais - Catálogo Completo
+#### 1. 📋 Recepção do Centro Cirúrgico
+- Recebimento e verificação de pacientes
+- Checklist de segurança pré-operatória
+- Controle de documentação e consentimentos
+- Preparação pré-anestésica
 
-#### **Catálogo Abrangente**
+#### 2. 🔬 Assistência Intra-Operatória
+- **Escala de Sedação de Ramsay** (1-6 pontos com indicadores visuais)
+- **Monitor de Sinais Vitais** em tempo real (PA, FC, FR, Temp, SpO2)
+- Controle de medicamentos utilizados
+- Registro de eventos intra-operatórios
+- Monitoramento contínuo do paciente
+
+#### 3. 😴 Recuperação Anestésica
+- **Índice de Aldrete-Kroulik** (≥8 pontos para alta)
+- Monitoramento pós-anestésico
+- Controle de dor e náuseas
+- Critérios de alta da recuperação
+- Registro de complicações
+
+#### 4. 🦠 Controle de Infecção Hospitalar (CCIH)
+- Protocolos de assepsia e antissepsia
+- Controle de materiais estéreis
+- Registro de procedimentos de limpeza
+- Monitoramento de infecções relacionadas
+
+#### 5. 💰 Custeio Cirúrgico
+- Controle de custos por procedimento
+- Relatórios de materiais utilizados
+- Análise de rentabilidade
+- Faturamento de procedimentos
+
+### 🧰 Gerenciamento de Materiais
+
+**Catálogo Completo e Abrangente**
+
+#### 📦 Números do Catálogo
 - ✅ **260+ materiais cadastrados** - Cobertura completa hospitalar
 - ✅ **25+ categorias especializadas** - Organização por especialidade médica
 - ✅ **Controle de estoque avançado** - Mínimos, máximos e alertas automáticos
 - ✅ **Precificação completa** - Custos e valores de venda configurados
 
-#### **Categorias Implementadas**
-- 🫀 **CARDIOLOGIA** - Stents coronarianos, cateteres especializados, dispositivos cardíacos
-- 🧠 **NEUROLOGIA** - Shunts neurocirúrgicos, materiais de neurocirurgia
-- 🎗️ **ONCOLOGIA** - Ports para quimioterapia, dispositivos oncológicos
-- 👁️ **OFTALMOLOGIA** - Lentes intraoculares, dispositivos oculares
-- 👶 **PEDIATRIA/NEONATOLOGIA** - Materiais específicos para crianças e recém-nascidos
-- 🏥 **UTI/EMERGÊNCIA** - Equipamentos críticos, medicamentos de urgência
-- 🔬 **LABORATÓRIO** - Tubos de coleta, reagentes, análises clínicas
-- 🩺 **CIRURGIA GERAL** - Instrumentais, suturas, materiais básicos
-- 💊 **MEDICAMENTOS** - Ampolas, comprimidos, soluções injetáveis
-- 🦴 **ORTOPEDIA** - Próteses, implantes ortopédicos, materiais cirúrgicos
-- ➕ E mais 15+ categorias especializadas
+#### 🏷️ Categorias Principais
+- 🫀 **CARDIOLOGIA** - Stents, cateteres, dispositivos cardíacos
+- 🧠 **NEUROLOGIA** - Shunts, materiais neurocirúrgicos
+- 🎗️ **ONCOLOGIA** - Ports para quimioterapia
+- 👁️ **OFTALMOLOGIA** - Lentes intraoculares
+- 👶 **PEDIATRIA/NEONATOLOGIA** - Materiais pediátricos
+- 🏥 **UTI/EMERGÊNCIA** - Equipamentos críticos
+- 🔬 **LABORATÓRIO** - Tubos, reagentes
+- 🩺 **CIRURGIA GERAL** - Instrumentais, suturas
+- 💊 **MEDICAMENTOS** - Ampolas, comprimidos
+- 🦴 **ORTOPEDIA** - Próteses, implantes
+- ➕ **E mais 15+ categorias**
 
-#### **Funcionalidades Avançadas**
-- ✅ **Sistema de filtros múltiplos** - Por categoria, subcategoria, status
-- ✅ **Busca inteligente** - Por nome, código ou especificação
-- ✅ **Ordenação flexível** - Por nome, categoria, estoque, valor
-- ✅ **Classificações técnicas** - Estéril, descartável, implantável
-- ✅ **Gestão de fornecedores** - Códigos e informações de fornecimento
-- ✅ **Relatórios detalhados** - Estatísticas por categoria e subcategoria
-- ✅ **Interface responsiva** - Otimizada para desktop, tablet e mobile
+#### ⚙️ Funcionalidades Avançadas
+- Sistema de filtros múltiplos (categoria, subcategoria, status)
+- Busca inteligente (nome, código, especificação)
+- Ordenação flexível (nome, categoria, estoque, valor)
+- Classificações técnicas (estéril, descartável, implantável)
+- Gestão de fornecedores
+- Relatórios detalhados por categoria
+- Interface responsiva otimizada
 
-#### **Integração com Custeio**
-- ✅ **Integração automática** - Materiais disponíveis no custeio cirúrgico
-- ✅ **Precificação em tempo real** - Custos atualizados automaticamente
-- ✅ **Controle de consumo** - Registro de uso por procedimento
-- ✅ **Análise de rentabilidade** - Margem de lucro por material
-
-### Recursos Técnicos
-
-- ✅ Interface responsiva (mobile, tablet, desktop)
-- ✅ Validações de formulário
-- ✅ Busca e filtros
-- ✅ Controle de estoque com alertas de estoque baixo
-- ✅ Relatórios de movimentação
-- ✅ API RESTful completa
-- ✅ Dados mockados para demonstração
+---
 
 ## 🚀 Tecnologias Utilizadas
 
 ### Frontend
-- **React 18** com TypeScript
-- **TailwindCSS** para estilização
-- **React Router** para navegação
+- **React 18.3.1** com TypeScript
+- **TailwindCSS 3.4.1** para estilização moderna
+- **React Router 6.22.1** para navegação
 - **React Icons** para ícones
-- **Fetch API** para requisições
+- **Fetch API** para requisições HTTP
 
 ### Backend
-- **Node.js** com Express.js
-- **JSON** para persistência de dados (mockados)
-- **CORS** habilitado
+- **Node.js 22.20.0** com Express.js 4.18.2
+- **JSON** para persistência de dados
+- **CORS** habilitado para integração
 - **Nodemon** para desenvolvimento
+- **PM2** para produção
+
+### DevOps
+- **Git** para versionamento
+- **PM2** para gerenciamento de processos
+- **Nginx** para proxy reverso (produção)
+- **Deploy automatizado** via SSH
+
+---
 
 ## 📦 Estrutura do Projeto
 
@@ -131,17 +179,18 @@ gestao-hospitalar/
 
 ## 🛠️ Instalação e Execução
 
-### Pré-requisitos
-- Node.js (versão 16 ou superior)
-- npm ou yarn
+### 📋 Pré-requisitos
+- **Node.js** versão 16 ou superior (recomendado: 18+)
+- **npm** versão 8 ou superior
+- **Git** para clonar o repositório
 
-### 1. Clone o repositório
+### 📥 1. Clone o repositório
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/allanluz/gestao-hospitalar.git
 cd gestao-hospitalar
 ```
 
-### 🚀 **Formas de Inicializar o Sistema**
+### 🚀 2. Formas de Inicializar o Sistema
 
 #### ⚡ **Opção 1: Inicialização Automática (Recomendado)**
 
@@ -183,6 +232,8 @@ npm start
 cd backend
 npm install
 npm run dev
+# ou
+npm start
 ```
 
 **Frontend** (Terminal 2):
@@ -192,50 +243,175 @@ npm install
 npm start
 ```
 
-### 🌐 **Acesso ao Sistema**
-- **Dashboard:** http://localhost:3000
-- **Backend API:** http://localhost:5000
+### 🌐 3. Acesso ao Sistema
 
-### ✨ **Recursos Disponíveis Imediatamente**
-- 📊 Dashboard com estatísticas em tempo real
-- 🔬 Catálogo com 260+ materiais hospitalares
-- 🏥 Centro Cirúrgico completo com 5 módulos
-- 👥 Gestão de pacientes e funcionários
-- 📦 Controle de estoque inteligente
+Após a inicialização, o sistema estará disponível em:
+
+- **🎨 Frontend (Interface do Usuário):** http://localhost:3001
+- **⚙️ Backend API:** http://localhost:5000
+- **📊 Dashboard:** http://localhost:3001/ (página inicial)
+
+### ✨ Recursos Disponíveis Imediatamente
+
+- 📊 **Dashboard modernizado** com relógio em tempo real
+- 💊 **Gestão de Medicamentos** completa (5 módulos)
+- 🔬 **Catálogo com 260+ materiais** hospitalares
+- 🏥 **Centro Cirúrgico** completo com 5 módulos
+- 👥 **Gestão de pacientes** e funcionários
+- 📦 **Controle de estoque** inteligente
+
+---
+
+## 🌐 Deploy em Produção
+
+### 📦 Deploy Automatizado (Linux)
+
+#### Pré-requisitos do Servidor
+- Ubuntu 20.04+ ou Debian 10+
+- Node.js 16+ instalado
+- PM2 instalado globalmente: `npm install -g pm2`
+- Acesso SSH configurado
+
+#### Passo 1: Criar o Pacote
+```bash
+# No Windows/local, execute:
+tar -czf gestao-hospitalar.tar.gz --exclude=node_modules --exclude=build --exclude=.git backend frontend deploy.sh README.md
+```
+
+#### Passo 2: Enviar para o Servidor
+```bash
+# Substitua USER e SERVER_IP pelos seus dados
+scp gestao-hospitalar.tar.gz user@server_ip:/home/user/
+```
+
+#### Passo 3: Deploy no Servidor
+```bash
+# Conecte via SSH
+ssh user@server_ip
+
+# Descompacte e execute o deploy
+tar -xzf gestao-hospitalar.tar.gz
+cd gestao-hospitalar
+chmod +x deploy.sh
+./deploy.sh
+```
+
+### 🔧 Script de Deploy Automático
+
+O script `deploy.sh` automatiza:
+1. ✅ Verificação de dependências (Node.js, npm, PM2)
+2. 📦 Instalação de dependências do backend
+3. 📦 Instalação de dependências do frontend
+4. 🏗️ Build de produção do frontend
+5. 🚀 Inicialização do backend com PM2
+6. 🚀 Inicialização do frontend com PM2
+7. ✅ Verificação de status dos serviços
+
+### 🔍 Verificar Status em Produção
+
+```bash
+# Ver processos PM2
+pm2 list
+
+# Ver logs em tempo real
+pm2 logs
+
+# Logs específicos
+pm2 logs hospital-backend
+pm2 logs hospital-frontend
+
+# Reiniciar serviços
+pm2 restart all
+
+# Parar serviços
+pm2 stop all
+
+# Status detalhado
+pm2 status
+```
+
+### 🌐 Configuração de Portas
+
+**Ambiente de Desenvolvimento:**
+- Frontend: http://localhost:3001
+- Backend: http://localhost:5000
+
+**Ambiente de Produção:**
+- Frontend: http://server_ip:3001
+- Backend: http://server_ip:5000
+
+### 🔒 Configuração Nginx (Opcional)
+
+```nginx
+# /etc/nginx/sites-available/hospital-manager
+server {
+    listen 80;
+    server_name seu-dominio.com;
+
+    # Frontend
+    location / {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    # Backend API
+    location /api {
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+---
 
 ## 📡 API Endpoints
 
-### Dashboard
-- `GET /api/dashboard` - Estatísticas gerais
-- `GET /api/status` - Status da API
+### 🔍 Sistema
+- `GET /api/status` - Status da API e serviços
+- `GET /api/dashboard` - Estatísticas gerais do sistema
 
-### Pacientes
+### 👥 Pacientes
 - `GET /api/pacientes` - Listar todos os pacientes
 - `GET /api/pacientes/:id` - Buscar paciente por ID
 - `POST /api/pacientes` - Criar novo paciente
 - `PUT /api/pacientes/:id` - Atualizar paciente
 - `DELETE /api/pacientes/:id` - Remover paciente
 
-### Funcionários
+### 👨‍⚕️ Funcionários
 - `GET /api/funcionarios` - Listar funcionários
+- `GET /api/funcionarios?setor=:setor` - Filtrar por setor
 - `POST /api/funcionarios` - Criar funcionário
 - `PUT /api/funcionarios/:id` - Atualizar funcionário
 - `DELETE /api/funcionarios/:id` - Remover funcionário
 
-### Estoque
+### 📦 Estoque
 - `GET /api/estoque` - Listar itens do estoque
 - `GET /api/estoque/baixo` - Itens com estoque baixo
+- `GET /api/estoque/:id` - Buscar item por ID
 - `POST /api/estoque` - Criar item
 - `PUT /api/estoque/:id` - Atualizar item
-- `POST /api/estoque/movimentar` - Movimentar estoque
+- `POST /api/estoque/movimentar` - Registrar movimentação
+- `DELETE /api/estoque/:id` - Remover item
 
-### UTI
-- `GET /api/uti/movimentacoes` - Listar movimentações
-- `POST /api/uti/consumo` - Registrar consumo
-- `GET /api/uti/relatorio` - Relatório de consumo
+### 🏥 UTI
+- `GET /api/uti/movimentacoes` - Listar movimentações da UTI
+- `POST /api/uti/consumo` - Registrar consumo de material
+- `GET /api/uti/relatorio` - Relatório de consumo da UTI
+- `GET /api/uti/relatorio?dataInicio=:data&dataFim=:data` - Relatório por período
 
-### Materiais
-- `GET /api/materiais` - Listar todos os materiais (com filtros)
+### 🧰 Materiais
+- `GET /api/materiais` - Listar todos os materiais
+- `GET /api/materiais?categoria=:categoria` - Filtrar por categoria
+- `GET /api/materiais?subcategoria=:subcategoria` - Filtrar por subcategoria
+- `GET /api/materiais?search=:termo` - Buscar por termo
 - `GET /api/materiais/categorias` - Listar categorias disponíveis
 - `GET /api/materiais/estatisticas` - Estatísticas do catálogo
 - `GET /api/materiais/:id` - Buscar material por ID
@@ -243,37 +419,77 @@ npm start
 - `PUT /api/materiais/:id` - Atualizar material
 - `DELETE /api/materiais/:id` - Remover material
 
-### Centro Cirúrgico
+### 💊 Gestão de Medicamentos
+
+#### Medicamentos
+- `GET /api/medicamentos` - Listar medicamentos
+- `GET /api/medicamentos/:id` - Buscar medicamento por ID
+- `POST /api/medicamentos` - Cadastrar medicamento
+- `PUT /api/medicamentos/:id` - Atualizar medicamento
+- `DELETE /api/medicamentos/:id` - Remover medicamento
+
+#### Prescrições
+- `GET /api/prescricoes` - Listar prescrições
+- `GET /api/prescricoes/:id` - Buscar prescrição por ID
+- `POST /api/prescricoes` - Criar prescrição
+- `PUT /api/prescricoes/:id` - Atualizar prescrição
+- `DELETE /api/prescricoes/:id` - Cancelar prescrição
+
+#### Movimentações
+- `GET /api/movimentacoes` - Listar movimentações de medicamentos
+- `POST /api/movimentacoes` - Registrar movimentação
+- `GET /api/movimentacoes/relatorio` - Relatório de movimentações
+
+#### Dispensações
+- `GET /api/dispensacoes` - Listar dispensações
+- `POST /api/dispensacoes` - Registrar dispensação
+- `GET /api/dispensacoes/:id` - Buscar dispensação por ID
+- `PUT /api/dispensacoes/:id` - Atualizar dispensação
+
+#### Relatórios
+- `GET /api/relatorios-gerenciais` - Relatórios gerenciais
+- `GET /api/relatorios-gerenciais/consumo` - Consumo de medicamentos
+- `GET /api/relatorios-gerenciais/estoque` - Análise de estoque
+
+### 🏥 Centro Cirúrgico
 
 #### Recepção do Centro Cirúrgico
-- `GET /api/centro-cirurgico-recepcao` - Listar registros de recepção
+- `GET /api/centro-cirurgico-recepcao` - Listar recepções
+- `GET /api/centro-cirurgico-recepcao/:id` - Buscar recepção por ID
 - `POST /api/centro-cirurgico-recepcao` - Criar registro de recepção
-- `PUT /api/centro-cirurgico-recepcao/:id` - Atualizar registro
-- `DELETE /api/centro-cirurgico-recepcao/:id` - Remover registro
+- `PUT /api/centro-cirurgico-recepcao/:id` - Atualizar recepção
+- `DELETE /api/centro-cirurgico-recepcao/:id` - Remover recepção
 
 #### Assistência Intra-Operatória
 - `GET /api/assistencia-intra-operatoria` - Listar assistências
+- `GET /api/assistencia-intra-operatoria/:id` - Buscar assistência por ID
 - `POST /api/assistencia-intra-operatoria` - Criar nova assistência
 - `PUT /api/assistencia-intra-operatoria/:id` - Atualizar assistência
 - `DELETE /api/assistencia-intra-operatoria/:id` - Remover assistência
 
 #### Recuperação Anestésica
 - `GET /api/recuperacao-anestesica` - Listar recuperações
+- `GET /api/recuperacao-anestesica/:id` - Buscar recuperação por ID
 - `POST /api/recuperacao-anestesica` - Criar registro de recuperação
 - `PUT /api/recuperacao-anestesica/:id` - Atualizar recuperação
 - `DELETE /api/recuperacao-anestesica/:id` - Remover registro
 
-#### Controle de Infecção Hospitalar
-- `GET /api/controle-infeccao-hospitalar` - Listar controles de infecção
+#### Controle de Infecção Hospitalar (CCIH)
+- `GET /api/controle-infeccao-hospitalar` - Listar controles
+- `GET /api/controle-infeccao-hospitalar/:id` - Buscar controle por ID
 - `POST /api/controle-infeccao-hospitalar` - Criar controle
 - `PUT /api/controle-infeccao-hospitalar/:id` - Atualizar controle
 - `DELETE /api/controle-infeccao-hospitalar/:id` - Remover controle
 
 #### Custeio Cirúrgico
 - `GET /api/custeio-cirurgico` - Listar custeios
+- `GET /api/custeio-cirurgico/:id` - Buscar custeio por ID
 - `POST /api/custeio-cirurgico` - Criar custeio
 - `PUT /api/custeio-cirurgico/:id` - Atualizar custeio
 - `DELETE /api/custeio-cirurgico/:id` - Remover custeio
+- `GET /api/custeio-cirurgico/relatorio` - Relatório de custeio
+
+---
 
 ## � Componentes Médicos Especializados
 
@@ -389,3 +605,4 @@ Implementação completa do fluxo hospitalar com foco em:
 📅 **Última Atualização**: Outubro 2025  
 🚀 **Ambiente**: Produção Ready  
 📦 **Materiais**: 260+ itens em 25+ categorias especializadas
+
