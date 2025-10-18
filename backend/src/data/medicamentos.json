@@ -16,11 +16,11 @@
     "unidade": "comprimido",
     "localizacao": "Prateleira A1",
     "observacoes": "Uso comum",
-    "codigoBarras": "MEDICAMENTO-1-1759541492481-807",
-    "qrCode": "{\"tipo\":\"MEDICAMENTO\",\"id\":1,\"timestamp\":1759541492481,\"nome\":\"Paracetamol 750mg\",\"data\":\"2025-10-04T01:31:32.481Z\"}",
+    "codigoBarras": "MEDICAMENTO-1-1760142615606-035",
+    "qrCode": "{\"tipo\":\"MEDICAMENTO\",\"id\":1,\"timestamp\":1760142615606,\"nome\":\"Paracetamol 750mg\",\"data\":\"2025-10-11T00:30:15.606Z\"}",
     "criadoEm": "2025-01-15T10:00:00.000Z",
-    "atualizadoEm": "2025-10-04T01:31:32.918Z",
-    "etiquetaGeradaEm": "2025-10-04T01:31:32.918Z"
+    "atualizadoEm": "2025-10-11T00:30:16.128Z",
+    "etiquetaGeradaEm": "2025-10-11T00:30:16.128Z"
   },
   {
     "id": 2,
