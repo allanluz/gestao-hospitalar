@@ -1,0 +1,17 @@
+# Render.com Configuration
+# https://render.com/docs/yaml-spec
+
+services:
+  - type: web
+    name: gestao-hospitalar-api
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: |
+      apt-get update
+      apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+      npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production

@@ -45,7 +45,7 @@ git push -u origin main
 4. **Configure**:
    - Name: `gestao-hospitalar-api`
    - Root Directory: `backend`
-   - Build Command: `npm install`
+   - Build Command: `apt-get update && apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev && npm install`
    - Start Command: `node server.js`
 5. **Environment**:
    ```

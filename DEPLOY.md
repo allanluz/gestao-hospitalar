@@ -52,11 +52,16 @@ Preencha os campos:
 
 - **Name**: `gestao-hospitalar-api` (ou nome de sua preferência)
 - **Region**: Escolha a região mais próxima
-- **Branch**: `main`
+- **Branch**: `main` (ou `feature/hospital-manager`)
 - **Root Directory**: `backend`
 - **Runtime**: `Node`
-- **Build Command**: `npm install`
+- **Build Command**: 
+  ```
+  apt-get update && apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev && npm install
+  ```
 - **Start Command**: `node server.js`
+
+> ⚠️ **Importante**: O Build Command instala as dependências necessárias para a biblioteca `canvas` funcionar no Render.
 
 ### 2.4. Variáveis de Ambiente
 
