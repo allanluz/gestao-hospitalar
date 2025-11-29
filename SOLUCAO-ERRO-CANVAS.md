@@ -12,12 +12,23 @@ A biblioteca `canvas` requer dependências nativas do sistema Linux que não est
 
 ## ✅ Solução Aplicada
 
-### 1. Build Command Atualizado
+### 1. Dockerfile Criado
 
-No Render Dashboard, use este **Build Command**:
+O Render não permite `apt-get` no build command devido ao sistema read-only. A solução é usar **Docker**.
 
-```bash
-apt-get update && apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev && npm install
+Criamos `backend/Dockerfile`:
+
+```dockerfile
+FROM node:22-slim
+RUN apt-get update && apt-get install -y \
+    build-essential libcairo2-dev libpango1.0-dev \
+    libjpeg-dev libgif-dev librsvg2-dev
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+COPY . .
+EXPOSE 10000
+CMD ["node", "server.js"]
 ```
 
 ### 2. O que isso faz?
@@ -43,35 +54,51 @@ Foram criados arquivos auxiliares no projeto:
 
 ## 🚀 Como Aplicar no Render
 
-### Opção 1: Via Dashboard (Recomendado)
+### Opção 1: Recriar Serviço com Docker (RECOMENDADO)
+
+1. **Delete o serviço atual** no Render Dashboard
+2. Clique em **New +** → **Web Service**
+3. Conecte o repositório GitHub
+4. **Configure**:
+   - Name: `gestao-hospitalar-api`
+   - **Runtime**: `Docker` ⚠️ (NÃO escolha Node!)
+   - Root Directory: `backend`
+   - Docker Build Context: `backend`
+   - Dockerfile Path: `./Dockerfile`
+5. **Environment Variables**:
+   ```
+   NODE_ENV=production
+   ```
+6. **Create Web Service**
+
+### Opção 2: Atualizar Serviço Existente
 
 1. Acesse seu serviço no Render Dashboard
 2. Vá em **Settings**
-3. Encontre **Build Command**
-4. Cole o comando completo:
-   ```bash
-   apt-get update && apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev && npm install
-   ```
-5. Clique em **Save Changes**
-6. Faça **Manual Deploy** para aplicar
+3. Em **Build & Deploy**, mude:
+   - **Runtime**: `Docker`
+   - **Dockerfile Path**: `./backend/Dockerfile`
+   - **Docker Build Context Path**: `./backend`
+4. **Save Changes**
+5. **Manual Deploy**
 
-### Opção 2: Via render.yaml (Automático)
+### Opção 3: Via render.yaml (Automático)
 
-O arquivo `render.yaml` na raiz do projeto configura tudo automaticamente:
+O arquivo `render.yaml` na raiz do projeto configura tudo automaticamente com Docker:
 
 ```yaml
 services:
   - type: web
     name: gestao-hospitalar-api
-    env: node
-    buildCommand: |
-      apt-get update
-      apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
-      npm install
-    startCommand: node server.js
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: NODE_ENV
+        value: production
 ```
 
-Quando o Render detectar este arquivo, usará essas configurações automaticamente.
+Quando você criar um novo serviço usando "Blueprint", o Render detectará e usará essas configurações.
 
 ## 🔍 Verificar Sucesso
 

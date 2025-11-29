@@ -54,14 +54,11 @@ Preencha os campos:
 - **Region**: Escolha a região mais próxima
 - **Branch**: `main` (ou `feature/hospital-manager`)
 - **Root Directory**: `backend`
-- **Runtime**: `Node`
-- **Build Command**: 
-  ```
-  apt-get update && apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev && npm install
-  ```
-- **Start Command**: `node server.js`
+- **Runtime**: `Docker` ⚠️ **IMPORTANTE: Escolha Docker, NÃO Node!**
+- **Docker Build Context Path**: `backend`
+- **Dockerfile Path**: `./Dockerfile`
 
-> ⚠️ **Importante**: O Build Command instala as dependências necessárias para a biblioteca `canvas` funcionar no Render.
+> ⚠️ **Importante**: Usamos Docker porque a biblioteca `canvas` precisa de dependências nativas do sistema Linux. O Dockerfile instala tudo automaticamente.
 
 ### 2.4. Variáveis de Ambiente
 

@@ -1,17 +1,17 @@
-# Render.com Configuration
+# Render Configuration (Blueprint)
 # https://render.com/docs/yaml-spec
 
 services:
+  # Backend API Service
   - type: web
     name: gestao-hospitalar-api
-    env: node
-    region: oregon
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     plan: free
-    buildCommand: |
-      apt-get update
-      apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
-      npm install
-    startCommand: node server.js
+    region: oregon
     envVars:
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 10000

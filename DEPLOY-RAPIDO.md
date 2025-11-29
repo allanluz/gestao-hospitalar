@@ -44,9 +44,10 @@ git push -u origin main
 3. **Conecte** o repositório GitHub
 4. **Configure**:
    - Name: `gestao-hospitalar-api`
+   - **Runtime**: `Docker` ⚠️ (NÃO escolha Node!)
    - Root Directory: `backend`
-   - Build Command: `apt-get update && apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev && npm install`
-   - Start Command: `node server.js`
+   - Docker Build Context Path: `backend`
+   - Dockerfile Path: `./Dockerfile`
 5. **Environment**:
    ```
    NODE_ENV=production
