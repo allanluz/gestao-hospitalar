@@ -264,7 +264,31 @@ Após a inicialização, o sistema estará disponível em:
 
 ## 🌐 Deploy em Produção
 
-### 📦 Deploy Automatizado (Linux)
+### ⚡ Deploy Rápido (Render + Vercel)
+
+**Recomendado para deploy rápido e gratuito!**
+
+```bash
+# 1. Execute o script de configuração
+.\setup-deploy.ps1
+
+# 2. Crie repositório no GitHub e envie o código
+git remote add origin https://github.com/SEU-USUARIO/gestao-hospitalar.git
+git branch -M main
+git push -u origin main
+```
+
+**📚 Guias de Deploy:**
+- **[DEPLOY-RAPIDO.md](./DEPLOY-RAPIDO.md)** - Guia rápido (10 minutos)
+- **[DEPLOY.md](./DEPLOY.md)** - Guia completo com detalhes
+
+**Plataformas:**
+- **Backend**: [Render](https://render.com) (Node.js)
+- **Frontend**: [Vercel](https://vercel.com) (React)
+
+---
+
+### 📦 Deploy Automatizado (Linux VPS)
 
 #### Pré-requisitos do Servidor
 - Ubuntu 20.04+ ou Debian 10+
